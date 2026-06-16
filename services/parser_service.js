@@ -75,6 +75,18 @@ function extrairDadosNfeXML(xml) {
     }
 }
 
+function normalizarDocumentoOrigem(doc) {
+    if (!doc) return "SEM_NUMERO";
+    const limpo = doc.replace(/[^A-Za-z0-9]/g, '');
+    if (limpo.length === 44 && /^\d+$/.test(limpo)) {
+        const nfNum = parseInt(limpo.substring(25, 34), 10);
+        if (!isNaN(nfNum)) {
+            return String(nfNum);
+        }
+    }
+    return limpo;
+}
+
 function extrairDadosGuiaXML(xml) {
     try {
         // Tratamento de Rejeições (SEFAZ-PE ou Portal GNRE)
@@ -126,7 +138,7 @@ function extrairDadosGuiaXML(xml) {
 
             const codBarrasLimpo = codigoBarras ? codigoBarras.replace(/[^0-9]/g, '') : (linhaDigitavel ? linhaDigitavel.replace(/[^0-9]/g, '') : '');
             const linDigitavelLimpa = linhaDigitavel ? linhaDigitavel.replace(/[^0-9]/g, '') : codBarrasLimpo;
-            const docOrigemLimpo = docOrigemStr ? docOrigemStr.replace(/[^A-Za-z0-9]/g, '') : "SEM_NUMERO";
+            const docOrigemLimpo = normalizarDocumentoOrigem(docOrigemStr);
 
             const ufFavorecida = extrairTag(xmlGuia, 'ufFavorecida');
             const chaveMatch = xmlGuia.match(/\d{44}/);
@@ -160,7 +172,7 @@ function extrairDadosGuiaXML(xml) {
             if (codigoBarras || linhaDigitavel) {
                 const codBarrasLimpo = codigoBarras ? codigoBarras.replace(/[^0-9]/g, '') : (linhaDigitavel ? linhaDigitavel.replace(/[^0-9]/g, '') : '');
                 const linDigitavelLimpa = linhaDigitavel ? linhaDigitavel.replace(/[^0-9]/g, '') : codBarrasLimpo;
-                const docOrigemLimpo = docOrigemStr ? docOrigemStr.replace(/[^A-Za-z0-9]/g, '') : "SEM_NUMERO";
+                const docOrigemLimpo = normalizarDocumentoOrigem(docOrigemStr);
                 
                 const ufFavorecida = extrairTag(xml, 'ufFavorecida');
                 const chaveMatch = xml.match(/\d{44}/);

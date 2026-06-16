@@ -568,13 +568,16 @@ app.post('/api/batch/query-receipt', requireAuth, async (req, res) => {
             console.error("Erro ao buscar guias do lote para gerar remessa:", fetchGuidesError.message);
         } else if (allGuides && allGuides.length > 0) {
             // Mapeia para o formato que gerarRemessaSispag espera
-            const mappedGuides = allGuides.map(g => ({
-                codigoBarras: g.barcode,
-                valor: g.value,
-                dataVencimento: g.created_at ? g.created_at.split('T')[0] : new Date().toISOString().split('T')[0],
-                documentoOrigem: g.nf_number,
-                ufFavorecida: g.uf
-            }));
+            const mappedGuides = allGuides.map(g => {
+                const originalGuia = dadosGuias.find(dg => dg.codigoBarras === g.barcode);
+                return {
+                    codigoBarras: g.barcode,
+                    valor: g.value,
+                    dataVencimento: originalGuia ? originalGuia.dataVencimento : (g.created_at ? g.created_at.split('T')[0] : new Date().toISOString().split('T')[0]),
+                    documentoOrigem: g.nf_number,
+                    ufFavorecida: g.uf
+                };
+            });
 
             try {
                 const cnabContent = cnabService.gerarRemessaSispag(dadosBancarios, mappedGuides, paymentDate);
@@ -952,11 +955,12 @@ function runBatchProcessInBackground(batchId, tenant, filesData, paymentDate) {
 
             task.progress = 40;
 
-            // Define datas de vencimento/pagamento (Padrão: Hoje)
+            // Define datas de vencimento/pagamento (Padrão: Hoje, ou paymentDate se fornecido)
             const hoje = new Date().toISOString().split('T')[0];
+            const dataAlvo = paymentDate || hoje;
             for (const nota of notasFiscais) {
-                nota.dataVencimento = hoje;
-                nota.dataPagamento = hoje;
+                nota.dataVencimento = dataAlvo;
+                nota.dataPagamento = dataAlvo;
             }
 
             // Agrupa por UF
