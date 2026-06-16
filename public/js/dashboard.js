@@ -307,6 +307,7 @@ async function carregarDetalhesLote(batchId) {
         const detailsSection = document.getElementById('batch-details-section');
         const guidesBody = document.getElementById('guides-table-body');
         const remessaBtn = document.getElementById('download-remessa-btn');
+        const guiasAllBtn = document.getElementById('download-guias-all-btn');
 
         if (!detailsSection || !guidesBody) return;
 
@@ -317,6 +318,9 @@ async function carregarDetalhesLote(batchId) {
 
         detailsSection.classList.remove('d-none');
         remessaBtn.href = `/api/remessa/download/${batch.id}`;
+        if (guiasAllBtn) {
+            guiasAllBtn.href = `/api/guide/download-all/${batch.id}`;
+        }
 
         if (!batch.guides || batch.guides.length === 0) {
             guidesBody.innerHTML = `<tr><td colspan="4" class="text-center" style="color: var(--text-secondary);">Nenhuma guia vinculada a este lote.</td></tr>`;

@@ -703,6 +703,48 @@ app.get('/api/guide/download/:guideId', requireAuth, async (req, res) => {
     }
 });
 
+app.get('/api/guide/download-all/:batchId', requireAuth, async (req, res) => {
+    try {
+        const { data: guides, error } = await supabase
+            .from('guides')
+            .select('*')
+            .eq('batch_id', req.params.batchId)
+            .eq('tenant_id', req.tenant.id);
+
+        if (error || !guides || guides.length === 0) {
+            return res.status(404).json({ error: "Nenhuma guia encontrada para este lote." });
+        }
+
+        const AdmZip = require('adm-zip');
+        const zip = new AdmZip();
+
+        // Faz o download de cada guia em paralelo
+        await Promise.all(guides.map(async (guide) => {
+            try {
+                const { data, error: downloadError } = await supabase.storage
+                    .from('tenant-storage')
+                    .download(guide.storage_path);
+
+                if (!downloadError && data) {
+                    const buffer = Buffer.from(await data.arrayBuffer());
+                    const filename = `guia_NF_${guide.nf_number}_${guide.uf}.html`;
+                    zip.addFile(filename, buffer);
+                }
+            } catch (err) {
+                console.error(`Erro ao baixar guia ${guide.id} para o zip:`, err.message);
+            }
+        }));
+
+        const zipBuffer = zip.toBuffer();
+
+        res.setHeader('Content-Type', 'application/zip');
+        res.setHeader('Content-Disposition', `attachment; filename="guias_lote_${req.params.batchId}.zip"`);
+        return res.send(zipBuffer);
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+});
+
 // ==========================================
 // ROTAS DO PAINEL ADMINISTRATIVO (ADMIN)
 // ==========================================

@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS batches (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tenant_id UUID REFERENCES tenants(id) ON DELETE CASCADE NOT NULL,
     environment VARCHAR(20) NOT NULL,
-    receipt VARCHAR(50),
+    receipt VARCHAR(1000),
     status VARCHAR(20) DEFAULT 'processando',
     error_message TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
