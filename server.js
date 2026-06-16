@@ -313,7 +313,9 @@ app.post('/api/batch/process', requireAuth, requireActiveSubscription, upload.ar
 
         if (source === 'local') {
             // Caso escolha processar a pasta local padrão do servidor
-            const pastaLocal = path.join(__dirname, 'xml_nfe');
+            const pastaLocal = process.env.NODE_ENV === 'production' || process.env.VERCEL
+                ? path.join('/tmp', 'xml_nfe')
+                : path.join(__dirname, 'xml_nfe');
             await fs.mkdir(pastaLocal, { recursive: true });
             const arquivos = await fs.readdir(pastaLocal);
             const xmlFiles = arquivos.filter(f => f.toLowerCase().endsWith('.xml'));
@@ -457,7 +459,9 @@ app.get('/api/remessa/download/:batchId', requireAuth, async (req, res) => {
 // Suporta o download local também na raiz (remessa.txt) por compatibilidade com o script antigo
 app.get('/download/remessa.txt', async (req, res) => {
     try {
-        const localPath = path.join(__dirname, 'remessa.txt');
+        const localPath = process.env.NODE_ENV === 'production' || process.env.VERCEL
+            ? path.join('/tmp', 'remessa.txt')
+            : path.join(__dirname, 'remessa.txt');
         await fs.access(localPath);
         res.setHeader('Content-Type', 'text/plain');
         res.setHeader('Content-Disposition', 'attachment; filename="remessa.txt"');
@@ -722,7 +726,9 @@ function runBatchProcessInBackground(batchId, tenant, filesData) {
             const ufs = Object.keys(notasPorUf);
             log(`🌍 Envio dividido em ${ufs.length} UF(s): ${ufs.join(', ')}`);
 
-            const logsDir = path.join(__dirname, 'xml_logs');
+            const logsDir = process.env.NODE_ENV === 'production' || process.env.VERCEL
+                ? path.join('/tmp', 'xml_logs')
+                : path.join(__dirname, 'xml_logs');
             const todasGuias = [];
             const errosUf = {};
 
@@ -897,7 +903,10 @@ function runBatchProcessInBackground(batchId, tenant, filesData) {
             const cnabContent = cnabService.gerarRemessaSispag(dadosBancarios, todasGuias);
             
             // Grava remessa.txt física local para compatibilidade
-            await fs.writeFile(path.join(__dirname, 'remessa.txt'), cnabContent, 'utf-8');
+            const remessaLocalPath = process.env.NODE_ENV === 'production' || process.env.VERCEL
+                ? path.join('/tmp', 'remessa.txt')
+                : path.join(__dirname, 'remessa.txt');
+            await fs.writeFile(remessaLocalPath, cnabContent, 'utf-8');
 
             // Envia remessa.txt para Supabase Storage
             const remessaFilename = `remessa_${batchId}.txt`;
@@ -916,7 +925,9 @@ function runBatchProcessInBackground(batchId, tenant, filesData) {
 
             // 4. Renderiza e faz upload dos arquivos de guias em HTML
             log("Gerando e enviando arquivos visuais das guias...");
-            const guiasEmitidasDir = path.join(__dirname, 'guias_emitidas');
+            const guiasEmitidasDir = process.env.NODE_ENV === 'production' || process.env.VERCEL
+                ? path.join('/tmp', 'guias_emitidas')
+                : path.join(__dirname, 'guias_emitidas');
             await fs.mkdir(guiasEmitidasDir, { recursive: true });
 
             for (const guia of todasGuias) {
@@ -946,7 +957,9 @@ function runBatchProcessInBackground(batchId, tenant, filesData) {
             // 5. Arquiva arquivos XML locais se for produção real
             if (tenant.environment === 'producao') {
                 log("📦 Arquivando arquivos locais de faturamento...");
-                const xmlGeradosDir = path.join(__dirname, 'xml_gerados');
+                const xmlGeradosDir = process.env.NODE_ENV === 'production' || process.env.VERCEL
+                    ? path.join('/tmp', 'xml_gerados')
+                    : path.join(__dirname, 'xml_gerados');
                 await fs.mkdir(xmlGeradosDir, { recursive: true });
 
                 for (const guia of todasGuias) {
