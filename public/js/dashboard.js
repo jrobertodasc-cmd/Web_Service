@@ -321,6 +321,10 @@ async function carregarDetalhesLote(batchId) {
         if (guiasAllBtn) {
             guiasAllBtn.href = `/api/guide/download-all/${batch.id}`;
         }
+        const receiptsContainer = document.getElementById('batch-receipts-container');
+        if (receiptsContainer) {
+            receiptsContainer.textContent = batch.receipt ? `Recibos: ${batch.receipt}` : '';
+        }
 
         if (!batch.guides || batch.guides.length === 0) {
             guidesBody.innerHTML = `<tr><td colspan="4" class="text-center" style="color: var(--text-secondary);">Nenhuma guia vinculada a este lote.</td></tr>`;
