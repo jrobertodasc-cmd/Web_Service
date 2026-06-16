@@ -1,0 +1,62 @@
+<!-- public/register.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex GNRE - Cadastrar Empresa</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <div class="auth-wrapper">
+        <div class="card auth-card" style="max-width: 500px;">
+            <div class="auth-header">
+                <h2>Crie sua Conta SaaS</h2>
+                <p>Cadastre sua empresa e automatize o recolhimento de impostos</p>
+            </div>
+
+            <form id="register-form">
+                <div class="grid-form" style="grid-template-columns: 1fr;">
+                    <div class="form-group">
+                        <label for="name">Seu Nome Completo</label>
+                        <input type="text" id="name" required placeholder="Ex: Roberto da Silva">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">E-mail Corporativo</label>
+                        <input type="email" id="email" required placeholder="Ex: financeiro@lalua.com.br">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Senha de Acesso</label>
+                        <input type="password" id="password" required minlength="6" placeholder="Mínimo 6 caracteres">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cnpj">CNPJ da Empresa</label>
+                        <input type="text" id="cnpj" required placeholder="Ex: 10436619000105" maxlength="14">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="razao_social">Razão Social</label>
+                        <input type="text" id="razao_social" required placeholder="Ex: LALUA MODAS EIRELI">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-4" style="width: 100%;">
+                    Finalizar Cadastro
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                Já possui uma conta? <a href="/login.html">Fazer Login</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="/js/auth.js"></script>
+</body>
+</html>

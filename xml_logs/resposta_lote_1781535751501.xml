@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><processarResponse xmlns="http://www.gnre.pe.gov.br/webservice/GnreLoteRecepcao"><ns1:TRetLote_GNRE xmlns="http://www.gnre.pe.gov.br" xmlns:ns1="http://www.gnre.pe.gov.br">  <ns1:ambiente>1</ns1:ambiente>
+  <ns1:situacaoRecepcao>
+    <ns1:codigo>100</ns1:codigo>
+    <ns1:descricao>Lote recebido com sucesso!</ns1:descricao>
+      </ns1:situacaoRecepcao>
+    <ns1:recibo>
+    <ns1:numero>26000284539532</ns1:numero>
+    <ns1:dataHoraRecibo>2026-06-15 12:02:37</ns1:dataHoraRecibo>
+    <ns1:tempoEstimadoProc>22000</ns1:tempoEstimadoProc>
+  </ns1:recibo>
+  </ns1:TRetLote_GNRE></processarResponse></soapenv:Body></soapenv:Envelope>

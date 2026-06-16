@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?><soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><processarResponse xmlns="http://www.gnre.pe.gov.br/webservice/GnreLoteRecepcao"><ns1:TRetLote_GNRE xmlns="http://www.gnre.pe.gov.br" xmlns:ns1="http://www.gnre.pe.gov.br">  <ns1:ambiente>2</ns1:ambiente>
+  <ns1:situacaoRecepcao>
+    <ns1:codigo>102</ns1:codigo>
+    <ns1:descricao>CNPJ 10436619000105 n&#xE3;o habilitado para uso do servi&#xE7;o.</ns1:descricao>
+      </ns1:situacaoRecepcao>
+  </ns1:TRetLote_GNRE></processarResponse></soapenv:Body></soapenv:Envelope>

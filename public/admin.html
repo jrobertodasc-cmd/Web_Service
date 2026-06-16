@@ -1,0 +1,188 @@
+<!-- public/admin.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex GNRE - Painel Administrativo</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            width: 100%;
+            max-width: 460px;
+            animation: modalFadeIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes modalFadeIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <div class="logo-area">
+                <h1>Apex GNRE SaaS</h1>
+                <p>Painel de Controle do Administrador (Master)</p>
+            </div>
+            <div class="nav-links">
+                <a href="/index.html" class="nav-btn">Faturamento</a>
+                <a href="/profile.html" class="nav-btn">Empresa</a>
+                <a href="/admin.html" class="nav-btn active">Administração</a>
+                <button onclick="logout()" class="nav-btn" style="cursor: pointer; border: none; background: transparent;">Sair</button>
+            </div>
+        </header>
+
+        <!-- LAYOUT DUAS COLUNAS (EMPRESAS vs USUÁRIOS) -->
+        <div class="grid-config" style="grid-template-columns: 1fr 1fr; gap: 28px;">
+            
+            <!-- SEÇÃO DE CLIENTES (TENANTS) -->
+            <div class="card">
+                <div class="card-title">
+                    <span>🏢</span> Gerenciamento de Empresas (Assinantes)
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Empresa / CNPJ</th>
+                                <th>Ambiente</th>
+                                <th>Assinatura</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tenants-table-body">
+                            <tr>
+                                <td colspan="4" class="text-center" style="color: var(--text-secondary);">Carregando empresas...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SEÇÃO DE USUÁRIOS -->
+            <div class="card" style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="flex-between" style="align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+                    <div class="card-title" style="border-bottom: none; padding-bottom: 0; margin-bottom: 0;">
+                        <span>👥</span> Usuários Cadastrados
+                    </div>
+                    <button onclick="abrirModalUsuario()" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">
+                        ➕ Novo Usuário
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome / Email</th>
+                                <th>Empresa</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <tr>
+                                <td colspan="3" class="text-center" style="color: var(--text-secondary);">Carregando usuários...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: CRIAR NOVO USUÁRIO -->
+    <div id="modal-user" class="modal d-none">
+        <div class="card modal-content">
+            <div class="card-title flex-between">
+                <span>👤 Cadastrar Novo Usuário</span>
+                <span onclick="fecharModalUsuario()" style="cursor: pointer; font-size: 18px; color: var(--text-secondary);">✖</span>
+            </div>
+
+            <form id="create-user-form">
+                <div class="grid-form" style="grid-template-columns: 1fr; gap: 16px;">
+                    <div class="form-group">
+                        <label for="new-user-name">Nome Completo</label>
+                        <input type="text" id="new-user-name" placeholder="Ex: João Silva" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new-user-email">E-mail</label>
+                        <input type="email" id="new-user-email" placeholder="email@empresa.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new-user-password">Senha Provisória</label>
+                        <input type="password" id="new-user-password" minlength="6" placeholder="Mínimo 6 caracteres" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new-user-tenant">Empresa Vinculada</label>
+                        <select id="new-user-tenant" required>
+                            <!-- Carregado via JS -->
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="flex-direction: row; align-items: center; gap: 10px; margin-top: 5px;">
+                        <input type="checkbox" id="new-user-admin" style="width: 18px; height: 18px; cursor: pointer;">
+                        <label for="new-user-admin" style="cursor: pointer; text-transform: none;">Este usuário é Administrador Master?</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-4" style="width: 100%;">
+                    Cadastrar Usuário
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: ALTERAR SENHA -->
+    <div id="modal-password" class="modal d-none">
+        <div class="card modal-content">
+            <div class="card-title flex-between">
+                <span>🔑 Alterar Senha de Usuário</span>
+                <span onclick="fecharModalSenha()" style="cursor: pointer; font-size: 18px; color: var(--text-secondary);">✖</span>
+            </div>
+
+            <form id="reset-password-form">
+                <input type="hidden" id="reset-user-id">
+                
+                <div class="form-group mb-4">
+                    <label>Usuário Selecionado</label>
+                    <strong id="reset-user-email-display" style="font-size: 14px; color: var(--text-secondary);">email@teste.com</strong>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label for="reset-new-password">Nova Senha de Acesso</label>
+                    <input type="password" id="reset-new-password" minlength="6" placeholder="Mínimo 6 caracteres" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    Salvar Nova Senha
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/admin.js"></script>
+</body>
+</html>

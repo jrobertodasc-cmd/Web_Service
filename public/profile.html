@@ -1,0 +1,112 @@
+<!-- public/profile.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex GNRE - Configurações</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo-area">
+                <h1>Apex GNRE SaaS</h1>
+                <p>Configurações da Empresa e Certificado Digital</p>
+            </div>
+            <div class="nav-links">
+                <a href="/index.html" class="nav-btn">Faturamento</a>
+                <a href="/profile.html" class="nav-btn active">Empresa</a>
+                <a href="/admin.html" id="admin-nav-link" class="nav-btn d-none">Administração</a>
+                <button onclick="logout()" class="nav-btn" style="cursor: pointer; border: none; background: transparent;">Sair</button>
+            </div>
+        </header>
+
+        <div class="grid-config" style="grid-template-columns: 1.2fr 0.8fr; gap: 28px;">
+            <!-- CARD DE DADOS CADASTRAIS/BANCÁRIOS -->
+            <div class="card">
+                <div class="card-title">
+                    <span>🏢</span> Dados da Empresa e Conta Débito
+                </div>
+
+                <form id="settings-form">
+                    <div class="grid-form">
+                        <div class="form-group full-width">
+                            <label for="razao_social">Razão Social do Contribuinte</label>
+                            <input type="text" id="razao_social" required placeholder="Razão Social completa">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cnpj">CNPJ Emitente</label>
+                            <input type="text" id="cnpj" required placeholder="Apenas números" maxlength="14">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="environment">Ambiente de Operação</label>
+                            <select id="environment">
+                                <option value="simulado">🧪 Homologação / Simulação</option>
+                                <option value="producao">🚀 Produção Real (SEFAZ)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bank_agency">Agência Débito (Itaú)</label>
+                            <input type="text" id="bank_agency" required placeholder="Ex: 0334" maxlength="4">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bank_account">Conta Corrente</label>
+                            <input type="text" id="bank_account" required placeholder="Ex: 98775" maxlength="5">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bank_dac">Dígito DAC</label>
+                            <input type="text" id="bank_dac" required placeholder="Ex: 7" maxlength="1">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-4">
+                        Salvar Configurações
+                    </button>
+                </form>
+            </div>
+
+            <!-- CARD DE CERTIFICADO DIGITAL -->
+            <div class="card">
+                <div class="card-title">
+                    <span>🔑</span> Certificado Digital (A1 .pfx)
+                </div>
+
+                <form id="pfx-form">
+                    <div class="form-group mb-4">
+                        <label>Arquivo PFX Cadastrado</label>
+                        <div id="pfx-status" style="font-size: 14px; color: var(--text-secondary); margin-top: 5px;">
+                            Carregando...
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="pfx-file">Novo Arquivo Certificado (.pfx)</label>
+                        <input type="file" id="pfx-file" accept=".pfx">
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="passphrase">Senha do Certificado</label>
+                        <input type="password" id="passphrase" placeholder="Senha do PFX">
+                    </div>
+
+                    <button type="submit" class="btn btn-secondary" style="width: 100%;">
+                        Fazer Upload e Salvar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/profile.js"></script>
+</body>
+</html>

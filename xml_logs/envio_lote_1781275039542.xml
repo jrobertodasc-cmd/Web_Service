@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+  <soap12:Header>
+    <gnreCabecMsg xmlns="http://www.gnre.pe.gov.br/webservice/GnreLoteRecepcao">
+      <versaoDados>2.00</versaoDados>
+    </gnreCabecMsg>
+  </soap12:Header>
+  <soap12:Body>
+    <gnreDadosMsg xmlns="http://www.gnre.pe.gov.br/webservice/GnreLoteRecepcao">
+      <TLote_GNRE xmlns="http://www.gnre.pe.gov.br" versao="2.00">
+        <guias>
+          <TDadosGNRE versao="2.00">
+            <ufFavorecida>PE</ufFavorecida>
+            <tipoGnre>0</tipoGnre> <!-- 0 = GNRE Simples -->
+            <contribuinteEmitente>
+              <identificacao>
+                <CNPJ>10436619000105</CNPJ>
+              </identificacao>
+            </contribuinteEmitente>
+            <itensGNRE>
+              <item>
+                <receita>100102</receita>
+                <documentoOrigem tipo="10">123456</documentoOrigem>
+                <dataVencimento>2026-07-15</dataVencimento>
+                <valor tipo="11">150.00</valor> <!-- 11 = Valor Principal ICMS -->
+                <valor tipo="21">150.00</valor> <!-- 21 = Valor Total ICMS -->
+                
+                <camposExtras>
+                  <campoExtra>
+                    <codigo>55</codigo>
+                    <valor>41234567890123456789012345678901234567890123</valor>
+                  </campoExtra>
+                </camposExtras>
+              </item>
+            </itensGNRE>
+            <valorGNRE>150.00</valorGNRE>
+          </TDadosGNRE>
+        </guias>
+      </TLote_GNRE>
+    </gnreDadosMsg>
+  </soap12:Body>
+</soap12:Envelope>

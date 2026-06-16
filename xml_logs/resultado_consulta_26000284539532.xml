@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?><soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><gnreRespostaMsg xmlns="http://www.gnre.pe.gov.br/webservice/GnreResultadoLote"><ns1:TResultLote_GNRE xmlns="http://www.gnre.pe.gov.br" xmlns:ns1="http://www.gnre.pe.gov.br"><ns1:ambiente>1</ns1:ambiente><ns1:numeroRecibo>26000284539532</ns1:numeroRecibo><ns1:situacaoProcess><ns1:codigo>403</ns1:codigo><ns1:descricao>Lote Processado com pendencias</ns1:descricao></ns1:situacaoProcess><ns1:resultado><ns1:guia versao="2.00"><ns1:situacaoGuia>1</ns1:situacaoGuia><ns1:ufFavorecida>RJ</ns1:ufFavorecida>
+<ns1:tipoGnre>0</ns1:tipoGnre>
+<ns1:contribuinteEmitente>
+  <ns1:identificacao>
+    <ns1:CNPJ>10436619000105</ns1:CNPJ>          </ns1:identificacao>
+            </ns1:contribuinteEmitente>
+<ns1:itensGNRE>
+    <ns1:item>
+    <ns1:receita>100102</ns1:receita>            	<ns1:documentoOrigem tipo="10">50224</ns1:documentoOrigem>
+                <ns1:dataVencimento>2026-06-20</ns1:dataVencimento>    		<ns1:valor tipo="11">22.55</ns1:valor>
+    		<ns1:valor tipo="21">22.55</ns1:valor>
+                      <ns1:camposExtras>
+	  		          <ns1:campoExtra>
+            <ns1:codigo>55</ns1:codigo>
+            <ns1:valor>29260410436619000105550020000502241096215744</ns1:valor>
+          </ns1:campoExtra>
+                    </ns1:camposExtras>
+      </ns1:item>
+  </ns1:itensGNRE>
+<ns1:valorGNRE>22.55</ns1:valorGNRE><ns1:motivosRejeicao><ns1:motivo><ns1:codigo>208</ns1:codigo><ns1:descricao>Razao Social do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/razaoSocial</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>209</ns1:codigo><ns1:descricao>Endereco do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/endereco</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>210</ns1:codigo><ns1:descricao>UF do Endereco do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/uf</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>211</ns1:codigo><ns1:descricao>Codigo do Municipio do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/municipio</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>217</ns1:codigo><ns1:descricao>O Documento de Origem informado nao e usado pela Receita informada na UF favorecida!</ns1:descricao><ns1:campo>documentoOrigem [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>263</ns1:codigo><ns1:descricao>Data invalida!</ns1:descricao><ns1:campo>dataVencimento [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>225</ns1:codigo><ns1:descricao>Data de Pagamento nao informada!</ns1:descricao><ns1:campo>dataPagamento</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>230</ns1:codigo><ns1:descricao>Dados do Contribuinte Destinatario nao informados</ns1:descricao><ns1:campo>contribuinteDestinatario [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>235</ns1:codigo><ns1:descricao>Razao social do destinatario nao informada!</ns1:descricao><ns1:campo>contribuinteDestinatario/razaoSocial [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>236</ns1:codigo><ns1:descricao>Codigo do municipio do destinatario nao informado!</ns1:descricao><ns1:campo>municipio [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>238</ns1:codigo><ns1:descricao>O Campo Extra 'Data de Emissao' (Codigo: '117') deve ser informado! </ns1:descricao><ns1:campo>camposExtras/campoExtra [item: 1]</ns1:campo></ns1:motivo></ns1:motivosRejeicao></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>1</ns1:situacaoGuia><ns1:ufFavorecida>DF</ns1:ufFavorecida>
+<ns1:tipoGnre>0</ns1:tipoGnre>
+<ns1:contribuinteEmitente>
+  <ns1:identificacao>
+    <ns1:CNPJ>10436619000105</ns1:CNPJ>          </ns1:identificacao>
+            </ns1:contribuinteEmitente>
+<ns1:itensGNRE>
+    <ns1:item>
+    <ns1:receita>100102</ns1:receita>            	<ns1:documentoOrigem tipo="10">50231</ns1:documentoOrigem>
+                <ns1:dataVencimento>2026-06-20</ns1:dataVencimento>    		<ns1:valor tipo="11">13.77</ns1:valor>
+    		<ns1:valor tipo="21">13.77</ns1:valor>
+                      <ns1:camposExtras>
+	  		          <ns1:campoExtra>
+            <ns1:codigo>55</ns1:codigo>
+            <ns1:valor>29260410436619000105550020000502311072916321</ns1:valor>
+          </ns1:campoExtra>
+                    </ns1:camposExtras>
+      </ns1:item>
+  </ns1:itensGNRE>
+<ns1:valorGNRE>13.77</ns1:valorGNRE><ns1:motivosRejeicao><ns1:motivo><ns1:codigo>208</ns1:codigo><ns1:descricao>Razao Social do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/razaoSocial</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>209</ns1:codigo><ns1:descricao>Endereco do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/endereco</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>210</ns1:codigo><ns1:descricao>UF do Endereco do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/uf</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>211</ns1:codigo><ns1:descricao>Codigo do Municipio do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/municipio</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>263</ns1:codigo><ns1:descricao>Data invalida!</ns1:descricao><ns1:campo>dataVencimento [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>225</ns1:codigo><ns1:descricao>Data de Pagamento nao informada!</ns1:descricao><ns1:campo>dataPagamento</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>253</ns1:codigo><ns1:descricao>Referencia do tributo nao informada!</ns1:descricao><ns1:campo>referencia [item: 1]</ns1:campo></ns1:motivo></ns1:motivosRejeicao></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>1</ns1:situacaoGuia><ns1:ufFavorecida>DF</ns1:ufFavorecida>
+<ns1:tipoGnre>0</ns1:tipoGnre>
+<ns1:contribuinteEmitente>
+  <ns1:identificacao>
+    <ns1:CNPJ>10436619000105</ns1:CNPJ>          </ns1:identificacao>
+            </ns1:contribuinteEmitente>
+<ns1:itensGNRE>
+    <ns1:item>
+    <ns1:receita>100102</ns1:receita>            	<ns1:documentoOrigem tipo="10">50265</ns1:documentoOrigem>
+                <ns1:dataVencimento>2026-06-20</ns1:dataVencimento>    		<ns1:valor tipo="11">16.34</ns1:valor>
+    		<ns1:valor tipo="21">16.34</ns1:valor>
+                      <ns1:camposExtras>
+	  		          <ns1:campoExtra>
+            <ns1:codigo>55</ns1:codigo>
+            <ns1:valor>29260410436619000105550020000502651060172991</ns1:valor>
+          </ns1:campoExtra>
+                    </ns1:camposExtras>
+      </ns1:item>
+  </ns1:itensGNRE>
+<ns1:valorGNRE>16.34</ns1:valorGNRE><ns1:motivosRejeicao><ns1:motivo><ns1:codigo>208</ns1:codigo><ns1:descricao>Razao Social do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/razaoSocial</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>209</ns1:codigo><ns1:descricao>Endereco do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/endereco</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>210</ns1:codigo><ns1:descricao>UF do Endereco do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/uf</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>211</ns1:codigo><ns1:descricao>Codigo do Municipio do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/municipio</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>263</ns1:codigo><ns1:descricao>Data invalida!</ns1:descricao><ns1:campo>dataVencimento [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>225</ns1:codigo><ns1:descricao>Data de Pagamento nao informada!</ns1:descricao><ns1:campo>dataPagamento</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>253</ns1:codigo><ns1:descricao>Referencia do tributo nao informada!</ns1:descricao><ns1:campo>referencia [item: 1]</ns1:campo></ns1:motivo></ns1:motivosRejeicao></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>1</ns1:situacaoGuia><ns1:ufFavorecida>RJ</ns1:ufFavorecida>
+<ns1:tipoGnre>0</ns1:tipoGnre>
+<ns1:contribuinteEmitente>
+  <ns1:identificacao>
+    <ns1:CNPJ>10436619000105</ns1:CNPJ>          </ns1:identificacao>
+            </ns1:contribuinteEmitente>
+<ns1:itensGNRE>
+    <ns1:item>
+    <ns1:receita>100102</ns1:receita>            	<ns1:documentoOrigem tipo="10">50271</ns1:documentoOrigem>
+                <ns1:dataVencimento>2026-06-20</ns1:dataVencimento>    		<ns1:valor tipo="11">34.32</ns1:valor>
+    		<ns1:valor tipo="21">34.32</ns1:valor>
+                      <ns1:camposExtras>
+	  		          <ns1:campoExtra>
+            <ns1:codigo>55</ns1:codigo>
+            <ns1:valor>29260410436619000105550020000502711039356032</ns1:valor>
+          </ns1:campoExtra>
+                    </ns1:camposExtras>
+      </ns1:item>
+  </ns1:itensGNRE>
+<ns1:valorGNRE>34.32</ns1:valorGNRE><ns1:motivosRejeicao><ns1:motivo><ns1:codigo>208</ns1:codigo><ns1:descricao>Razao Social do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/razaoSocial</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>209</ns1:codigo><ns1:descricao>Endereco do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/endereco</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>210</ns1:codigo><ns1:descricao>UF do Endereco do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/uf</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>211</ns1:codigo><ns1:descricao>Codigo do Municipio do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/municipio</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>217</ns1:codigo><ns1:descricao>O Documento de Origem informado nao e usado pela Receita informada na UF favorecida!</ns1:descricao><ns1:campo>documentoOrigem [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>263</ns1:codigo><ns1:descricao>Data invalida!</ns1:descricao><ns1:campo>dataVencimento [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>225</ns1:codigo><ns1:descricao>Data de Pagamento nao informada!</ns1:descricao><ns1:campo>dataPagamento</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>230</ns1:codigo><ns1:descricao>Dados do Contribuinte Destinatario nao informados</ns1:descricao><ns1:campo>contribuinteDestinatario [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>235</ns1:codigo><ns1:descricao>Razao social do destinatario nao informada!</ns1:descricao><ns1:campo>contribuinteDestinatario/razaoSocial [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>236</ns1:codigo><ns1:descricao>Codigo do municipio do destinatario nao informado!</ns1:descricao><ns1:campo>municipio [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>238</ns1:codigo><ns1:descricao>O Campo Extra 'Data de Emissao' (Codigo: '117') deve ser informado! </ns1:descricao><ns1:campo>camposExtras/campoExtra [item: 1]</ns1:campo></ns1:motivo></ns1:motivosRejeicao></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>1</ns1:situacaoGuia><ns1:ufFavorecida>MA</ns1:ufFavorecida>
+<ns1:tipoGnre>0</ns1:tipoGnre>
+<ns1:contribuinteEmitente>
+  <ns1:identificacao>
+    <ns1:CNPJ>10436619000105</ns1:CNPJ>          </ns1:identificacao>
+            </ns1:contribuinteEmitente>
+<ns1:itensGNRE>
+    <ns1:item>
+    <ns1:receita>100102</ns1:receita>            	<ns1:documentoOrigem tipo="10">50304</ns1:documentoOrigem>
+                <ns1:dataVencimento>2026-06-20</ns1:dataVencimento>    		<ns1:valor tipo="11">57.32</ns1:valor>
+    		<ns1:valor tipo="21">57.32</ns1:valor>
+                      <ns1:camposExtras>
+	  		          <ns1:campoExtra>
+            <ns1:codigo>55</ns1:codigo>
+            <ns1:valor>29260410436619000105550020000503041051415615</ns1:valor>
+          </ns1:campoExtra>
+                    </ns1:camposExtras>
+      </ns1:item>
+  </ns1:itensGNRE>
+<ns1:valorGNRE>57.32</ns1:valorGNRE><ns1:motivosRejeicao><ns1:motivo><ns1:codigo>208</ns1:codigo><ns1:descricao>Razao Social do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/razaoSocial</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>209</ns1:codigo><ns1:descricao>Endereco do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/endereco</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>210</ns1:codigo><ns1:descricao>UF do Endereco do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/uf</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>211</ns1:codigo><ns1:descricao>Codigo do Municipio do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/municipio</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>263</ns1:codigo><ns1:descricao>Data invalida!</ns1:descricao><ns1:campo>dataVencimento [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>225</ns1:codigo><ns1:descricao>Data de Pagamento nao informada!</ns1:descricao><ns1:campo>dataPagamento</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>253</ns1:codigo><ns1:descricao>Referencia do tributo nao informada!</ns1:descricao><ns1:campo>referencia [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>230</ns1:codigo><ns1:descricao>Dados do Contribuinte Destinatario nao informados</ns1:descricao><ns1:campo>contribuinteDestinatario [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>235</ns1:codigo><ns1:descricao>Razao social do destinatario nao informada!</ns1:descricao><ns1:campo>contribuinteDestinatario/razaoSocial [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>236</ns1:codigo><ns1:descricao>Codigo do municipio do destinatario nao informado!</ns1:descricao><ns1:campo>municipio [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>238</ns1:codigo><ns1:descricao>O Campo Extra 'Chave de Acesso da NFe ou do CTe/CTE-OS' (Codigo: '94') deve ser informado! </ns1:descricao><ns1:campo>camposExtras/campoExtra [item: 1]</ns1:campo></ns1:motivo></ns1:motivosRejeicao></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>1</ns1:situacaoGuia><ns1:ufFavorecida>RJ</ns1:ufFavorecida>
+<ns1:tipoGnre>0</ns1:tipoGnre>
+<ns1:contribuinteEmitente>
+  <ns1:identificacao>
+    <ns1:CNPJ>10436619000105</ns1:CNPJ>          </ns1:identificacao>
+            </ns1:contribuinteEmitente>
+<ns1:itensGNRE>
+    <ns1:item>
+    <ns1:receita>100102</ns1:receita>            	<ns1:documentoOrigem tipo="10">50326</ns1:documentoOrigem>
+                <ns1:dataVencimento>2026-06-20</ns1:dataVencimento>    		<ns1:valor tipo="11">34.32</ns1:valor>
+    		<ns1:valor tipo="21">34.32</ns1:valor>
+                      <ns1:camposExtras>
+	  		          <ns1:campoExtra>
+            <ns1:codigo>55</ns1:codigo>
+            <ns1:valor>29260410436619000105550020000503261059352660</ns1:valor>
+          </ns1:campoExtra>
+                    </ns1:camposExtras>
+      </ns1:item>
+  </ns1:itensGNRE>
+<ns1:valorGNRE>34.32</ns1:valorGNRE><ns1:motivosRejeicao><ns1:motivo><ns1:codigo>208</ns1:codigo><ns1:descricao>Razao Social do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/razaoSocial</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>209</ns1:codigo><ns1:descricao>Endereco do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/endereco</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>210</ns1:codigo><ns1:descricao>UF do Endereco do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/uf</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>211</ns1:codigo><ns1:descricao>Codigo do Municipio do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/municipio</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>217</ns1:codigo><ns1:descricao>O Documento de Origem informado nao e usado pela Receita informada na UF favorecida!</ns1:descricao><ns1:campo>documentoOrigem [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>263</ns1:codigo><ns1:descricao>Data invalida!</ns1:descricao><ns1:campo>dataVencimento [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>225</ns1:codigo><ns1:descricao>Data de Pagamento nao informada!</ns1:descricao><ns1:campo>dataPagamento</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>230</ns1:codigo><ns1:descricao>Dados do Contribuinte Destinatario nao informados</ns1:descricao><ns1:campo>contribuinteDestinatario [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>235</ns1:codigo><ns1:descricao>Razao social do destinatario nao informada!</ns1:descricao><ns1:campo>contribuinteDestinatario/razaoSocial [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>236</ns1:codigo><ns1:descricao>Codigo do municipio do destinatario nao informado!</ns1:descricao><ns1:campo>municipio [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>238</ns1:codigo><ns1:descricao>O Campo Extra 'Data de Emissao' (Codigo: '117') deve ser informado! </ns1:descricao><ns1:campo>camposExtras/campoExtra [item: 1]</ns1:campo></ns1:motivo></ns1:motivosRejeicao></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>1</ns1:situacaoGuia><ns1:ufFavorecida>DF</ns1:ufFavorecida>
+<ns1:tipoGnre>0</ns1:tipoGnre>
+<ns1:contribuinteEmitente>
+  <ns1:identificacao>
+    <ns1:CNPJ>10436619000105</ns1:CNPJ>          </ns1:identificacao>
+            </ns1:contribuinteEmitente>
+<ns1:itensGNRE>
+    <ns1:item>
+    <ns1:receita>100102</ns1:receita>            	<ns1:documentoOrigem tipo="10">50337</ns1:documentoOrigem>
+                <ns1:dataVencimento>2026-06-20</ns1:dataVencimento>    		<ns1:valor tipo="11">37.14</ns1:valor>
+    		<ns1:valor tipo="21">37.14</ns1:valor>
+                      <ns1:camposExtras>
+	  		          <ns1:campoExtra>
+            <ns1:codigo>55</ns1:codigo>
+            <ns1:valor>29260410436619000105550020000503371002329140</ns1:valor>
+          </ns1:campoExtra>
+                    </ns1:camposExtras>
+      </ns1:item>
+  </ns1:itensGNRE>
+<ns1:valorGNRE>37.14</ns1:valorGNRE><ns1:motivosRejeicao><ns1:motivo><ns1:codigo>208</ns1:codigo><ns1:descricao>Razao Social do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/razaoSocial</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>209</ns1:codigo><ns1:descricao>Endereco do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/endereco</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>210</ns1:codigo><ns1:descricao>UF do Endereco do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/uf</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>211</ns1:codigo><ns1:descricao>Codigo do Municipio do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/municipio</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>263</ns1:codigo><ns1:descricao>Data invalida!</ns1:descricao><ns1:campo>dataVencimento [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>225</ns1:codigo><ns1:descricao>Data de Pagamento nao informada!</ns1:descricao><ns1:campo>dataPagamento</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>253</ns1:codigo><ns1:descricao>Referencia do tributo nao informada!</ns1:descricao><ns1:campo>referencia [item: 1]</ns1:campo></ns1:motivo></ns1:motivosRejeicao></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>1</ns1:situacaoGuia><ns1:ufFavorecida>RJ</ns1:ufFavorecida>
+<ns1:tipoGnre>0</ns1:tipoGnre>
+<ns1:contribuinteEmitente>
+  <ns1:identificacao>
+    <ns1:CNPJ>10436619000105</ns1:CNPJ>          </ns1:identificacao>
+            </ns1:contribuinteEmitente>
+<ns1:itensGNRE>
+    <ns1:item>
+    <ns1:receita>100102</ns1:receita>            	<ns1:documentoOrigem tipo="10">50338</ns1:documentoOrigem>
+                <ns1:dataVencimento>2026-06-20</ns1:dataVencimento>    		<ns1:valor tipo="11">28.72</ns1:valor>
+    		<ns1:valor tipo="21">28.72</ns1:valor>
+                      <ns1:camposExtras>
+	  		          <ns1:campoExtra>
+            <ns1:codigo>55</ns1:codigo>
+            <ns1:valor>29260410436619000105550020000503381005071079</ns1:valor>
+          </ns1:campoExtra>
+                    </ns1:camposExtras>
+      </ns1:item>
+  </ns1:itensGNRE>
+<ns1:valorGNRE>28.72</ns1:valorGNRE><ns1:motivosRejeicao><ns1:motivo><ns1:codigo>208</ns1:codigo><ns1:descricao>Razao Social do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/razaoSocial</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>209</ns1:codigo><ns1:descricao>Endereco do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/endereco</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>210</ns1:codigo><ns1:descricao>UF do Endereco do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/uf</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>211</ns1:codigo><ns1:descricao>Codigo do Municipio do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/municipio</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>217</ns1:codigo><ns1:descricao>O Documento de Origem informado nao e usado pela Receita informada na UF favorecida!</ns1:descricao><ns1:campo>documentoOrigem [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>263</ns1:codigo><ns1:descricao>Data invalida!</ns1:descricao><ns1:campo>dataVencimento [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>225</ns1:codigo><ns1:descricao>Data de Pagamento nao informada!</ns1:descricao><ns1:campo>dataPagamento</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>230</ns1:codigo><ns1:descricao>Dados do Contribuinte Destinatario nao informados</ns1:descricao><ns1:campo>contribuinteDestinatario [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>235</ns1:codigo><ns1:descricao>Razao social do destinatario nao informada!</ns1:descricao><ns1:campo>contribuinteDestinatario/razaoSocial [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>236</ns1:codigo><ns1:descricao>Codigo do municipio do destinatario nao informado!</ns1:descricao><ns1:campo>municipio [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>238</ns1:codigo><ns1:descricao>O Campo Extra 'Data de Emissao' (Codigo: '117') deve ser informado! </ns1:descricao><ns1:campo>camposExtras/campoExtra [item: 1]</ns1:campo></ns1:motivo></ns1:motivosRejeicao></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>1</ns1:situacaoGuia><ns1:ufFavorecida>MS</ns1:ufFavorecida>
+<ns1:tipoGnre>0</ns1:tipoGnre>
+<ns1:contribuinteEmitente>
+  <ns1:identificacao>
+    <ns1:CNPJ>10436619000105</ns1:CNPJ>          </ns1:identificacao>
+            </ns1:contribuinteEmitente>
+<ns1:itensGNRE>
+    <ns1:item>
+    <ns1:receita>100102</ns1:receita>            	<ns1:documentoOrigem tipo="10">50345</ns1:documentoOrigem>
+                <ns1:dataVencimento>2026-06-20</ns1:dataVencimento>    		<ns1:valor tipo="11">17.95</ns1:valor>
+    		<ns1:valor tipo="21">17.95</ns1:valor>
+                      <ns1:camposExtras>
+	  		          <ns1:campoExtra>
+            <ns1:codigo>55</ns1:codigo>
+            <ns1:valor>29260410436619000105550020000503451080431430</ns1:valor>
+          </ns1:campoExtra>
+                    </ns1:camposExtras>
+      </ns1:item>
+  </ns1:itensGNRE>
+<ns1:valorGNRE>17.95</ns1:valorGNRE><ns1:motivosRejeicao><ns1:motivo><ns1:codigo>208</ns1:codigo><ns1:descricao>Razao Social do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/razaoSocial</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>209</ns1:codigo><ns1:descricao>Endereco do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/endereco</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>210</ns1:codigo><ns1:descricao>UF do Endereco do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/uf</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>211</ns1:codigo><ns1:descricao>Codigo do Municipio do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/municipio</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>263</ns1:codigo><ns1:descricao>Data invalida!</ns1:descricao><ns1:campo>dataVencimento [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>225</ns1:codigo><ns1:descricao>Data de Pagamento nao informada!</ns1:descricao><ns1:campo>dataPagamento</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>230</ns1:codigo><ns1:descricao>Dados do Contribuinte Destinatario nao informados</ns1:descricao><ns1:campo>contribuinteDestinatario [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>235</ns1:codigo><ns1:descricao>Razao social do destinatario nao informada!</ns1:descricao><ns1:campo>contribuinteDestinatario/razaoSocial [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>236</ns1:codigo><ns1:descricao>Codigo do municipio do destinatario nao informado!</ns1:descricao><ns1:campo>municipio [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>238</ns1:codigo><ns1:descricao>O Campo Extra 'Chave de Acesso da NFe ou do CTe/CTE-OS' (Codigo: '88') deve ser informado! </ns1:descricao><ns1:campo>camposExtras/campoExtra [item: 1]</ns1:campo></ns1:motivo></ns1:motivosRejeicao></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>1</ns1:situacaoGuia><ns1:ufFavorecida>RJ</ns1:ufFavorecida>
+<ns1:tipoGnre>0</ns1:tipoGnre>
+<ns1:contribuinteEmitente>
+  <ns1:identificacao>
+    <ns1:CNPJ>10436619000105</ns1:CNPJ>          </ns1:identificacao>
+            </ns1:contribuinteEmitente>
+<ns1:itensGNRE>
+    <ns1:item>
+    <ns1:receita>100102</ns1:receita>            	<ns1:documentoOrigem tipo="10">50347</ns1:documentoOrigem>
+                <ns1:dataVencimento>2026-06-20</ns1:dataVencimento>    		<ns1:valor tipo="11">31.84</ns1:valor>
+    		<ns1:valor tipo="21">31.84</ns1:valor>
+                      <ns1:camposExtras>
+	  		          <ns1:campoExtra>
+            <ns1:codigo>55</ns1:codigo>
+            <ns1:valor>29260410436619000105550020000503471065347827</ns1:valor>
+          </ns1:campoExtra>
+                    </ns1:camposExtras>
+      </ns1:item>
+  </ns1:itensGNRE>
+<ns1:valorGNRE>31.84</ns1:valorGNRE><ns1:motivosRejeicao><ns1:motivo><ns1:codigo>208</ns1:codigo><ns1:descricao>Razao Social do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/razaoSocial</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>209</ns1:codigo><ns1:descricao>Endereco do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/endereco</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>210</ns1:codigo><ns1:descricao>UF do Endereco do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/uf</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>211</ns1:codigo><ns1:descricao>Codigo do Municipio do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/municipio</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>217</ns1:codigo><ns1:descricao>O Documento de Origem informado nao e usado pela Receita informada na UF favorecida!</ns1:descricao><ns1:campo>documentoOrigem [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>263</ns1:codigo><ns1:descricao>Data invalida!</ns1:descricao><ns1:campo>dataVencimento [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>225</ns1:codigo><ns1:descricao>Data de Pagamento nao informada!</ns1:descricao><ns1:campo>dataPagamento</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>230</ns1:codigo><ns1:descricao>Dados do Contribuinte Destinatario nao informados</ns1:descricao><ns1:campo>contribuinteDestinatario [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>235</ns1:codigo><ns1:descricao>Razao social do destinatario nao informada!</ns1:descricao><ns1:campo>contribuinteDestinatario/razaoSocial [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>236</ns1:codigo><ns1:descricao>Codigo do municipio do destinatario nao informado!</ns1:descricao><ns1:campo>municipio [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>238</ns1:codigo><ns1:descricao>O Campo Extra 'Data de Emissao' (Codigo: '117') deve ser informado! </ns1:descricao><ns1:campo>camposExtras/campoExtra [item: 1]</ns1:campo></ns1:motivo></ns1:motivosRejeicao></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>1</ns1:situacaoGuia><ns1:ufFavorecida>DF</ns1:ufFavorecida>
+<ns1:tipoGnre>0</ns1:tipoGnre>
+<ns1:contribuinteEmitente>
+  <ns1:identificacao>
+    <ns1:CNPJ>10436619000105</ns1:CNPJ>          </ns1:identificacao>
+            </ns1:contribuinteEmitente>
+<ns1:itensGNRE>
+    <ns1:item>
+    <ns1:receita>100102</ns1:receita>            	<ns1:documentoOrigem tipo="10">50348</ns1:documentoOrigem>
+                <ns1:dataVencimento>2026-06-20</ns1:dataVencimento>    		<ns1:valor tipo="11">37.14</ns1:valor>
+    		<ns1:valor tipo="21">37.14</ns1:valor>
+                      <ns1:camposExtras>
+	  		          <ns1:campoExtra>
+            <ns1:codigo>55</ns1:codigo>
+            <ns1:valor>29260410436619000105550020000503481071587599</ns1:valor>
+          </ns1:campoExtra>
+                    </ns1:camposExtras>
+      </ns1:item>
+  </ns1:itensGNRE>
+<ns1:valorGNRE>37.14</ns1:valorGNRE><ns1:motivosRejeicao><ns1:motivo><ns1:codigo>208</ns1:codigo><ns1:descricao>Razao Social do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/razaoSocial</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>209</ns1:codigo><ns1:descricao>Endereco do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/endereco</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>210</ns1:codigo><ns1:descricao>UF do Endereco do emitente nao informada!</ns1:descricao><ns1:campo>contribuinteEmitente/uf</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>211</ns1:codigo><ns1:descricao>Codigo do Municipio do emitente nao informado!</ns1:descricao><ns1:campo>contribuinteEmitente/municipio</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>263</ns1:codigo><ns1:descricao>Data invalida!</ns1:descricao><ns1:campo>dataVencimento [item: 1]</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>225</ns1:codigo><ns1:descricao>Data de Pagamento nao informada!</ns1:descricao><ns1:campo>dataPagamento</ns1:campo></ns1:motivo><ns1:motivo><ns1:codigo>253</ns1:codigo><ns1:descricao>Referencia do tributo nao informada!</ns1:descricao><ns1:campo>referencia [item: 1]</ns1:campo></ns1:motivo></ns1:motivosRejeicao></ns1:guia></ns1:resultado></ns1:TResultLote_GNRE></gnreRespostaMsg></soapenv:Body></soapenv:Envelope>

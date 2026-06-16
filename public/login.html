@@ -1,0 +1,59 @@
+<!-- public/login.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex GNRE - Entrar</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <div class="auth-wrapper">
+        <div class="card auth-card">
+            <div class="auth-header">
+                <h2>Apex GNRE SaaS</h2>
+                <p>Entre na sua conta de assinante para emitir guias</p>
+            </div>
+
+            <form id="login-form">
+                <div class="grid-form" style="grid-template-columns: 1fr;">
+                    <div class="form-group">
+                        <label for="email">E-mail Corporativo</label>
+                        <input type="email" id="email" required placeholder="seuemail@empresa.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Senha de Acesso</label>
+                        <input type="password" id="password" required placeholder="••••••••">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-4" style="width: 100%;">
+                    Entrar no Painel
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                Não tem uma conta? <a href="/register.html">Cadastre sua empresa</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="/js/auth.js"></script>
+    <script>
+        // Prevenir acesso caso já esteja logado
+        document.addEventListener('DOMContentLoaded', async () => {
+            const token = localStorage.getItem('sb_access_token');
+            if (token) {
+                const res = await fetch('/api/auth/me');
+                if (res.ok) {
+                    window.location.href = '/index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

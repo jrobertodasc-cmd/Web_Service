@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?><soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><gnreRespostaMsg xmlns="http://www.gnre.pe.gov.br/webservice/GnreResultadoLote"><ns1:TResultLote_GNRE xmlns="http://www.gnre.pe.gov.br" xmlns:ns1="http://www.gnre.pe.gov.br"><ns1:ambiente>1</ns1:ambiente><ns1:numeroRecibo>26000284685337</ns1:numeroRecibo><ns1:situacaoProcess><ns1:codigo>403</ns1:codigo><ns1:descricao>Lote Processado com pendencias</ns1:descricao></ns1:situacaoProcess><ns1:resultado><ns1:guia versao="2.00"><ns1:situacaoGuia>1</ns1:situacaoGuia><ns1:ufFavorecida>RJ</ns1:ufFavorecida>
+<ns1:tipoGnre>0</ns1:tipoGnre>
+<ns1:contribuinteEmitente>
+  <ns1:identificacao>
+    <ns1:CNPJ>10436619000105</ns1:CNPJ>          </ns1:identificacao>
+  <ns1:razaoSocial>LALUA COMERCIO DE MODAS EIRELI</ns1:razaoSocial>  <ns1:endereco>RUA MARECHAL ANDREA 82</ns1:endereco>  <ns1:municipio>27408</ns1:municipio>  <ns1:uf>BA</ns1:uf>  <ns1:cep>41810105</ns1:cep>  </ns1:contribuinteEmitente>
+<ns1:itensGNRE>
+    <ns1:item>
+    <ns1:receita>100102</ns1:receita>            	<ns1:documentoOrigem tipo="22">29260410436619000105550020000502241096215744</ns1:documentoOrigem>
+            	    <ns1:referencia>
+	      <ns1:periodo>0</ns1:periodo>	      <ns1:mes>04</ns1:mes>	      <ns1:ano>2026</ns1:ano>	      	    </ns1:referencia>
+	    <ns1:dataVencimento>2026-06-18</ns1:dataVencimento>    		<ns1:valor tipo="11">22.55</ns1:valor>
+    		<ns1:valor tipo="21">22.55</ns1:valor>
+                  <ns1:contribuinteDestinatario>
+        	      <ns1:identificacao>
+	        <ns1:CNPJ>13937073000156</ns1:CNPJ>	        	        	      </ns1:identificacao>
+	          	<ns1:razaoSocial>MARIA CAROLINA FALCAO</ns1:razaoSocial>        <ns1:municipio>04557</ns1:municipio>      </ns1:contribuinteDestinatario>
+              <ns1:camposExtras>
+	  		          <ns1:campoExtra>
+            <ns1:codigo>55</ns1:codigo>
+            <ns1:valor>29260410436619000105550020000502241096215744</ns1:valor>
+          </ns1:campoExtra>
+              		          <ns1:campoExtra>
+            <ns1:codigo>117</ns1:codigo>
+            <ns1:valor>2026-04-23</ns1:valor>
+          </ns1:campoExtra>
+                    </ns1:camposExtras>
+      </ns1:item>
+  </ns1:itensGNRE>
+<ns1:valorGNRE>22.55</ns1:valorGNRE><ns1:dataPagamento>2026-06-18</ns1:dataPagamento><ns1:motivosRejeicao><ns1:motivo><ns1:codigo>217</ns1:codigo><ns1:descricao>O Documento de Origem informado nao e usado pela Receita informada na UF favorecida!</ns1:descricao><ns1:campo>documentoOrigem [item: 1]</ns1:campo></ns1:motivo></ns1:motivosRejeicao></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>0</ns1:situacaoGuia><ns1:ufFavorecida>DF</ns1:ufFavorecida><ns1:tipoGnre>0</ns1:tipoGnre><ns1:contribuinteEmitente><ns1:identificacao><ns1:CNPJ>10436619000105</ns1:CNPJ></ns1:identificacao><ns1:razaoSocial>LALUA COMERCIO DE MODAS EIRELI</ns1:razaoSocial><ns1:endereco>RUA MARECHAL ANDREA 82</ns1:endereco><ns1:municipio>27408</ns1:municipio><ns1:uf>BA</ns1:uf><ns1:cep>41810105</ns1:cep></ns1:contribuinteEmitente><ns1:itensGNRE><ns1:item><ns1:receita>100102</ns1:receita><ns1:documentoOrigem tipo="10" xmlns="http://www.gnre.pe.gov.br">50231</ns1:documentoOrigem><ns1:referencia><ns1:periodo>0</ns1:periodo><ns1:mes>04</ns1:mes><ns1:ano>2026</ns1:ano><ns1:parcela>4</ns1:parcela></ns1:referencia><ns1:dataVencimento>2026-06-18</ns1:dataVencimento><ns1:valor tipo="11">13.77</ns1:valor><ns1:valor tipo="21">13.77</ns1:valor></ns1:item></ns1:itensGNRE><ns1:valorGNRE>13.77</ns1:valorGNRE><ns1:dataPagamento>2026-06-18</ns1:dataPagamento><ns1:dataLimitePagamento>2026-06-18</ns1:dataLimitePagamento><ns1:nossoNumero>0000000300126950</ns1:nossoNumero><ns1:dataEmissaoDados>2026-06-15</ns1:dataEmissaoDados><ns1:horaEmissaoDados>14:10:16.032-03:00</ns1:horaEmissaoDados><ns1:linhaDigitavel>858000000003137702982615690200000008300126950007</ns1:linhaDigitavel><ns1:codigoBarras>85800000000137702982616902000000030012695000</ns1:codigoBarras></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>0</ns1:situacaoGuia><ns1:ufFavorecida>DF</ns1:ufFavorecida><ns1:tipoGnre>0</ns1:tipoGnre><ns1:contribuinteEmitente><ns1:identificacao><ns1:CNPJ>10436619000105</ns1:CNPJ></ns1:identificacao><ns1:razaoSocial>LALUA COMERCIO DE MODAS EIRELI</ns1:razaoSocial><ns1:endereco>RUA MARECHAL ANDREA 82</ns1:endereco><ns1:municipio>27408</ns1:municipio><ns1:uf>BA</ns1:uf><ns1:cep>41810105</ns1:cep></ns1:contribuinteEmitente><ns1:itensGNRE><ns1:item><ns1:receita>100102</ns1:receita><ns1:documentoOrigem tipo="10" xmlns="http://www.gnre.pe.gov.br">50265</ns1:documentoOrigem><ns1:referencia><ns1:periodo>0</ns1:periodo><ns1:mes>04</ns1:mes><ns1:ano>2026</ns1:ano><ns1:parcela>4</ns1:parcela></ns1:referencia><ns1:dataVencimento>2026-06-18</ns1:dataVencimento><ns1:valor tipo="11">16.34</ns1:valor><ns1:valor tipo="21">16.34</ns1:valor></ns1:item></ns1:itensGNRE><ns1:valorGNRE>16.34</ns1:valorGNRE><ns1:dataPagamento>2026-06-18</ns1:dataPagamento><ns1:dataLimitePagamento>2026-06-18</ns1:dataLimitePagamento><ns1:nossoNumero>0000000300126948</ns1:nossoNumero><ns1:dataEmissaoDados>2026-06-15</ns1:dataEmissaoDados><ns1:horaEmissaoDados>14:10:15.774-03:00</ns1:horaEmissaoDados><ns1:linhaDigitavel>858900000000163402982619690200000008300126948002</ns1:linhaDigitavel><ns1:codigoBarras>85890000000163402982616902000000030012694800</ns1:codigoBarras></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>1</ns1:situacaoGuia><ns1:ufFavorecida>RJ</ns1:ufFavorecida>
+<ns1:tipoGnre>0</ns1:tipoGnre>
+<ns1:contribuinteEmitente>
+  <ns1:identificacao>
+    <ns1:CNPJ>10436619000105</ns1:CNPJ>          </ns1:identificacao>
+  <ns1:razaoSocial>LALUA COMERCIO DE MODAS EIRELI</ns1:razaoSocial>  <ns1:endereco>RUA MARECHAL ANDREA 82</ns1:endereco>  <ns1:municipio>27408</ns1:municipio>  <ns1:uf>BA</ns1:uf>  <ns1:cep>41810105</ns1:cep>  </ns1:contribuinteEmitente>
+<ns1:itensGNRE>
+    <ns1:item>
+    <ns1:receita>100102</ns1:receita>            	<ns1:documentoOrigem tipo="22">29260410436619000105550020000502711039356032</ns1:documentoOrigem>
+            	    <ns1:referencia>
+	      <ns1:periodo>0</ns1:periodo>	      <ns1:mes>04</ns1:mes>	      <ns1:ano>2026</ns1:ano>	      	    </ns1:referencia>
+	    <ns1:dataVencimento>2026-06-18</ns1:dataVencimento>    		<ns1:valor tipo="11">58.16</ns1:valor>
+    		<ns1:valor tipo="21">58.16</ns1:valor>
+                  <ns1:contribuinteDestinatario>
+        	      <ns1:identificacao>
+	        <ns1:CNPJ>13937073000156</ns1:CNPJ>	        	        	      </ns1:identificacao>
+	          	<ns1:razaoSocial>ANALU MUJICA DE BARROS PEGADO</ns1:razaoSocial>        <ns1:municipio>04557</ns1:municipio>      </ns1:contribuinteDestinatario>
+              <ns1:camposExtras>
+	  		          <ns1:campoExtra>
+            <ns1:codigo>55</ns1:codigo>
+            <ns1:valor>29260410436619000105550020000502711039356032</ns1:valor>
+          </ns1:campoExtra>
+              		          <ns1:campoExtra>
+            <ns1:codigo>117</ns1:codigo>
+            <ns1:valor>2026-04-24</ns1:valor>
+          </ns1:campoExtra>
+                    </ns1:camposExtras>
+      </ns1:item>
+  </ns1:itensGNRE>
+<ns1:valorGNRE>58.16</ns1:valorGNRE><ns1:dataPagamento>2026-06-18</ns1:dataPagamento><ns1:motivosRejeicao><ns1:motivo><ns1:codigo>217</ns1:codigo><ns1:descricao>O Documento de Origem informado nao e usado pela Receita informada na UF favorecida!</ns1:descricao><ns1:campo>documentoOrigem [item: 1]</ns1:campo></ns1:motivo></ns1:motivosRejeicao></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>0</ns1:situacaoGuia><ns1:ufFavorecida>MA</ns1:ufFavorecida><ns1:tipoGnre>0</ns1:tipoGnre><ns1:contribuinteEmitente>
+  <ns1:identificacao>
+    <ns1:CNPJ>10436619000105</ns1:CNPJ>
+  </ns1:identificacao>
+  <ns1:razaoSocial>LALUA COMERCIO DE MODAS EIRELI</ns1:razaoSocial>
+  <ns1:endereco>RUA MARECHAL ANDREA 82</ns1:endereco>
+  <ns1:municipio>27408</ns1:municipio>
+  <ns1:uf>BA</ns1:uf>
+  <ns1:cep>41810105</ns1:cep>
+</ns1:contribuinteEmitente>
+<ns1:itensGNRE><ns1:item><ns1:receita>100102</ns1:receita><ns1:documentoOrigem tipo="10">50304</ns1:documentoOrigem><ns1:referencia><ns1:periodo>0</ns1:periodo><ns1:mes>04</ns1:mes><ns1:ano>2026</ns1:ano></ns1:referencia><ns1:dataVencimento>2026-06-18</ns1:dataVencimento><ns1:valor tipo="11">114.64</ns1:valor><ns1:valor tipo="31">10.97</ns1:valor><ns1:valor tipo="41">0.00</ns1:valor><ns1:valor tipo="21">125.61</ns1:valor><ns1:contribuinteDestinatario><ns1:identificacao><ns1:CNPJ>13937073000156</ns1:CNPJ></ns1:identificacao><ns1:razaoSocial>WALESKA MODESTO</ns1:razaoSocial><ns1:municipio>05302</ns1:municipio></ns1:contribuinteDestinatario><ns1:camposExtras><ns1:campoExtra><ns1:codigo>94</ns1:codigo><ns1:valor>29260410436619000105550020000503041051415615</ns1:valor></ns1:campoExtra></ns1:camposExtras></ns1:item></ns1:itensGNRE><ns1:valorGNRE>125.61</ns1:valorGNRE><ns1:dataPagamento>2026-06-18</ns1:dataPagamento><ns1:dataLimitePagamento>2026-06-18</ns1:dataLimitePagamento><ns1:nossoNumero>0000000171540103</ns1:nossoNumero><ns1:linhaDigitavel>858000000011256102992612697000000001171540103000</ns1:linhaDigitavel><ns1:codigoBarras>85800000001256102992616970000000017154010300</ns1:codigoBarras></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>1</ns1:situacaoGuia><ns1:ufFavorecida>RJ</ns1:ufFavorecida>
+<ns1:tipoGnre>0</ns1:tipoGnre>
+<ns1:contribuinteEmitente>
+  <ns1:identificacao>
+    <ns1:CNPJ>10436619000105</ns1:CNPJ>          </ns1:identificacao>
+  <ns1:razaoSocial>LALUA COMERCIO DE MODAS EIRELI</ns1:razaoSocial>  <ns1:endereco>RUA MARECHAL ANDREA 82</ns1:endereco>  <ns1:municipio>27408</ns1:municipio>  <ns1:uf>BA</ns1:uf>  <ns1:cep>41810105</ns1:cep>  </ns1:contribuinteEmitente>
+<ns1:itensGNRE>
+    <ns1:item>
+    <ns1:receita>100102</ns1:receita>            	<ns1:documentoOrigem tipo="22">29260410436619000105550020000503261059352660</ns1:documentoOrigem>
+            	    <ns1:referencia>
+	      <ns1:periodo>0</ns1:periodo>	      <ns1:mes>04</ns1:mes>	      <ns1:ano>2026</ns1:ano>	      	    </ns1:referencia>
+	    <ns1:dataVencimento>2026-06-18</ns1:dataVencimento>    		<ns1:valor tipo="11">63.04</ns1:valor>
+    		<ns1:valor tipo="21">63.04</ns1:valor>
+                  <ns1:contribuinteDestinatario>
+        	      <ns1:identificacao>
+	        <ns1:CNPJ>13937073000156</ns1:CNPJ>	        	        	      </ns1:identificacao>
+	          	<ns1:razaoSocial>ANALU MUJICA DE BARROS PEGADO</ns1:razaoSocial>        <ns1:municipio>04557</ns1:municipio>      </ns1:contribuinteDestinatario>
+              <ns1:camposExtras>
+	  		          <ns1:campoExtra>
+            <ns1:codigo>55</ns1:codigo>
+            <ns1:valor>29260410436619000105550020000503261059352660</ns1:valor>
+          </ns1:campoExtra>
+              		          <ns1:campoExtra>
+            <ns1:codigo>117</ns1:codigo>
+            <ns1:valor>2026-04-29</ns1:valor>
+          </ns1:campoExtra>
+                    </ns1:camposExtras>
+      </ns1:item>
+  </ns1:itensGNRE>
+<ns1:valorGNRE>63.04</ns1:valorGNRE><ns1:dataPagamento>2026-06-18</ns1:dataPagamento><ns1:motivosRejeicao><ns1:motivo><ns1:codigo>217</ns1:codigo><ns1:descricao>O Documento de Origem informado nao e usado pela Receita informada na UF favorecida!</ns1:descricao><ns1:campo>documentoOrigem [item: 1]</ns1:campo></ns1:motivo></ns1:motivosRejeicao></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>0</ns1:situacaoGuia><ns1:ufFavorecida>DF</ns1:ufFavorecida><ns1:tipoGnre>0</ns1:tipoGnre><ns1:contribuinteEmitente><ns1:identificacao><ns1:CNPJ>10436619000105</ns1:CNPJ></ns1:identificacao><ns1:razaoSocial>LALUA COMERCIO DE MODAS EIRELI</ns1:razaoSocial><ns1:endereco>RUA MARECHAL ANDREA 82</ns1:endereco><ns1:municipio>27408</ns1:municipio><ns1:uf>BA</ns1:uf><ns1:cep>41810105</ns1:cep></ns1:contribuinteEmitente><ns1:itensGNRE><ns1:item><ns1:receita>100102</ns1:receita><ns1:documentoOrigem tipo="10" xmlns="http://www.gnre.pe.gov.br">50337</ns1:documentoOrigem><ns1:referencia><ns1:periodo>0</ns1:periodo><ns1:mes>04</ns1:mes><ns1:ano>2026</ns1:ano><ns1:parcela>4</ns1:parcela></ns1:referencia><ns1:dataVencimento>2026-06-18</ns1:dataVencimento><ns1:valor tipo="11">125.64</ns1:valor><ns1:valor tipo="21">125.64</ns1:valor></ns1:item></ns1:itensGNRE><ns1:valorGNRE>125.64</ns1:valorGNRE><ns1:dataPagamento>2026-06-18</ns1:dataPagamento><ns1:dataLimitePagamento>2026-06-18</ns1:dataLimitePagamento><ns1:nossoNumero>0000000300126951</ns1:nossoNumero><ns1:dataEmissaoDados>2026-06-15</ns1:dataEmissaoDados><ns1:horaEmissaoDados>14:10:16.044-03:00</ns1:horaEmissaoDados><ns1:linhaDigitavel>858100000013256402982612690200000008300126951003</ns1:linhaDigitavel><ns1:codigoBarras>85810000001256402982616902000000030012695100</ns1:codigoBarras></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>1</ns1:situacaoGuia><ns1:ufFavorecida>RJ</ns1:ufFavorecida>
+<ns1:tipoGnre>0</ns1:tipoGnre>
+<ns1:contribuinteEmitente>
+  <ns1:identificacao>
+    <ns1:CNPJ>10436619000105</ns1:CNPJ>          </ns1:identificacao>
+  <ns1:razaoSocial>LALUA COMERCIO DE MODAS EIRELI</ns1:razaoSocial>  <ns1:endereco>RUA MARECHAL ANDREA 82</ns1:endereco>  <ns1:municipio>27408</ns1:municipio>  <ns1:uf>BA</ns1:uf>  <ns1:cep>41810105</ns1:cep>  </ns1:contribuinteEmitente>
+<ns1:itensGNRE>
+    <ns1:item>
+    <ns1:receita>100102</ns1:receita>            	<ns1:documentoOrigem tipo="22">29260410436619000105550020000503381005071079</ns1:documentoOrigem>
+            	    <ns1:referencia>
+	      <ns1:periodo>0</ns1:periodo>	      <ns1:mes>04</ns1:mes>	      <ns1:ano>2026</ns1:ano>	      	    </ns1:referencia>
+	    <ns1:dataVencimento>2026-06-18</ns1:dataVencimento>    		<ns1:valor tipo="11">205.04</ns1:valor>
+    		<ns1:valor tipo="21">205.04</ns1:valor>
+                  <ns1:contribuinteDestinatario>
+        	      <ns1:identificacao>
+	        <ns1:CNPJ>13937073000156</ns1:CNPJ>	        	        	      </ns1:identificacao>
+	          	<ns1:razaoSocial>VANESSA BARRETO DE AMORIM FALCONE</ns1:razaoSocial>        <ns1:municipio>04557</ns1:municipio>      </ns1:contribuinteDestinatario>
+              <ns1:camposExtras>
+	  		          <ns1:campoExtra>
+            <ns1:codigo>55</ns1:codigo>
+            <ns1:valor>29260410436619000105550020000503381005071079</ns1:valor>
+          </ns1:campoExtra>
+              		          <ns1:campoExtra>
+            <ns1:codigo>117</ns1:codigo>
+            <ns1:valor>2026-04-29</ns1:valor>
+          </ns1:campoExtra>
+                    </ns1:camposExtras>
+      </ns1:item>
+  </ns1:itensGNRE>
+<ns1:valorGNRE>205.04</ns1:valorGNRE><ns1:dataPagamento>2026-06-18</ns1:dataPagamento><ns1:motivosRejeicao><ns1:motivo><ns1:codigo>217</ns1:codigo><ns1:descricao>O Documento de Origem informado nao e usado pela Receita informada na UF favorecida!</ns1:descricao><ns1:campo>documentoOrigem [item: 1]</ns1:campo></ns1:motivo></ns1:motivosRejeicao></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>0</ns1:situacaoGuia><ns1:ufFavorecida>MS</ns1:ufFavorecida><ns1:tipoGnre>0</ns1:tipoGnre><ns1:contribuinteEmitente><ns1:identificacao><ns1:CNPJ>10436619000105</ns1:CNPJ></ns1:identificacao><ns1:razaoSocial>LALUA COMERCIO DE MODAS EIRELI</ns1:razaoSocial><ns1:endereco>RUA MARECHAL ANDREA 82</ns1:endereco><ns1:municipio>27408</ns1:municipio><ns1:uf>BA</ns1:uf><ns1:cep>41810105</ns1:cep></ns1:contribuinteEmitente><ns1:itensGNRE><ns1:item><ns1:receita>100102</ns1:receita><ns1:dataVencimento>2026-06-18</ns1:dataVencimento><ns1:valor tipo="11">46.90</ns1:valor><ns1:valor tipo="21">46.90</ns1:valor><ns1:contribuinteDestinatario><ns1:identificacao><ns1:CNPJ>13937073000156</ns1:CNPJ></ns1:identificacao><ns1:razaoSocial>BRUNA DE SOUZA DIAS</ns1:razaoSocial><ns1:municipio>02704</ns1:municipio></ns1:contribuinteDestinatario><ns1:camposExtras><ns1:campoExtra><ns1:codigo>88</ns1:codigo><ns1:valor>29260410436619000105550020000503451080431430</ns1:valor></ns1:campoExtra></ns1:camposExtras></ns1:item></ns1:itensGNRE><ns1:valorGNRE>46.90</ns1:valorGNRE><ns1:dataPagamento>2026-06-18</ns1:dataPagamento><ns1:dataLimitePagamento>2026-06-18</ns1:dataLimitePagamento><ns1:informacoesComplementares><ns1:informacao>CHAVE DFE 29260410436619000105550020000503451080431430</ns1:informacao></ns1:informacoesComplementares><ns1:nossoNumero>0000077678992026</ns1:nossoNumero><ns1:linhaDigitavel>858600000004469003012614690100000774678992026002</ns1:linhaDigitavel><ns1:codigoBarras>85860000000469003012616901000007767899202600</ns1:codigoBarras></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>1</ns1:situacaoGuia><ns1:ufFavorecida>RJ</ns1:ufFavorecida>
+<ns1:tipoGnre>0</ns1:tipoGnre>
+<ns1:contribuinteEmitente>
+  <ns1:identificacao>
+    <ns1:CNPJ>10436619000105</ns1:CNPJ>          </ns1:identificacao>
+  <ns1:razaoSocial>LALUA COMERCIO DE MODAS EIRELI</ns1:razaoSocial>  <ns1:endereco>RUA MARECHAL ANDREA 82</ns1:endereco>  <ns1:municipio>27408</ns1:municipio>  <ns1:uf>BA</ns1:uf>  <ns1:cep>41810105</ns1:cep>  </ns1:contribuinteEmitente>
+<ns1:itensGNRE>
+    <ns1:item>
+    <ns1:receita>100102</ns1:receita>            	<ns1:documentoOrigem tipo="22">29260410436619000105550020000503471065347827</ns1:documentoOrigem>
+            	    <ns1:referencia>
+	      <ns1:periodo>0</ns1:periodo>	      <ns1:mes>04</ns1:mes>	      <ns1:ano>2026</ns1:ano>	      	    </ns1:referencia>
+	    <ns1:dataVencimento>2026-06-18</ns1:dataVencimento>    		<ns1:valor tipo="11">63.68</ns1:valor>
+    		<ns1:valor tipo="21">63.68</ns1:valor>
+                  <ns1:contribuinteDestinatario>
+        	      <ns1:identificacao>
+	        <ns1:CNPJ>13937073000156</ns1:CNPJ>	        	        	      </ns1:identificacao>
+	          	<ns1:razaoSocial>FERNANDA NOBRE MUNIZ</ns1:razaoSocial>        <ns1:municipio>04557</ns1:municipio>      </ns1:contribuinteDestinatario>
+              <ns1:camposExtras>
+	  		          <ns1:campoExtra>
+            <ns1:codigo>55</ns1:codigo>
+            <ns1:valor>29260410436619000105550020000503471065347827</ns1:valor>
+          </ns1:campoExtra>
+              		          <ns1:campoExtra>
+            <ns1:codigo>117</ns1:codigo>
+            <ns1:valor>2026-04-30</ns1:valor>
+          </ns1:campoExtra>
+                    </ns1:camposExtras>
+      </ns1:item>
+  </ns1:itensGNRE>
+<ns1:valorGNRE>63.68</ns1:valorGNRE><ns1:dataPagamento>2026-06-18</ns1:dataPagamento><ns1:motivosRejeicao><ns1:motivo><ns1:codigo>217</ns1:codigo><ns1:descricao>O Documento de Origem informado nao e usado pela Receita informada na UF favorecida!</ns1:descricao><ns1:campo>documentoOrigem [item: 1]</ns1:campo></ns1:motivo></ns1:motivosRejeicao></ns1:guia><ns1:guia versao="2.00"><ns1:situacaoGuia>0</ns1:situacaoGuia><ns1:ufFavorecida>DF</ns1:ufFavorecida><ns1:tipoGnre>0</ns1:tipoGnre><ns1:contribuinteEmitente><ns1:identificacao><ns1:CNPJ>10436619000105</ns1:CNPJ></ns1:identificacao><ns1:razaoSocial>LALUA COMERCIO DE MODAS EIRELI</ns1:razaoSocial><ns1:endereco>RUA MARECHAL ANDREA 82</ns1:endereco><ns1:municipio>27408</ns1:municipio><ns1:uf>BA</ns1:uf><ns1:cep>41810105</ns1:cep></ns1:contribuinteEmitente><ns1:itensGNRE><ns1:item><ns1:receita>100102</ns1:receita><ns1:documentoOrigem tipo="10" xmlns="http://www.gnre.pe.gov.br">50348</ns1:documentoOrigem><ns1:referencia><ns1:periodo>0</ns1:periodo><ns1:mes>04</ns1:mes><ns1:ano>2026</ns1:ano><ns1:parcela>4</ns1:parcela></ns1:referencia><ns1:dataVencimento>2026-06-18</ns1:dataVencimento><ns1:valor tipo="11">37.14</ns1:valor><ns1:valor tipo="21">37.14</ns1:valor></ns1:item></ns1:itensGNRE><ns1:valorGNRE>37.14</ns1:valorGNRE><ns1:dataPagamento>2026-06-18</ns1:dataPagamento><ns1:dataLimitePagamento>2026-06-18</ns1:dataLimitePagamento><ns1:nossoNumero>0000000300126949</ns1:nossoNumero><ns1:dataEmissaoDados>2026-06-15</ns1:dataEmissaoDados><ns1:horaEmissaoDados>14:10:15.815-03:00</ns1:horaEmissaoDados><ns1:linhaDigitavel>858800000008371402982612690200000008300126949009</ns1:linhaDigitavel><ns1:codigoBarras>85880000000371402982616902000000030012694900</ns1:codigoBarras></ns1:guia></ns1:resultado></ns1:TResultLote_GNRE></gnreRespostaMsg></soapenv:Body></soapenv:Envelope>

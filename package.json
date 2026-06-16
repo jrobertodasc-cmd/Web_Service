@@ -1,0 +1,19 @@
+{
+  "name": "apex-gnre-saas",
+  "version": "2.0.0",
+  "description": "SaaS Multi-Tenant para emissão de guias GNRE e remessas bancárias Itaú SISPAG",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.8",
+    "express": "^4.19.2",
+    "dotenv": "^16.4.5",
+    "multer": "^1.4.5-lts.1",
+    "cookie-parser": "^1.4.6"
+  },
+  "author": "Antigravity",
+  "license": "ISC"
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+  <soap12:Header>
+    <gnreCabecMsg xmlns="http://www.gnre.pe.gov.br/webservice/GnreLoteRecepcao">
+      <versaoDados>2.00</versaoDados>
+    </gnreCabecMsg>
+  </soap12:Header>
+  <soap12:Body>
+    <gnreDadosMsg xmlns="http://www.gnre.pe.gov.br/webservice/GnreLoteRecepcao">
+      <TLote_GNRE xmlns="http://www.gnre.pe.gov.br" versao="2.00">
+        <guias>
+          <TDadosGNRE versao="2.00">
+            <c01_UfFavorecida>PE</c01_UfFavorecida>
+            <c02_receita>100048</c02_receita>
+            <c27_tipoIdentificacaoEmitente>1</c27_tipoIdentificacaoEmitente> <!-- 1 = CNPJ -->
+            <c03_idContribuinteEmitente>
+              <CNPJ>10436619000105</CNPJ>
+            </c03_idContribuinteEmitente>
+            <c06_valorPrincipal>150.00</c06_valorPrincipal>
+            <c10_valorTotal>150.00</c10_valorTotal>
+            <c14_dataVencimento>2026-07-15</c14_dataVencimento>
+          </TDadosGNRE>
+        </guias>
+      </TLote_GNRE>
+    </gnreDadosMsg>
+  </soap12:Body>
+</soap12:Envelope>

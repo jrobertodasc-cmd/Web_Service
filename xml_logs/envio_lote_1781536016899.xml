@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+  <soap12:Header>
+    <gnreCabecMsg xmlns="http://www.gnre.pe.gov.br/webservice/GnreLoteRecepcao">
+      <versaoDados>2.00</versaoDados>
+    </gnreCabecMsg>
+  </soap12:Header>
+  <soap12:Body>
+    <gnreDadosMsg xmlns="http://www.gnre.pe.gov.br/webservice/GnreLoteRecepcao">
+      <TLote_GNRE xmlns="http://www.gnre.pe.gov.br" versao="2.00">
+        <guias>
+          <TDadosGNRE versao="2.00">
+            <ufFavorecida>RJ</ufFavorecida>
+            <tipoGnre>0</tipoGnre> <!-- 0 = GNRE Simples -->
+            <contribuinteEmitente>
+              <identificacao>
+                <CNPJ>10436619000105</CNPJ>
+              </identificacao>
+            </contribuinteEmitente>
+            <itensGNRE>
+              <item>
+                <receita>100102</receita>
+                <documentoOrigem tipo="10">50224</documentoOrigem>
+                <dataVencimento>2026-06-20</dataVencimento>
+                <valor tipo="11">22.55</valor> <!-- 11 = Valor Principal ICMS -->
+                <valor tipo="21">22.55</valor> <!-- 21 = Valor Total ICMS -->
+                
+                <camposExtras>
+                  <campoExtra>
+                    <codigo>55</codigo>
+                    <valor>29260410436619000105550020000502241096215744</valor>
+                  </campoExtra>
+                </camposExtras>
+              </item>
+            </itensGNRE>
+            <valorGNRE>22.55</valorGNRE>
+          </TDadosGNRE>
+          <TDadosGNRE versao="2.00">
+            <ufFavorecida>DF</ufFavorecida>
+            <tipoGnre>0</tipoGnre> <!-- 0 = GNRE Simples -->
+            <contribuinteEmitente>
+              <identificacao>
+                <CNPJ>10436619000105</CNPJ>
+              </identificacao>
+            </contribuinteEmitente>
+            <itensGNRE>
+              <item>
+                <receita>100102</receita>
+                <documentoOrigem tipo="10">50231</documentoOrigem>
+                <dataVencimento>2026-06-20</dataVencimento>
+                <valor tipo="11">13.77</valor> <!-- 11 = Valor Principal ICMS -->
+                <valor tipo="21">13.77</valor> <!-- 21 = Valor Total ICMS -->
+                
+                <camposExtras>
+                  <campoExtra>
+                    <codigo>55</codigo>
+                    <valor>29260410436619000105550020000502311072916321</valor>
+                  </campoExtra>
+                </camposExtras>
+              </item>
+            </itensGNRE>
+            <valorGNRE>13.77</valorGNRE>
+          </TDadosGNRE>
+          <TDadosGNRE versao="2.00">
+            <ufFavorecida>DF</ufFavorecida>
+            <tipoGnre>0</tipoGnre> <!-- 0 = GNRE Simples -->
+            <contribuinteEmitente>
+              <identificacao>
+                <CNPJ>10436619000105</CNPJ>
+              </identificacao>
+            </contribuinteEmitente>
+            <itensGNRE>
+              <item>
+                <receita>100102</receita>
+                <documentoOrigem tipo="10">50265</documentoOrigem>
+                <dataVencimento>2026-06-20</dataVencimento>
+                <valor tipo="11">16.34</valor> <!-- 11 = Valor Principal ICMS -->
+                <valor tipo="21">16.34</valor> <!-- 21 = Valor Total ICMS -->
+                
+                <camposExtras>
+                  <campoExtra>
+                    <codigo>55</codigo>
+                    <valor>29260410436619000105550020000502651060172991</valor>
+                  </campoExtra>
+                </camposExtras>
+              </item>
+            </itensGNRE>
+            <valorGNRE>16.34</valorGNRE>
+          </TDadosGNRE>
+          <TDadosGNRE versao="2.00">
+            <ufFavorecida>RJ</ufFavorecida>
+            <tipoGnre>0</tipoGnre> <!-- 0 = GNRE Simples -->
+            <contribuinteEmitente>
+              <identificacao>
+                <CNPJ>10436619000105</CNPJ>
+              </identificacao>
+            </contribuinteEmitente>
+            <itensGNRE>
+              <item>
+                <receita>100102</receita>
+                <documentoOrigem tipo="10">50271</documentoOrigem>
+                <dataVencimento>2026-06-20</dataVencimento>
+                <valor tipo="11">34.32</valor> <!-- 11 = Valor Principal ICMS -->
+                <valor tipo="21">34.32</valor> <!-- 21 = Valor Total ICMS -->
+                
+                <camposExtras>
+                  <campoExtra>
+                    <codigo>55</codigo>
+                    <valor>29260410436619000105550020000502711039356032</valor>
+                  </campoExtra>
+                </camposExtras>
+              </item>
+            </itensGNRE>
+            <valorGNRE>34.32</valorGNRE>
+          </TDadosGNRE>
+          <TDadosGNRE versao="2.00">
+            <ufFavorecida>MA</ufFavorecida>
+            <tipoGnre>0</tipoGnre> <!-- 0 = GNRE Simples -->
+            <contribuinteEmitente>
+              <identificacao>
+                <CNPJ>10436619000105</CNPJ>
+              </identificacao>
+            </contribuinteEmitente>
+            <itensGNRE>
+              <item>
+                <receita>100102</receita>
+                <documentoOrigem tipo="10">50304</documentoOrigem>
+                <dataVencimento>2026-06-20</dataVencimento>
+                <valor tipo="11">57.32</valor> <!-- 11 = Valor Principal ICMS -->
+                <valor tipo="21">57.32</valor> <!-- 21 = Valor Total ICMS -->
+                
+                <camposExtras>
+                  <campoExtra>
+                    <codigo>55</codigo>
+                    <valor>29260410436619000105550020000503041051415615</valor>
+                  </campoExtra>
+                </camposExtras>
+              </item>
+            </itensGNRE>
+            <valorGNRE>57.32</valorGNRE>
+          </TDadosGNRE>
+          <TDadosGNRE versao="2.00">
+            <ufFavorecida>RJ</ufFavorecida>
+            <tipoGnre>0</tipoGnre> <!-- 0 = GNRE Simples -->
+            <contribuinteEmitente>
+              <identificacao>
+                <CNPJ>10436619000105</CNPJ>
+              </identificacao>
+            </contribuinteEmitente>
+            <itensGNRE>
+              <item>
+                <receita>100102</receita>
+                <documentoOrigem tipo="10">50326</documentoOrigem>
+                <dataVencimento>2026-06-20</dataVencimento>
+                <valor tipo="11">34.32</valor> <!-- 11 = Valor Principal ICMS -->
+                <valor tipo="21">34.32</valor> <!-- 21 = Valor Total ICMS -->
+                
+                <camposExtras>
+                  <campoExtra>
+                    <codigo>55</codigo>
+                    <valor>29260410436619000105550020000503261059352660</valor>
+                  </campoExtra>
+                </camposExtras>
+              </item>
+            </itensGNRE>
+            <valorGNRE>34.32</valorGNRE>
+          </TDadosGNRE>
+          <TDadosGNRE versao="2.00">
+            <ufFavorecida>DF</ufFavorecida>
+            <tipoGnre>0</tipoGnre> <!-- 0 = GNRE Simples -->
+            <contribuinteEmitente>
+              <identificacao>
+                <CNPJ>10436619000105</CNPJ>
+              </identificacao>
+            </contribuinteEmitente>
+            <itensGNRE>
+              <item>
+                <receita>100102</receita>
+                <documentoOrigem tipo="10">50337</documentoOrigem>
+                <dataVencimento>2026-06-20</dataVencimento>
+                <valor tipo="11">37.14</valor> <!-- 11 = Valor Principal ICMS -->
+                <valor tipo="21">37.14</valor> <!-- 21 = Valor Total ICMS -->
+                
+                <camposExtras>
+                  <campoExtra>
+                    <codigo>55</codigo>
+                    <valor>29260410436619000105550020000503371002329140</valor>
+                  </campoExtra>
+                </camposExtras>
+              </item>
+            </itensGNRE>
+            <valorGNRE>37.14</valorGNRE>
+          </TDadosGNRE>
+          <TDadosGNRE versao="2.00">
+            <ufFavorecida>RJ</ufFavorecida>
+            <tipoGnre>0</tipoGnre> <!-- 0 = GNRE Simples -->
+            <contribuinteEmitente>
+              <identificacao>
+                <CNPJ>10436619000105</CNPJ>
+              </identificacao>
+            </contribuinteEmitente>
+            <itensGNRE>
+              <item>
+                <receita>100102</receita>
+                <documentoOrigem tipo="10">50338</documentoOrigem>
+                <dataVencimento>2026-06-20</dataVencimento>
+                <valor tipo="11">28.72</valor> <!-- 11 = Valor Principal ICMS -->
+                <valor tipo="21">28.72</valor> <!-- 21 = Valor Total ICMS -->
+                
+                <camposExtras>
+                  <campoExtra>
+                    <codigo>55</codigo>
+                    <valor>29260410436619000105550020000503381005071079</valor>
+                  </campoExtra>
+                </camposExtras>
+              </item>
+            </itensGNRE>
+            <valorGNRE>28.72</valorGNRE>
+          </TDadosGNRE>
+          <TDadosGNRE versao="2.00">
+            <ufFavorecida>MS</ufFavorecida>
+            <tipoGnre>0</tipoGnre> <!-- 0 = GNRE Simples -->
+            <contribuinteEmitente>
+              <identificacao>
+                <CNPJ>10436619000105</CNPJ>
+              </identificacao>
+            </contribuinteEmitente>
+            <itensGNRE>
+              <item>
+                <receita>100102</receita>
+                <documentoOrigem tipo="10">50345</documentoOrigem>
+                <dataVencimento>2026-06-20</dataVencimento>
+                <valor tipo="11">17.95</valor> <!-- 11 = Valor Principal ICMS -->
+                <valor tipo="21">17.95</valor> <!-- 21 = Valor Total ICMS -->
+                
+                <camposExtras>
+                  <campoExtra>
+                    <codigo>55</codigo>
+                    <valor>29260410436619000105550020000503451080431430</valor>
+                  </campoExtra>
+                </camposExtras>
+              </item>
+            </itensGNRE>
+            <valorGNRE>17.95</valorGNRE>
+          </TDadosGNRE>
+          <TDadosGNRE versao="2.00">
+            <ufFavorecida>RJ</ufFavorecida>
+            <tipoGnre>0</tipoGnre> <!-- 0 = GNRE Simples -->
+            <contribuinteEmitente>
+              <identificacao>
+                <CNPJ>10436619000105</CNPJ>
+              </identificacao>
+            </contribuinteEmitente>
+            <itensGNRE>
+              <item>
+                <receita>100102</receita>
+                <documentoOrigem tipo="10">50347</documentoOrigem>
+                <dataVencimento>2026-06-20</dataVencimento>
+                <valor tipo="11">31.84</valor> <!-- 11 = Valor Principal ICMS -->
+                <valor tipo="21">31.84</valor> <!-- 21 = Valor Total ICMS -->
+                
+                <camposExtras>
+                  <campoExtra>
+                    <codigo>55</codigo>
+                    <valor>29260410436619000105550020000503471065347827</valor>
+                  </campoExtra>
+                </camposExtras>
+              </item>
+            </itensGNRE>
+            <valorGNRE>31.84</valorGNRE>
+          </TDadosGNRE>
+          <TDadosGNRE versao="2.00">
+            <ufFavorecida>DF</ufFavorecida>
+            <tipoGnre>0</tipoGnre> <!-- 0 = GNRE Simples -->
+            <contribuinteEmitente>
+              <identificacao>
+                <CNPJ>10436619000105</CNPJ>
+              </identificacao>
+            </contribuinteEmitente>
+            <itensGNRE>
+              <item>
+                <receita>100102</receita>
+                <documentoOrigem tipo="10">50348</documentoOrigem>
+                <dataVencimento>2026-06-20</dataVencimento>
+                <valor tipo="11">37.14</valor> <!-- 11 = Valor Principal ICMS -->
+                <valor tipo="21">37.14</valor> <!-- 21 = Valor Total ICMS -->
+                
+                <camposExtras>
+                  <campoExtra>
+                    <codigo>55</codigo>
+                    <valor>29260410436619000105550020000503481071587599</valor>
+                  </campoExtra>
+                </camposExtras>
+              </item>
+            </itensGNRE>
+            <valorGNRE>37.14</valorGNRE>
+          </TDadosGNRE>
+        </guias>
+      </TLote_GNRE>
+    </gnreDadosMsg>
+  </soap12:Body>
+</soap12:Envelope>

@@ -1,0 +1,154 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex GNRE - Painel Principal</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <div class="logo-area">
+                <h1>Apex GNRE SaaS</h1>
+                <p>Painel de Controle de Faturamento e Emissões</p>
+            </div>
+            <div class="nav-links">
+                <span id="tenant-name" style="font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-right: 10px;"></span>
+                <a href="/index.html" class="nav-btn active">Faturamento</a>
+                <a href="/profile.html" class="nav-btn">Empresa</a>
+                <a href="/admin.html" id="admin-nav-link" class="nav-btn d-none">Administração</a>
+                <button onclick="logout()" class="nav-btn" style="cursor: pointer; border: none; background: transparent;">Sair</button>
+            </div>
+        </header>
+
+        <!-- GRID PRINCIPAL -->
+        <div class="grid-config" style="grid-template-columns: 1.1fr 0.9fr; gap: 28px;">
+            
+            <!-- COLUNA ESQUERDA: EMISSÃO / PROCESSAMENTO -->
+            <div class="card">
+                <div class="card-title">
+                    <span>⚡</span> Processar Guias e Remessas
+                </div>
+
+                <!-- INFORMAÇÕES DE CONTA -->
+                <div class="flex-between mb-4" style="background: rgba(255, 255, 255, 0.02); padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border-color);">
+                    <div>
+                        <span class="label">Ambiente Ativo</span>
+                        <strong id="active-env" style="text-transform: uppercase;">Carregando...</strong>
+                    </div>
+                    <div>
+                        <span class="label">Empresa</span>
+                        <strong id="company-cnpj">Carregando...</strong>
+                    </div>
+                </div>
+
+                <!-- DRAG AND DROP ZONE -->
+                <div id="xml-dropzone" class="dropzone mb-4">
+                    <span class="dropzone-icon">📥</span>
+                    <strong>Arraste os arquivos XML das Notas Fiscais aqui</strong>
+                    <span style="font-size: 12px; color: var(--text-secondary);">Ou clique para selecionar arquivos do seu computador</span>
+                    <input type="file" id="xml-input" multiple accept=".xml" class="d-none">
+                </div>
+
+                <!-- LISTA DE ARQUIVOS SELECIONADOS -->
+                <div id="selected-files" class="file-list mb-4 d-none">
+                    <!-- Arquivos inseridos via JS -->
+                </div>
+
+                <!-- AÇÕES -->
+                <div style="display: flex; gap: 12px;" class="mb-4">
+                    <button id="btn-process-upload" class="btn btn-primary" style="flex: 1;">
+                        Processar XMLs Selecionados
+                    </button>
+                    <button id="btn-process-local" class="btn btn-secondary" title="Lê arquivos da pasta 'xml_nfe' no servidor">
+                        Processar Pasta Local (xml_nfe)
+                    </button>
+                </div>
+
+                <!-- PROGRESSO -->
+                <div id="processing-progress" class="mb-4 d-none">
+                    <div class="flex-between">
+                        <label>Progresso de Processamento</label>
+                        <span id="progress-val" style="font-weight: bold; font-size: 13px;">0%</span>
+                    </div>
+                    <div class="progress-container">
+                        <div id="progress-inner" class="progress-bar"></div>
+                    </div>
+                </div>
+
+                <!-- PAINEL DE LOGS EM TEMPO REAL -->
+                <div class="form-group">
+                    <label>Terminal de Operações (Histórico do Lote)</label>
+                    <div id="terminal-logs" class="log-container">
+                        <span class="log-line" style="color: var(--text-secondary);">Aguardando início de processamento...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLUNA DIREITA: HISTÓRICO DE LOTES -->
+            <div class="card" style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="card-title">
+                    <span>🕒</span> Histórico de Lotes Enviados
+                </div>
+
+                <div class="table-container" style="max-height: 250px; overflow-y: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data/Hora</th>
+                                <th>Ambiente</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table-body">
+                            <tr>
+                                <td colspan="4" class="text-center" style="color: var(--text-secondary);">Nenhum lote enviado ainda.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- DETALHES DO LOTE SELECIONADO / DOWNLOAD DAS GUIAS -->
+                <div id="batch-details-section" class="d-none" style="border-top: 1px solid var(--border-color); padding-top: 20px;">
+                    <div class="card-title" style="border-bottom: none; padding-bottom: 0; font-size: 16px;">
+                        <span>📋</span> Guias Geradas no Lote
+                    </div>
+                    
+                    <div class="flex-between mb-4 mt-4">
+                        <strong style="font-size: 13px; color: var(--text-secondary);">CNAB 240 GERAÇÃO:</strong>
+                        <a id="download-remessa-btn" href="#" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">
+                            📥 Baixar remessa.txt
+                        </a>
+                    </div>
+
+                    <div class="table-container" style="max-height: 220px; overflow-y: auto;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>NF</th>
+                                    <th>UF</th>
+                                    <th>Valor</th>
+                                    <th>Guia Visual</th>
+                                </tr>
+                            </thead>
+                            <tbody id="guides-table-body">
+                                <!-- Preenchido dinamicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>

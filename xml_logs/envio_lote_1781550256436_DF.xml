@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+  <soap12:Header>
+    <gnreCabecMsg xmlns="http://www.gnre.pe.gov.br/webservice/GnreLoteRecepcao">
+      <versaoDados>2.00</versaoDados>
+    </gnreCabecMsg>
+  </soap12:Header>
+  <soap12:Body>
+    <gnreDadosMsg xmlns="http://www.gnre.pe.gov.br/webservice/GnreLoteRecepcao">
+      <TLote_GNRE xmlns="http://www.gnre.pe.gov.br" versao="2.00">
+        <guias>
+          <TDadosGNRE versao="2.00">
+            <ufFavorecida>DF</ufFavorecida>
+            <tipoGnre>0</tipoGnre>
+            <contribuinteEmitente>
+              <identificacao>
+                <CNPJ>10436619000105</CNPJ>
+              </identificacao>
+              <razaoSocial>LALUA COMERCIO DE MODAS EIRELI</razaoSocial>
+              <endereco>RUA MARECHAL ANDREA 82</endereco>
+              <municipio>27408</municipio>
+              <uf>BA</uf>
+              <cep>41810105</cep>
+            </contribuinteEmitente>
+            <itensGNRE>
+              <item>
+                <receita>100102</receita>
+                <documentoOrigem tipo="10">50231</documentoOrigem>
+                <referencia>
+                  <periodo>0</periodo>
+                  <mes>04</mes>
+                  <ano>2026</ano>
+                </referencia>
+                <dataVencimento>2026-06-18</dataVencimento>
+                <valor tipo="11">13.77</valor>
+                <valor tipo="21">13.77</valor>
+                <contribuinteDestinatario>
+                  <identificacao>
+                    <CNPJ>13937073000156</CNPJ>
+                  </identificacao>
+                  <razaoSocial>CRISTINA VALENTE FIGUEIREDO</razaoSocial>
+                  <municipio>00108</municipio>
+                </contribuinteDestinatario>
+                <camposExtras>
+                  <campoExtra>
+                    <codigo>55</codigo>
+                    <valor>29260410436619000105550020000502311072916321</valor>
+                  </campoExtra>
+                </camposExtras>
+              </item>
+            </itensGNRE>
+            <valorGNRE>13.77</valorGNRE>
+            <dataPagamento>2026-06-18</dataPagamento>
+          </TDadosGNRE>
+          <TDadosGNRE versao="2.00">
+            <ufFavorecida>DF</ufFavorecida>
+            <tipoGnre>0</tipoGnre>
+            <contribuinteEmitente>
+              <identificacao>
+                <CNPJ>10436619000105</CNPJ>
+              </identificacao>
+              <razaoSocial>LALUA COMERCIO DE MODAS EIRELI</razaoSocial>
+              <endereco>RUA MARECHAL ANDREA 82</endereco>
+              <municipio>27408</municipio>
+              <uf>BA</uf>
+              <cep>41810105</cep>
+            </contribuinteEmitente>
+            <itensGNRE>
+              <item>
+                <receita>100102</receita>
+                <documentoOrigem tipo="10">50265</documentoOrigem>
+                <referencia>
+                  <periodo>0</periodo>
+                  <mes>04</mes>
+                  <ano>2026</ano>
+                </referencia>
+                <dataVencimento>2026-06-18</dataVencimento>
+                <valor tipo="11">16.34</valor>
+                <valor tipo="21">16.34</valor>
+                <contribuinteDestinatario>
+                  <identificacao>
+                    <CNPJ>13937073000156</CNPJ>
+                  </identificacao>
+                  <razaoSocial>FERNANDA EVANGELISTA</razaoSocial>
+                  <municipio>00108</municipio>
+                </contribuinteDestinatario>
+                <camposExtras>
+                  <campoExtra>
+                    <codigo>55</codigo>
+                    <valor>29260410436619000105550020000502651060172991</valor>
+                  </campoExtra>
+                </camposExtras>
+              </item>
+            </itensGNRE>
+            <valorGNRE>16.34</valorGNRE>
+            <dataPagamento>2026-06-18</dataPagamento>
+          </TDadosGNRE>
+          <TDadosGNRE versao="2.00">
+            <ufFavorecida>DF</ufFavorecida>
+            <tipoGnre>0</tipoGnre>
+            <contribuinteEmitente>
+              <identificacao>
+                <CNPJ>10436619000105</CNPJ>
+              </identificacao>
+              <razaoSocial>LALUA COMERCIO DE MODAS EIRELI</razaoSocial>
+              <endereco>RUA MARECHAL ANDREA 82</endereco>
+              <municipio>27408</municipio>
+              <uf>BA</uf>
+              <cep>41810105</cep>
+            </contribuinteEmitente>
+            <itensGNRE>
+              <item>
+                <receita>100102</receita>
+                <documentoOrigem tipo="10">50337</documentoOrigem>
+                <referencia>
+                  <periodo>0</periodo>
+                  <mes>04</mes>
+                  <ano>2026</ano>
+                </referencia>
+                <dataVencimento>2026-06-18</dataVencimento>
+                <valor tipo="11">125.64</valor>
+                <valor tipo="21">125.64</valor>
+                <contribuinteDestinatario>
+                  <identificacao>
+                    <CNPJ>13937073000156</CNPJ>
+                  </identificacao>
+                  <razaoSocial>FERNANDA EVANGELISTA</razaoSocial>
+                  <municipio>00108</municipio>
+                </contribuinteDestinatario>
+                <camposExtras>
+                  <campoExtra>
+                    <codigo>55</codigo>
+                    <valor>29260410436619000105550020000503371002329140</valor>
+                  </campoExtra>
+                </camposExtras>
+              </item>
+            </itensGNRE>
+            <valorGNRE>125.64</valorGNRE>
+            <dataPagamento>2026-06-18</dataPagamento>
+          </TDadosGNRE>
+          <TDadosGNRE versao="2.00">
+            <ufFavorecida>DF</ufFavorecida>
+            <tipoGnre>0</tipoGnre>
+            <contribuinteEmitente>
+              <identificacao>
+                <CNPJ>10436619000105</CNPJ>
+              </identificacao>
+              <razaoSocial>LALUA COMERCIO DE MODAS EIRELI</razaoSocial>
+              <endereco>RUA MARECHAL ANDREA 82</endereco>
+              <municipio>27408</municipio>
+              <uf>BA</uf>
+              <cep>41810105</cep>
+            </contribuinteEmitente>
+            <itensGNRE>
+              <item>
+                <receita>100102</receita>
+                <documentoOrigem tipo="10">50348</documentoOrigem>
+                <referencia>
+                  <periodo>0</periodo>
+                  <mes>04</mes>
+                  <ano>2026</ano>
+                </referencia>
+                <dataVencimento>2026-06-18</dataVencimento>
+                <valor tipo="11">37.14</valor>
+                <valor tipo="21">37.14</valor>
+                <contribuinteDestinatario>
+                  <identificacao>
+                    <CNPJ>13937073000156</CNPJ>
+                  </identificacao>
+                  <razaoSocial>VANDREIA MOTA ROCHA</razaoSocial>
+                  <municipio>00108</municipio>
+                </contribuinteDestinatario>
+                <camposExtras>
+                  <campoExtra>
+                    <codigo>55</codigo>
+                    <valor>29260410436619000105550020000503481071587599</valor>
+                  </campoExtra>
+                </camposExtras>
+              </item>
+            </itensGNRE>
+            <valorGNRE>37.14</valorGNRE>
+            <dataPagamento>2026-06-18</dataPagamento>
+          </TDadosGNRE>
+        </guias>
+      </TLote_GNRE>
+    </gnreDadosMsg>
+  </soap12:Body>
+</soap12:Envelope>
