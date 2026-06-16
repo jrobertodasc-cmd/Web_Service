@@ -406,6 +406,209 @@ app.get('/api/batch/status/:batchId', requireAuth, async (req, res) => {
     }
 });
 
+// Rota para consulta e importação manual de recibos (caso dê timeout)
+app.post('/api/batch/query-receipt', requireAuth, async (req, res) => {
+    const { receipt, uf } = req.body;
+    if (!receipt || !uf) {
+        return res.status(400).json({ error: "Número do recibo e UF são obrigatórios." });
+    }
+
+    const tenant = req.tenant;
+
+    try {
+        // 1. Carrega e prepara certificado
+        if (!tenant.pfx_filename) {
+            return res.status(400).json({ error: "Nenhum certificado digital PFX configurado para esta empresa." });
+        }
+
+        const passphraseKey = getEncryptionKey(process.env.ENCRYPTION_KEY);
+        const passphrase = decrypt(tenant.pfx_passphrase_encrypted, passphraseKey);
+
+        const { data: fileData, error: downloadError } = await supabase.storage
+            .from('tenant-storage')
+            .download(`${tenant.id}/certificados/${tenant.pfx_filename}`);
+
+        if (downloadError || !fileData) {
+            return res.status(400).json({ error: "Erro ao carregar arquivo de certificado do Storage: " + downloadError?.message });
+        }
+
+        const pfxBuffer = Buffer.from(await fileData.arrayBuffer());
+        const agent = gnreService.createHttpsAgent({ pfxBuffer, passphrase });
+
+        // 2. Consulta lote no webservice da SEFAZ
+        const logsDir = process.env.NODE_ENV === 'production' || process.env.VERCEL
+            ? path.join('/tmp', 'xml_logs')
+            : path.join(__dirname, 'xml_logs');
+
+        const xmlConsulta = await gnreService.consultarLote(receipt, agent, uf, tenant.environment, logsDir);
+
+        // 3. Extrai dados da guia e verifica status de processamento
+        const sitProcess = parserService.extrairTag(xmlConsulta, 'situacaoProcess');
+        const codSit = sitProcess ? parserService.extrairTag(sitProcess, 'codigo') : null;
+        const descSit = sitProcess ? parserService.extrairTag(sitProcess, 'descricao') : '';
+
+        const processando = !codSit || ['401', '103', '105'].includes(codSit) || (descSit.toLowerCase().includes('processamento') && !['402', '403', '404'].includes(codSit));
+
+        if (processando) {
+            return res.status(202).json({ 
+                status: 'processando',
+                message: `O lote ainda está sendo processado pelo governo do ${uf}. Tente novamente em alguns instantes.` 
+            });
+        }
+
+        let dadosGuias = null;
+        try {
+            dadosGuias = parserService.extrairDadosGuiaXML(xmlConsulta);
+        } catch (parseErr) {
+            return res.status(400).json({ 
+                error: `O lote foi processado, mas nenhuma guia válida foi retornada. Detalhes: ${parseErr.message}. Status: ${codSit} - ${descSit}` 
+            });
+        }
+
+        if (!dadosGuias || dadosGuias.length === 0) {
+            return res.status(400).json({ 
+                error: `O lote foi processado, mas nenhuma guia válida foi retornada. Status: ${codSit} - ${descSit}` 
+            });
+        }
+
+        // 4. Salva ou atualiza no banco de dados
+        // Procura se já existe um lote com esse recibo
+        const { data: existingBatch } = await supabase
+            .from('batches')
+            .select('*')
+            .eq('tenant_id', tenant.id)
+            .ilike('receipt', `%${receipt}%`)
+            .limit(1);
+
+        let batchId;
+        if (existingBatch && existingBatch.length > 0) {
+            batchId = existingBatch[0].id;
+            
+            // Atualiza status do lote existente para sucesso
+            await supabase
+                .from('batches')
+                .update({ status: 'sucesso', receipt: `${uf}:${receipt}` })
+                .eq('id', batchId);
+        } else {
+            // Cria um novo lote
+            const { data: newBatch } = await supabase
+                .from('batches')
+                .insert({
+                    tenant_id: tenant.id,
+                    environment: tenant.environment,
+                    status: 'sucesso',
+                    receipt: `${uf}:${receipt}`
+                })
+                .select()
+                .single();
+            batchId = newBatch.id;
+        }
+
+        // 5. Gera HTMLs das guias, faz upload para o Storage e salva guias no BD
+        const dadosBancarios = {
+            cnpj: tenant.cnpj,
+            razaoSocial: tenant.razao_social,
+            agencia: tenant.bank_agency,
+            conta: tenant.bank_account,
+            dac: tenant.bank_dac
+        };
+
+        const guiasDb = [];
+        for (const guia of dadosGuias) {
+            // Prepara uma nota simulada para o renderizador HTML da guia
+            const htmlGuia = gnreService.exportarGuiaHtml(dadosBancarios, guia, {
+                cnpjEmitente: tenant.cnpj,
+                razaoSocialEmitente: tenant.razao_social
+            });
+
+            const nomeLocal = `guia_NF_${guia.documentoOrigem || 'rec_importada'}.html`;
+            const remotePath = `${tenant.id}/guias/${nomeLocal}`;
+
+            await supabase.storage
+                .from('tenant-storage')
+                .upload(remotePath, Buffer.from(htmlGuia, 'utf-8'), {
+                    contentType: 'text/html',
+                    upsert: true
+                });
+
+            guiasDb.push({
+                tenant_id: tenant.id,
+                batch_id: batchId,
+                nf_number: guia.documentoOrigem || 'N/A',
+                uf: guia.ufFavorecida || uf,
+                value: guia.valor,
+                barcode: guia.codigoBarras,
+                line_digitizable: guia.linhaDigitavel,
+                storage_path: remotePath
+            });
+        }
+
+        // Remove guias antigas do lote se for uma re-consulta de lote existente para não duplicar guias
+        if (existingBatch && existingBatch.length > 0) {
+            await supabase
+                .from('guides')
+                .delete()
+                .eq('batch_id', batchId);
+        }
+
+        // Salva as guias importadas
+        const { error: insertError } = await supabase
+            .from('guides')
+            .insert(guiasDb);
+
+        if (insertError) throw insertError;
+
+        // 5.5 Regenera o arquivo de remessa CNAB 240 consolidado
+        const { data: allGuides, error: fetchGuidesError } = await supabase
+            .from('guides')
+            .select('*')
+            .eq('batch_id', batchId);
+
+        if (fetchGuidesError) {
+            console.error("Erro ao buscar guias do lote para gerar remessa:", fetchGuidesError.message);
+        } else if (allGuides && allGuides.length > 0) {
+            // Mapeia para o formato que gerarRemessaSispag espera
+            const mappedGuides = allGuides.map(g => ({
+                codigoBarras: g.barcode,
+                valor: g.value,
+                dataVencimento: g.created_at ? g.created_at.split('T')[0] : new Date().toISOString().split('T')[0],
+                documentoOrigem: g.nf_number,
+                ufFavorecida: g.uf
+            }));
+
+            try {
+                const cnabContent = cnabService.gerarRemessaSispag(dadosBancarios, mappedGuides);
+
+                // Grava remessa.txt física local para compatibilidade
+                const remessaLocalPath = process.env.NODE_ENV === 'production' || process.env.VERCEL
+                    ? path.join('/tmp', 'remessa.txt')
+                    : path.join(__dirname, 'remessa.txt');
+                await fs.writeFile(remessaLocalPath, cnabContent, 'utf-8');
+
+                // Envia remessa.txt para Supabase Storage
+                const remessaFilename = `remessa_${batchId}.txt`;
+                await supabase.storage
+                    .from('tenant-storage')
+                    .upload(`${tenant.id}/remessas/${remessaFilename}`, Buffer.from(cnabContent, 'utf-8'), {
+                        contentType: 'text/plain',
+                        upsert: true
+                    });
+            } catch (cnabErr) {
+                console.error("Erro ao regenerar arquivo CNAB:", cnabErr.message);
+            }
+        }
+
+        return res.status(200).json({
+            status: 'sucesso',
+            message: `Lote consultado com sucesso! ${dadosGuias.length} guia(s) importada(s).`,
+            batch_id: batchId
+        });
+
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+});
+
 app.get('/api/batch/history', requireAuth, async (req, res) => {
     try {
         const { data: batches, error } = await supabase
@@ -730,6 +933,7 @@ function runBatchProcessInBackground(batchId, tenant, filesData) {
                 ? path.join('/tmp', 'xml_logs')
                 : path.join(__dirname, 'xml_logs');
             const todasGuias = [];
+            const recibosEfetuados = [];
             const errosUf = {};
 
             task.progress = 50;
@@ -813,9 +1017,19 @@ function runBatchProcessInBackground(batchId, tenant, filesData) {
                         const recibo = await gnreService.enviarLote(notasPorUf[uf], agent, uf, tenant.environment, tenant, logsDir);
                         log(`[${uf}] Lote recebido! Recibo nº ${recibo}. Aguardando processamento da SEFAZ...`);
 
+                        // Salva o recibo no banco imediatamente para caso dê timeout na consulta posterior
+                        const itemRecibo = `${uf}:${recibo}`;
+                        if (!recibosEfetuados.includes(itemRecibo)) {
+                            recibosEfetuados.push(itemRecibo);
+                        }
+                        await supabase
+                            .from('batches')
+                            .update({ receipt: recibosEfetuados.join(', ') })
+                            .eq('id', batchId);
+
                         let dadosGuias = null;
                         let tentativas = 0;
-                        const maxTentativas = 15;
+                        const maxTentativas = 30; // Aumentado de 15 para 30 tentativas (mais tempo para filas lentas)
 
                         while (tentativas < maxTentativas) {
                             const segundos = tentativas === 0 ? 8 : 5;
@@ -835,7 +1049,7 @@ function runBatchProcessInBackground(batchId, tenant, filesData) {
                             const codSit = sitProcess ? parserService.extrairTag(sitProcess, 'codigo') : null;
                             const descSit = sitProcess ? parserService.extrairTag(sitProcess, 'descricao') : '';
 
-                            const processando = !codSit || codSit === '401' || codSit === '103' || codSit === '105' || descSit.toLowerCase().includes('processamento');
+                            const processando = !codSit || ['401', '103', '105'].includes(codSit) || (descSit.toLowerCase().includes('processamento') && !['402', '403', '404'].includes(codSit));
 
                             if (processando) {
                                 log(`[${uf}] Lote ainda na fila de processamento governamental...`);
@@ -855,6 +1069,12 @@ function runBatchProcessInBackground(batchId, tenant, filesData) {
                     }
 
                     todasGuias.push(...resultadoUf.guias);
+                    if (resultadoUf.recibo) {
+                        const itemRecibo = `${uf}:${resultadoUf.recibo}`;
+                        if (!recibosEfetuados.includes(itemRecibo)) {
+                            recibosEfetuados.push(itemRecibo);
+                        }
+                    }
                     log(`[${uf}] Lote concluído. ${resultadoUf.guias.length} guia(s) emitidas.`);
 
                 } catch (err) {
@@ -982,7 +1202,7 @@ function runBatchProcessInBackground(batchId, tenant, filesData) {
                 .from('batches')
                 .update({
                     status: 'sucesso',
-                    receipt: ufs.map(uf => `Simulado/Recibo_${uf}`).join(', ')
+                    receipt: recibosEfetuados.join(', ')
                 })
                 .eq('id', batchId);
 

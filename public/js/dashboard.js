@@ -330,3 +330,71 @@ async function carregarDetalhesLote(batchId) {
         showToast("Erro ao abrir detalhes do lote.", 'error');
     }
 }
+
+// Funções para controle do Modal de Consulta de Recibo Manual
+function abrirModalRecibo() {
+    const modal = document.getElementById('modal-recibo');
+    if (modal) modal.classList.add('show');
+}
+
+function fecharModalRecibo() {
+    const modal = document.getElementById('modal-recibo');
+    if (modal) modal.classList.remove('show');
+    const form = document.getElementById('form-consulta-recibo');
+    if (form) form.reset();
+}
+
+async function enviarConsultaRecibo(event) {
+    event.preventDefault();
+    const uf = document.getElementById('recibo-uf').value;
+    const receipt = document.getElementById('recibo-numero').value;
+    const btnSubmit = document.getElementById('btn-submit-recibo');
+
+    if (!uf || !receipt) {
+        showToast("UF e número do recibo são obrigatórios.", "error");
+        return;
+    }
+
+    try {
+        btnSubmit.disabled = true;
+        const originalText = btnSubmit.textContent;
+        btnSubmit.textContent = "Consultando...";
+        showToast("Consultando recibo na SEFAZ...", "warning");
+
+        const token = localStorage.getItem('sb_access_token');
+        const res = await fetch('/api/batch/query-receipt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ receipt, uf })
+        });
+
+        const data = await res.json();
+        
+        if (res.status === 202) {
+            showToast(data.message, "warning");
+            return;
+        }
+
+        if (!res.ok) {
+            throw new Error(data.error || "Erro desconhecido ao consultar recibo.");
+        }
+
+        showToast(data.message || "Recibo consultado e guias importadas com sucesso!", "success");
+        fecharModalRecibo();
+        
+        // Recarrega o histórico e abre detalhes do lote atualizado
+        await carregarHistoricoLotes();
+        if (data.batch_id) {
+            await carregarDetalhesLote(data.batch_id);
+        }
+    } catch (err) {
+        showToast(err.message, "error");
+    } finally {
+        btnSubmit.disabled = false;
+        btnSubmit.textContent = "Consultar e Resgatar";
+    }
+}
+

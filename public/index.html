@@ -91,8 +91,13 @@
 
             <!-- COLUNA DIREITA: HISTÓRICO DE LOTES -->
             <div class="card" style="display: flex; flex-direction: column; gap: 20px;">
-                <div class="card-title">
-                    <span>🕒</span> Histórico de Lotes Enviados
+                <div class="flex-between" style="border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 4px;">
+                    <div style="font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 10px;">
+                        <span>🕒</span> Histórico de Lotes Enviados
+                    </div>
+                    <button onclick="abrirModalRecibo()" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; font-weight: 500;">
+                        🔍 Consultar Recibo Manual
+                    </button>
                 </div>
 
                 <div class="table-container" style="max-height: 250px; overflow-y: auto;">
@@ -147,6 +152,61 @@
     </div>
 
     <div id="toast" class="toast"></div>
+
+    <!-- MODAL DE CONSULTA DE RECIBO MANUAL -->
+    <div id="modal-recibo" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🔍 Consultar Recibo Manual</h3>
+                <button onclick="fecharModalRecibo()" class="modal-close">✖</button>
+            </div>
+            <form id="form-consulta-recibo" onsubmit="enviarConsultaRecibo(event)">
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <div class="form-group">
+                        <label for="recibo-uf">UF do Governo</label>
+                        <select id="recibo-uf" required>
+                            <option value="" disabled selected>Selecione a UF...</option>
+                            <option value="AC">Acre (AC)</option>
+                            <option value="AL">Alagoas (AL)</option>
+                            <option value="AP">Amapá (AP)</option>
+                            <option value="AM">Amazonas (AM)</option>
+                            <option value="BA">Bahia (BA)</option>
+                            <option value="CE">Ceará (CE)</option>
+                            <option value="DF">Distrito Federal (DF)</option>
+                            <option value="ES">Espírito Santo (ES)</option>
+                            <option value="GO">Goiás (GO)</option>
+                            <option value="MA">Maranhão (MA)</option>
+                            <option value="MT">Mato Grosso (MT)</option>
+                            <option value="MS">Mato Grosso do Sul (MS)</option>
+                            <option value="MG">Minas Gerais (MG)</option>
+                            <option value="PA">Pará (PA)</option>
+                            <option value="PB">Paraíba (PB)</option>
+                            <option value="PR">Paraná (PR)</option>
+                            <option value="PE">Pernambuco (PE)</option>
+                            <option value="PI">Piauí (PI)</option>
+                            <option value="RJ">Rio de Janeiro (RJ)</option>
+                            <option value="RN">Rio Grande do Norte (RN)</option>
+                            <option value="RS">Rio Grande do Sul (RS)</option>
+                            <option value="RO">Rondônia (RO)</option>
+                            <option value="RR">Roraima (RR)</option>
+                            <option value="SC">Santa Catarina (SC)</option>
+                            <option value="SP">São Paulo (SP)</option>
+                            <option value="SE">Sergipe (SE)</option>
+                            <option value="TO">Tocantins (TO)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="recibo-numero">Número do Recibo</label>
+                        <input type="text" id="recibo-numero" placeholder="Ex: 26000286148551" required pattern="[0-9]+" title="Digite apenas números">
+                    </div>
+                    <div style="display: flex; gap: 12px; margin-top: 10px;">
+                        <button type="button" onclick="fecharModalRecibo()" class="btn btn-secondary" style="flex: 1;">Cancelar</button>
+                        <button type="submit" id="btn-submit-recibo" class="btn btn-primary" style="flex: 1;">Consultar e Resgatar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script src="/js/auth.js?v=3"></script>
     <script src="/js/dashboard.js"></script>
