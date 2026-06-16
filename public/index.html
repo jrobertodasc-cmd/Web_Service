@@ -59,6 +59,12 @@
                     <!-- Arquivos inseridos via JS -->
                 </div>
 
+                <!-- DATA DE PAGAMENTO -->
+                <div class="form-group mb-4" style="max-width: 280px;">
+                    <label for="payment-date">Data de Pagamento (Remessa CNAB)</label>
+                    <input type="date" id="payment-date" required>
+                </div>
+
                 <!-- AÇÕES -->
                 <div style="display: flex; gap: 12px;" class="mb-4">
                     <button id="btn-process-upload" class="btn btn-primary" style="flex: 1;">
@@ -198,6 +204,10 @@
                     <div class="form-group">
                         <label for="recibo-numero">Número do Recibo</label>
                         <input type="text" id="recibo-numero" placeholder="Ex: 26000286148551" required pattern="[0-9]+" title="Digite apenas números">
+                    </div>
+                    <div class="form-group">
+                        <label for="recibo-payment-date">Data de Pagamento (Remessa CNAB)</label>
+                        <input type="date" id="recibo-payment-date" required>
                     </div>
                     <div style="display: flex; gap: 12px; margin-top: 10px;">
                         <button type="button" onclick="fecharModalRecibo()" class="btn btn-secondary" style="flex: 1;">Cancelar</button>

@@ -47,11 +47,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
 
+            const paymentDate = document.getElementById('payment-date').value;
             const formData = new FormData();
             selectedFiles.forEach(file => {
                 formData.append('files', file);
             });
             formData.append('source', 'upload');
+            formData.append('paymentDate', paymentDate);
 
             try {
                 resetTerminal();
@@ -86,10 +88,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 showToast("Iniciando varredura da pasta local 'xml_nfe'...", 'warning');
                 btnProcessLocal.disabled = true;
 
+                const paymentDate = document.getElementById('payment-date').value;
                 const res = await fetch('/api/batch/process', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ source: 'local' })
+                    body: JSON.stringify({ source: 'local', paymentDate })
                 });
 
                 const data = await res.json();
@@ -237,6 +240,13 @@ async function carregarDadosDashboard() {
             ? cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, "$1.$2.$3/$4-$5")
             : cnpj;
 
+        // Inicializa as datas de pagamento com o dia de hoje
+        const hoje = new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }).split('/').reverse().join('-');
+        const paymentDateInput = document.getElementById('payment-date');
+        if (paymentDateInput) paymentDateInput.value = hoje;
+        const reciboPaymentDateInput = document.getElementById('recibo-payment-date');
+        if (reciboPaymentDateInput) reciboPaymentDateInput.value = hoje;
+
         if (data.profile && data.profile.is_admin) {
             const adminLink = document.getElementById('admin-nav-link');
             if (adminLink) adminLink.classList.remove('d-none');
@@ -348,6 +358,7 @@ async function enviarConsultaRecibo(event) {
     event.preventDefault();
     const uf = document.getElementById('recibo-uf').value;
     const receipt = document.getElementById('recibo-numero').value;
+    const paymentDate = document.getElementById('recibo-payment-date').value;
     const btnSubmit = document.getElementById('btn-submit-recibo');
 
     if (!uf || !receipt) {
@@ -368,7 +379,7 @@ async function enviarConsultaRecibo(event) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ receipt, uf })
+            body: JSON.stringify({ receipt, uf, paymentDate })
         });
 
         const data = await res.json();

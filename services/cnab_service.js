@@ -30,7 +30,7 @@ const formatarDataCNAB = (dataStr) => {
  * @param {Array} guiasExtraidas Lista de guias pagas com { codigoBarras, valor, dataVencimento, documentoOrigem }
  * @returns {String} Conteúdo CNAB 240 formatado com quebras CRLF (\r\n)
  */
-function gerarRemessaSispag(dadosEmpresa, guiasExtraidas) {
+function gerarRemessaSispag(dadosEmpresa, guiasExtraidas, dataPagamentoPersonalizada) {
     if (!dadosEmpresa || !dadosEmpresa.cnpj) {
         throw new Error("Dados da empresa inválidos ou ausentes para geração de remessa.");
     }
@@ -45,6 +45,19 @@ function gerarRemessaSispag(dadosEmpresa, guiasExtraidas) {
     // Usar fuso local brasileiro se possível
     const dataHoje = agora.toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }).replace(/[^0-9]/g, ''); // DDMMAAAA
     const horaHoje = agora.toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' }).replace(/[^0-9]/g, ''); // HHMMSS
+
+    let dataPagamentoFormatada = dataHoje;
+    if (dataPagamentoPersonalizada) {
+        if (dataPagamentoPersonalizada.includes('-')) {
+            const parts = dataPagamentoPersonalizada.split('T')[0].split('-');
+            if (parts.length === 3) {
+                const [ano, mes, dia] = parts;
+                dataPagamentoFormatada = `${dia}${mes}${ano}`;
+            }
+        } else {
+            dataPagamentoFormatada = dataPagamentoPersonalizada.replace(/[^0-9]/g, '');
+        }
+    }
 
     // 1. REGISTRO 0: HEADER DE ARQUIVO (Layout 080)
     let headerArquivo = '';
@@ -128,7 +141,7 @@ function gerarRemessaSispag(dadosEmpresa, guiasExtraidas) {
         // Valor sem pontos em centavos (Ex: 150.00 vira 15000)
         const valorEmCentavos = Math.round(parseFloat(guia.valor || 0) * 100);
         segO += padZero(valorEmCentavos, 15);                      // 122-136: Valor da Guia
-        segO += padZero(dataHoje, 8);                              // 137-144: Data de Pagamento (Agendado para hoje)
+        segO += padZero(dataPagamentoFormatada, 8);                      // 137-144: Data de Pagamento (Agendado)
         segO += padZero(0, 15);                                    // 145-159: Valor Pago (Preenche com zeros na remessa)
         segO += padSpace('', 3);                                   // 160-162: Brancos
         segO += padSpace('', 9);                                   // 163-171: Complemento de Registro (Devem ser Brancos)

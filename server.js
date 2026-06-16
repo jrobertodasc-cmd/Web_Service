@@ -306,7 +306,7 @@ app.post('/api/tenant/upload-pfx', requireAuth, upload.single('pfx'), async (req
 // ROTAS DE PROCESSAMENTO DE GNRE (LOTE)
 // ==========================================
 app.post('/api/batch/process', requireAuth, requireActiveSubscription, upload.array('files'), async (req, res) => {
-    const { source } = req.body; // 'local' ou 'upload'
+    const { source, paymentDate } = req.body; // 'local' ou 'upload'
     
     try {
         let filesData = [];
@@ -362,7 +362,7 @@ app.post('/api/batch/process', requireAuth, requireActiveSubscription, upload.ar
         }
 
         // 2. Executa o processamento em background (Assíncrono / Non-blocking)
-        runBatchProcessInBackground(batch.id, req.tenant, filesData);
+        runBatchProcessInBackground(batch.id, req.tenant, filesData, paymentDate);
 
         // Retorna imediatamente o identificador para o cliente fazer polling
         return res.status(200).json({
@@ -408,7 +408,7 @@ app.get('/api/batch/status/:batchId', requireAuth, async (req, res) => {
 
 // Rota para consulta e importação manual de recibos (caso dê timeout)
 app.post('/api/batch/query-receipt', requireAuth, async (req, res) => {
-    const { receipt, uf } = req.body;
+    const { receipt, uf, paymentDate } = req.body;
     if (!receipt || !uf) {
         return res.status(400).json({ error: "Número do recibo e UF são obrigatórios." });
     }
@@ -577,7 +577,7 @@ app.post('/api/batch/query-receipt', requireAuth, async (req, res) => {
             }));
 
             try {
-                const cnabContent = cnabService.gerarRemessaSispag(dadosBancarios, mappedGuides);
+                const cnabContent = cnabService.gerarRemessaSispag(dadosBancarios, mappedGuides, paymentDate);
 
                 // Grava remessa.txt física local para compatibilidade
                 const remessaLocalPath = process.env.NODE_ENV === 'production' || process.env.VERCEL
@@ -840,7 +840,7 @@ app.get('*', (req, res, next) => {
 // ==========================================
 // MÓDULO AUXILIAR: PROCESSAMENTO EM BACKGROUND
 // ==========================================
-function runBatchProcessInBackground(batchId, tenant, filesData) {
+function runBatchProcessInBackground(batchId, tenant, filesData, paymentDate) {
     // Roda em paralelo sem travar o loop principal de requisições
     setImmediate(async () => {
         activeTasks[batchId] = {
@@ -1120,7 +1120,7 @@ function runBatchProcessInBackground(batchId, tenant, filesData) {
                 dac: tenant.bank_dac
             };
 
-            const cnabContent = cnabService.gerarRemessaSispag(dadosBancarios, todasGuias);
+            const cnabContent = cnabService.gerarRemessaSispag(dadosBancarios, todasGuias, paymentDate);
             
             // Grava remessa.txt física local para compatibilidade
             const remessaLocalPath = process.env.NODE_ENV === 'production' || process.env.VERCEL
