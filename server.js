@@ -169,7 +169,17 @@ app.post('/api/auth/login', async (req, res) => {
     }
 
     try {
-        const { data, error } = await supabase.auth.signInWithPassword({
+        // Cria um cliente Supabase temporário local para esta requisição de login.
+        // Isso evita que o estado global do cliente "supabase" seja sobrescrito com o token do usuário logado,
+        // o que faria as consultas subsequentes falharem devido ao RLS (Row Level Security).
+        const tempClient = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY, {
+            auth: {
+                autoRefreshToken: false,
+                persistSession: false
+            }
+        });
+
+        const { data, error } = await tempClient.auth.signInWithPassword({
             email,
             password
         });
