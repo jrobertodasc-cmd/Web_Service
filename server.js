@@ -110,10 +110,11 @@ app.post('/api/auth/register', async (req, res) => {
     }
 
     try {
-        // 1. Cadastra no Supabase Auth
-        const { data: authData, error: authError } = await supabase.auth.signUp({
+        // 1. Cadastra no Supabase Auth usando a API admin (evita limite de envio de e-mails da conta gratuita)
+        const { data: authData, error: authError } = await supabase.auth.admin.createUser({
             email,
-            password
+            password,
+            email_confirm: true
         });
 
         if (authError || !authData.user) {
