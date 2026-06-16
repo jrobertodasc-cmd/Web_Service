@@ -203,6 +203,11 @@ app.get('/api/auth/me', requireAuth, (req, res) => {
             email: req.user.email,
             name: req.profile.name
         },
+        profile: {
+            is_admin: req.profile.is_admin,
+            name: req.profile.name,
+            email: req.profile.email
+        },
         tenant: req.tenant
     });
 });
