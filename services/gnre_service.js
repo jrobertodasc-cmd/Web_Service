@@ -376,10 +376,19 @@ function exportarGuiaHtml(dadosEmpresa, dadosGuia, dadosNfeExtraidos) {
     const chaveAcessoNfe = dadosNfeExtraidos ? dadosNfeExtraidos.chaveAcessoNfe : (dadosGuia.chaveAcessoNfe || "NÃO INFORMADA");
     
     const dataVencimentoFormatada = formatarDataVisual(dadosGuia.dataVencimento);
-    const valorPrincipal = formatarMoedaVisual(dadosGuia.valor);
     const valorTotal = formatarMoedaVisual(dadosGuia.valor);
     const linhaDigitavelFormatada = formatarLinhaDigitavelVisual(dadosGuia.linhaDigitavel);
     const svgBarcode = gerarSvgI25(dadosGuia.codigoBarras);
+
+    let valorPrincipal = formatarMoedaVisual(dadosGuia.valor);
+    let instrucoesAdicionais = "";
+
+    if (dadosNfeExtraidos && dadosNfeExtraidos.valor && parseFloat(dadosNfeExtraidos.valor) < parseFloat(dadosGuia.valor)) {
+        const difal = parseFloat(dadosNfeExtraidos.valor);
+        const fcp = parseFloat(dadosGuia.valor) - difal;
+        valorPrincipal = formatarMoedaVisual(difal);
+        instrucoesAdicionais = `<br><br><b>Detalhamento dos Valores:</b><br>DIFAL Principal: R$ ${valorPrincipal}<br>Fundo de Combate à Pobreza (FCP): R$ ${formatarMoedaVisual(fcp)}`;
+    }
 
     // Ajusta o CNPJ da empresa para formatação visual
     const cnpjEmitente = (dadosEmpresa.cnpj || '').replace(/[^0-9]/g, '');
@@ -454,7 +463,7 @@ function exportarGuiaHtml(dadosEmpresa, dadosGuia, dadosNfeExtraidos) {
                     <span class="valor" style="font-family: monospace; font-size: 10px;">${chaveAcessoNfe}</span>
                     <br><br>
                     <span class="label">Instruções</span>
-                    <span style="font-size: 9px; color: #555;">Guia emitida via integração Webservice GNRE v2.00.<br>Destinada ao recolhimento de DIFAL - Consumidor Final não contribuinte.</span>
+                    <span style="font-size: 9px; color: #555;">Guia emitida via integração Webservice GNRE v2.00.<br>Destinada ao recolhimento de DIFAL - Consumidor Final não contribuinte.${instrucoesAdicionais}</span>
                 </td>
                 <td class="destaque">
                     <span class="label">Valor Principal</span>
