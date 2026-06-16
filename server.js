@@ -262,7 +262,12 @@ app.post('/api/tenant/upload-pfx', requireAuth, upload.single('pfx'), async (req
     }
 
     try {
-        const filename = req.file.originalname;
+        // Sanitiza o nome do arquivo para evitar caracteres especiais, espaços, acentos e parênteses que quebram o Supabase Storage (S3)
+        const rawFilename = req.file.originalname;
+        const filename = rawFilename
+            .normalize('NFD')                     // Remove acentos (ex: 'até' -> 'ate')
+            .replace(/[\u0300-\u036f]/g, '')      // Limpa os caracteres diacríticos
+            .replace(/[^a-zA-Z0-9.\-_]/g, '_');   // Substitui tudo que não for alfanumérico por underscore (_)
 
         // 1. Faz upload do certificado PFX para a pasta privada do tenant no storage
         const { error: uploadError } = await supabase.storage
