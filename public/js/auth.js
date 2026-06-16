@@ -1,6 +1,26 @@
 // public/js/auth.js
 // Lógica de Autenticação do Cliente SaaS
 
+// Interceptador global do fetch para injetar o token JWT do Supabase
+const originalFetch = window.fetch;
+window.fetch = async function (resource, options = {}) {
+    const url = typeof resource === 'string' ? resource : (resource ? resource.url : '');
+    if (url && (url.startsWith('/api/') || url.includes('/api/'))) {
+        const token = localStorage.getItem('sb_access_token');
+        if (token) {
+            if (!options.headers) {
+                options.headers = {};
+            }
+            if (options.headers instanceof Headers) {
+                options.headers.set('Authorization', `Bearer ${token}`);
+            } else {
+                options.headers['Authorization'] = `Bearer ${token}`;
+            }
+        }
+    }
+    return originalFetch(resource, options);
+};
+
 const toast = document.getElementById('toast');
 
 function showToast(message, type = 'success') {
