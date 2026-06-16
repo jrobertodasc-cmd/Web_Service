@@ -94,20 +94,28 @@ function montarXmlLote(listaGuias, dadosEmpresa) {
         let xmlCamposExtras = '';
         let camposExtras = [];
 
-        // Regras específicas de campos extras por UF favorecida
+        // Código do campo extra para a Chave de Acesso NFe conforme a UF
+        let codigoCampoChave = 55; // Padrão recomendado pela maioria das UFs
         if (guia.ufFavorecida === 'MA') {
-            camposExtras.push({ codigo: 94, valor: guia.chaveAcessoNfe });
+            codigoCampoChave = 94;
         } else if (guia.ufFavorecida === 'MS') {
-            camposExtras.push({ codigo: 88, valor: guia.chaveAcessoNfe });
-        } else if (guia.ufFavorecida === 'RJ') {
-            camposExtras.push({ codigo: 55, valor: guia.chaveAcessoNfe });
-            if (guia.dataEmissaoRJ) {
-                camposExtras.push({ codigo: 117, valor: guia.dataEmissaoRJ });
-            }
-        } else {
+            codigoCampoChave = 88;
+        } else if (guia.ufFavorecida === 'PR') {
+            codigoCampoChave = 107;
+        } else if (guia.ufFavorecida === 'SC') {
+            codigoCampoChave = 84;
+        }
+
+        // PE não exige campos adicionais para a receita 100102
+        if (guia.ufFavorecida !== 'PE') {
             if (guia.chaveAcessoNfe) {
-                camposExtras.push({ codigo: 55, valor: guia.chaveAcessoNfe });
+                camposExtras.push({ codigo: codigoCampoChave, valor: guia.chaveAcessoNfe });
             }
+        }
+
+        // Caso especial do Rio de Janeiro com a data de emissão
+        if (guia.ufFavorecida === 'RJ' && guia.dataEmissaoRJ) {
+            camposExtras.push({ codigo: 117, valor: guia.dataEmissaoRJ });
         }
 
         if (camposExtras.length > 0) {
@@ -122,15 +130,19 @@ function montarXmlLote(listaGuias, dadosEmpresa) {
             xmlCamposExtras += '\n                </camposExtras>';
         }
 
-        // Rio de Janeiro exige documento de origem no DIFAL por operação
+        // Determina o tipo de documento de origem e o valor
+        let tipoDoc = guia.tipoDocumentoOrigem || '10';
+        let numDoc = guia.documentoOrigem;
+
+        // Estados que exigem CHAVE DO DFe (tipo 24) no documentoOrigem
+        const ufsExigemChaveDocOrigem = ['RJ', 'SC', 'PE'];
+        if (ufsExigemChaveDocOrigem.includes(guia.ufFavorecida)) {
+            tipoDoc = '24';
+            numDoc = guia.chaveAcessoNfe;
+        }
+
         let xmlDocOrigem = '';
-        if (guia.documentoOrigem) {
-            let tipoDoc = guia.tipoDocumentoOrigem || '10';
-            let numDoc = guia.documentoOrigem;
-            if (guia.ufFavorecida === 'RJ') {
-                tipoDoc = '24'; // CHAVE DO DFe (exigido pela SEFAZ-RJ)
-                numDoc = guia.chaveAcessoNfe; // A chave de 44 dígitos
-            }
+        if (numDoc) {
             xmlDocOrigem = `\n                <documentoOrigem tipo="${tipoDoc}">${numDoc}</documentoOrigem>`;
         }
 
