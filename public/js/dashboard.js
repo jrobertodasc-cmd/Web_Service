@@ -343,18 +343,22 @@ async function carregarDetalhesLote(batchId) {
             return;
         }
 
-        guidesBody.innerHTML = batch.guides.map(g => `
-            <tr>
-                <td>NF ${g.nf_number}</td>
-                <td><span class="badge badge-success">${g.uf}</span></td>
-                <td>R$ ${parseFloat(g.value).toFixed(2).replace('.', ',')}</td>
-                <td>
-                    <a href="/api/guide/download/${g.id}" target="_blank" class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;">
-                        📄 Abrir Guia HTML
-                    </a>
-                </td>
-            </tr>
-        `).join('');
+        guidesBody.innerHTML = batch.guides.map(g => {
+            const isPdf = g.storage_path && g.storage_path.toLowerCase().endsWith('.pdf');
+            const btnText = isPdf ? '📄 Abrir Guia PDF' : '📄 Abrir Guia HTML';
+            return `
+                <tr>
+                    <td>NF ${g.nf_number}</td>
+                    <td><span class="badge badge-success">${g.uf}</span></td>
+                    <td>R$ ${parseFloat(g.value).toFixed(2).replace('.', ',')}</td>
+                    <td>
+                        <a href="/api/guide/download/${g.id}" target="_blank" class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;">
+                            ${btnText}
+                        </a>
+                    </td>
+                </tr>
+            `;
+        }).join('');
 
     } catch (e) {
         showToast("Erro ao abrir detalhes do lote.", 'error');

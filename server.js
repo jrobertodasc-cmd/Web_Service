@@ -13,6 +13,7 @@ const path = require('path');
 const parserService = require('./services/parser_service');
 const cnabService = require('./services/cnab_service');
 const gnreService = require('./services/gnre_service');
+const duaEsService = require('./services/dua_es_service');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -782,7 +783,7 @@ app.get('/api/guide/download/:guideId', requireAuth, async (req, res) => {
             .single();
 
         if (error || !guide) {
-            return res.status(404).json({ error: "Guia GNRE não encontrada." });
+            return res.status(404).json({ error: "Guia não encontrada." });
         }
 
         const { data, error: downloadError } = await supabase.storage
@@ -790,10 +791,15 @@ app.get('/api/guide/download/:guideId', requireAuth, async (req, res) => {
             .download(guide.storage_path);
 
         if (downloadError || !data) {
-            return res.status(404).json({ error: "HTML da guia não encontrado no armazenamento." });
+            return res.status(404).json({ error: "Arquivo da guia não encontrado no armazenamento." });
         }
 
-        res.setHeader('Content-Type', 'text/html');
+        const isPdf = guide.storage_path && guide.storage_path.toLowerCase().endsWith('.pdf');
+        res.setHeader('Content-Type', isPdf ? 'application/pdf' : 'text/html');
+        if (isPdf) {
+            res.setHeader('Content-Disposition', `inline; filename="guia_NF_${guide.nf_number}.pdf"`);
+        }
+        
         const buffer = Buffer.from(await data.arrayBuffer());
         return res.send(buffer);
     } catch (err) {
@@ -825,7 +831,9 @@ app.get('/api/guide/download-all/:batchId', requireAuth, async (req, res) => {
 
                 if (!downloadError && data) {
                     const buffer = Buffer.from(await data.arrayBuffer());
-                    const filename = `guia_NF_${guide.nf_number}_${guide.uf}.html`;
+                    const isPdf = guide.storage_path && guide.storage_path.toLowerCase().endsWith('.pdf');
+                    const extension = isPdf ? 'pdf' : 'html';
+                    const filename = `guia_NF_${guide.nf_number}_${guide.uf}.${extension}`;
                     zip.addFile(filename, buffer);
                 }
             } catch (err) {
@@ -1192,6 +1200,53 @@ function runBatchProcessInBackground(batchId, tenant, filesData, paymentDate) {
                         
                         resultadoUf = { guias: xmlGuiasSpDraft, recibo: `XML_SP_${batchId}` };
 
+                    } else if (uf === 'ES') {
+                        // Caso especial Espírito Santo: transmite as guias via WSDL DUA-e e obtém o PDF
+                        log(`[${uf}] 🌐 Detectada UF Espírito Santo (ES). Transmitindo guias via Web Service DUA-e da SEFAZ-ES...`);
+                        
+                        let xmlGuiasEs = [];
+                        for (const nota of notasPorUf[uf]) {
+                            try {
+                                log(`[${uf}] Enviando pedido de emissão para Nota nº ${nota.documentoOrigem}...`);
+                                const { nDua, nBar } = await duaEsService.transmitirEmissao(nota, agent, tenant.environment);
+                                log(`[${uf}] ✔ DUA nº ${nDua} emitida com sucesso! Baixando arquivo PDF oficial...`);
+                                
+                                const pdfBuffer = await duaEsService.transmitirObterPdf(nDua, nota.destCnpjCpf, agent, tenant.environment);
+                                
+                                const remotePath = `${tenant.id}/guias/guia_NF_${nota.documentoOrigem}.pdf`;
+                                const { error: uploadPdfError } = await supabase.storage
+                                    .from('tenant-storage')
+                                    .upload(remotePath, pdfBuffer, {
+                                        contentType: 'application/pdf',
+                                        upsert: true
+                                    });
+                                    
+                                if (uploadPdfError) {
+                                    log(`[${uf}] ⚠ Erro ao enviar PDF da guia NF ${nota.documentoOrigem} para o Storage: ${uploadPdfError.message}`);
+                                } else {
+                                    log(`[${uf}] ✔ PDF da guia NF ${nota.documentoOrigem} salvo no Storage.`);
+                                }
+                                
+                                xmlGuiasEs.push({
+                                    ufFavorecida: 'ES',
+                                    codigoReceita: '3867', // DIFAL
+                                    documentoOrigem: nota.documentoOrigem,
+                                    dataVencimento: nota.dataVencimento,
+                                    valor: nota.valor,
+                                    linhaDigitavel: nBar,
+                                    codigoBarras: nBar,
+                                    situacaoGuia: '0',
+                                    storage_path: remotePath,
+                                    isPdf: true
+                                });
+                            } catch (errorGuia) {
+                                log(`[${uf}] ❌ Falha na emissão da Nota nº ${nota.documentoOrigem}: ${errorGuia.message}`);
+                                throw errorGuia;
+                            }
+                        }
+                        
+                        resultadoUf = { guias: xmlGuiasEs, recibo: `DUA_ES_${batchId}` };
+
                     } else {
                         // Envio real para outros estados
                         const recibo = await gnreService.enviarLote(notasPorUf[uf], agent, uf, tenant.environment, tenant, logsDir);
@@ -1331,6 +1386,9 @@ function runBatchProcessInBackground(batchId, tenant, filesData, paymentDate) {
             await fs.mkdir(guiasEmitidasDir, { recursive: true });
 
             for (const guia of todasGuias) {
+                if (guia.isPdf) {
+                    continue;
+                }
                 const nota = notasFiscais.find(n => n.documentoOrigem === guia.documentoOrigem);
                 const htmlGuia = gnreService.exportarGuiaHtml(dadosBancarios, guia, nota);
                 
