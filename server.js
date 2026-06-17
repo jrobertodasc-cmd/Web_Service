@@ -28,10 +28,23 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use((req, res, next) => {
+    console.log(`[Request] ${req.method} ${req.url} - Cookie: ${!!req.cookies?.sb_access_token} - AuthHeader: ${!!req.headers.authorization}`);
+    next();
+});
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Estado das tarefas ativas em processamento na memória para exibição em tempo real
 const activeTasks = {};
+
+const PLAN_LIMITS = {
+    'trial': 10,
+    'starter': 100,
+    'pro': 500,
+    'advanced': 1500,
+    'inativo': 0,
+    'ativo': 500 // fallback
+};
 
 // ==========================================
 // FUNÇÕES AUXILIARES DE CRIPTOGRAFIA
@@ -64,12 +77,14 @@ function decrypt(text, secretKey) {
 const requireAuth = async (req, res, next) => {
     const token = req.cookies?.sb_access_token || req.headers.authorization?.split(' ')[1];
     if (!token) {
+        console.error("[Auth] No token found in cookies or authorization headers");
         return res.status(401).json({ error: "Não autorizado. Por favor, faça login." });
     }
     
     try {
         const { data: { user }, error: authError } = await supabase.auth.getUser(token);
         if (authError || !user) {
+            console.error("[Auth] getUser failed. Error:", authError?.message || "No user found for token");
             return res.status(401).json({ error: "Sessão inválida ou expirada." });
         }
 
@@ -81,14 +96,21 @@ const requireAuth = async (req, res, next) => {
             .single();
 
         if (profileError || !profile || !profile.tenants) {
+            console.error("[Auth] Profile or tenant lookup failed. Profile Error:", profileError?.message || "None", "Profile found:", !!profile, "Tenant found:", !!(profile && profile.tenants));
             return res.status(401).json({ error: "Perfil de usuário ou empresa não configurados." });
+        }
+
+        let tenant = profile.tenants;
+        if (Array.isArray(tenant)) {
+            tenant = tenant[0];
         }
 
         req.user = user;
         req.profile = profile;
-        req.tenant = profile.tenants;
+        req.tenant = tenant;
         next();
     } catch (err) {
+        console.error("[Auth] Exception in requireAuth:", err.message);
         return res.status(401).json({ error: "Erro de autenticação: " + err.message });
     }
 };
@@ -133,7 +155,7 @@ app.post('/api/auth/register', async (req, res) => {
                 bank_account: '00000',
                 bank_dac: '0',
                 environment: 'simulado',
-                subscription_status: 'ativo'
+                subscription_status: 'trial'
             })
             .select()
             .single();
@@ -302,7 +324,28 @@ app.post('/api/tenant/upload-pfx', requireAuth, upload.single('pfx'), async (req
     }
 });
 
-// ==========================================
+app.post('/api/tenant/plan', requireAuth, async (req, res) => {
+    const { plan } = req.body;
+    const validPlans = ['trial', 'starter', 'pro', 'advanced', 'ativo'];
+    if (!plan || !validPlans.includes(plan)) {
+        return res.status(400).json({ error: "Plano selecionado inválido." });
+    }
+
+    try {
+        const { error } = await supabase
+            .from('tenants')
+            .update({ subscription_status: plan })
+            .eq('id', req.tenant.id);
+
+        if (error) throw error;
+
+        return res.status(200).json({ message: "Plano de assinatura atualizado com sucesso!", plan });
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+});
+
+// ==========================================================
 // ROTAS DE PROCESSAMENTO DE GNRE (LOTE)
 // ==========================================
 app.post('/api/batch/process', requireAuth, requireActiveSubscription, upload.array('files'), async (req, res) => {
@@ -344,6 +387,31 @@ app.post('/api/batch/process', requireAuth, requireActiveSubscription, upload.ar
                 content: file.buffer.toString('utf8'),
                 path: null
             }));
+        }
+
+        // Verificação de Limites de Emissão do Plano (Bypass para administradores)
+        const isAdmin = req.profile && req.profile.is_admin;
+        if (!isAdmin) {
+            const planLimit = PLAN_LIMITS[req.tenant.subscription_status] || PLAN_LIMITS['ativo'];
+            
+            const inicioDoMes = new Date();
+            inicioDoMes.setDate(1);
+            inicioDoMes.setHours(0, 0, 0, 0);
+
+            const { count, error: countError } = await supabase
+                .from('guides')
+                .select('*', { count: 'exact', head: true })
+                .eq('tenant_id', req.tenant.id)
+                .gte('created_at', inicioDoMes.toISOString());
+
+            if (countError) throw countError;
+
+            const totalProjetado = (count || 0) + filesData.length;
+            if (totalProjetado > planLimit) {
+                return res.status(403).json({
+                    error: `Limite de emissões do plano excedido. Seu plano atual (${req.tenant.subscription_status || 'ativo'}) permite até ${planLimit} guias/mês. Você já emitiu ${count || 0} guias este mês e esta operação com ${filesData.length} guias excederá o limite máximo de ${planLimit}. Por favor, faça um upgrade do seu plano no menu 'Planos' para continuar.`
+                });
+            }
         }
 
         // 1. Cria um registro de lote com status 'processando'
@@ -391,6 +459,9 @@ app.get('/api/batch/status/:batchId', requireAuth, async (req, res) => {
         // Complementa a resposta com logs dinâmicos de memória se estiver processando
         const taskInfo = activeTasks[batch.id] || { logs: [], progress: batch.status === 'sucesso' ? 100 : 0 };
 
+        // Verifica se há XML de São Paulo gerado neste lote
+        const hasSpXml = req.tenant.environment === 'producao' && batch.guides && batch.guides.some(g => g.uf === 'SP');
+
         return res.status(200).json({
             id: batch.id,
             status: batch.status,
@@ -399,8 +470,32 @@ app.get('/api/batch/status/:batchId', requireAuth, async (req, res) => {
             created_at: batch.created_at,
             progress: taskInfo.progress,
             logs: taskInfo.logs,
-            guides: batch.guides
+            guides: batch.guides,
+            has_sp_xml: !!hasSpXml
         });
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+});
+
+// Endpoint para baixar o lote XML de São Paulo (SP)
+app.get('/api/batch/download-xml/:batchId', requireAuth, async (req, res) => {
+    const { batchId } = req.params;
+    const tenant = req.tenant;
+
+    try {
+        const { data: fileData, error: downloadError } = await supabase.storage
+            .from('tenant-storage')
+            .download(`${tenant.id}/lotes_sp/lote_sp_${batchId}.xml`);
+
+        if (downloadError || !fileData) {
+            return res.status(404).json({ error: "Arquivo XML de lote para São Paulo não localizado ou não disponível." });
+        }
+
+        const buffer = Buffer.from(await fileData.arrayBuffer());
+        res.setHeader('Content-Type', 'application/xml');
+        res.setHeader('Content-Disposition', `attachment; filename="lote_sp_gnre_${batchId}.xml"`);
+        return res.send(buffer);
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }
@@ -1058,11 +1153,50 @@ function runBatchProcessInBackground(batchId, tenant, filesData, paymentDate) {
                         log(`[${uf}] 🧪 Simulação concluída com sucesso!`);
                         resultadoUf = { guias: guiasExt, recibo: `999123456789${uf}` };
 
+                    } else if (uf === 'SP') {
+                        // Caso especial São Paulo: gera o XML bruto de lote para upload manual na SEFAZ-SP
+                        log(`[${uf}] 🌐 Detectada UF São Paulo (SP). Gerando arquivo XML de lote para importação manual no portal da SEFAZ-SP...`);
+                        
+                        const spXml = gnreService.gerarXmlLoteRaw(notasPorUf[uf], tenant);
+                        const spXmlFilename = `lote_sp_${batchId}.xml`;
+                        const spXmlPath = `${tenant.id}/lotes_sp/${spXmlFilename}`;
+                        
+                        const { error: uploadSpError } = await supabase.storage
+                            .from('tenant-storage')
+                            .upload(spXmlPath, Buffer.from(spXml, 'utf-8'), {
+                                contentType: 'application/xml',
+                                upsert: true
+                            });
+                            
+                        if (uploadSpError) {
+                            log(`[${uf}] ⚠ Erro ao persistir lote XML no Storage: ${uploadSpError.message}`);
+                        } else {
+                            log(`[${uf}] ✔ Lote XML para São Paulo (SP) persistido com sucesso no Storage.`);
+                        }
+
+                        // Gera guias simuladas com instruções para o usuário
+                        let xmlGuiasSpDraft = [];
+                        notasPorUf[uf].forEach((nota, idx) => {
+                            xmlGuiasSpDraft.push({
+                                ufFavorecida: 'SP',
+                                codigoReceita: nota.codigoReceita,
+                                documentoOrigem: nota.documentoOrigem,
+                                dataVencimento: nota.dataVencimento,
+                                valor: nota.valor,
+                                linhaDigitavel: 'Importar lote XML na SEFAZ-SP',
+                                codigoBarras: 'IMPORTAR_NO_SEFAZ_SP',
+                                situacaoGuia: '0',
+                                error_message: 'Importe o lote XML na SEFAZ-SP e insira os dados manualmente para pagamento ou CNAB'
+                            });
+                        });
+                        
+                        resultadoUf = { guias: xmlGuiasSpDraft, recibo: `XML_SP_${batchId}` };
+
                     } else {
-                        // Envio real
+                        // Envio real para outros estados
                         const recibo = await gnreService.enviarLote(notasPorUf[uf], agent, uf, tenant.environment, tenant, logsDir);
                         log(`[${uf}] Lote recebido! Recibo nº ${recibo}. Aguardando processamento da SEFAZ...`);
-
+ 
                         // Salva o recibo no banco imediatamente para caso dê timeout na consulta posterior
                         const itemRecibo = `${uf}:${recibo}`;
                         if (!recibosEfetuados.includes(itemRecibo)) {
@@ -1072,16 +1206,16 @@ function runBatchProcessInBackground(batchId, tenant, filesData, paymentDate) {
                             .from('batches')
                             .update({ receipt: recibosEfetuados.join(', ') })
                             .eq('id', batchId);
-
+ 
                         let dadosGuias = null;
                         let tentativas = 0;
                         const maxTentativas = 30; // Aumentado de 15 para 30 tentativas (mais tempo para filas lentas)
-
+ 
                         while (tentativas < maxTentativas) {
                             const segundos = tentativas === 0 ? 8 : 5;
                             log(`[${uf}] Aguardando ${segundos}s (Tentativa ${tentativas + 1}/${maxTentativas})...`);
                             await new Promise(r => setTimeout(r, segundos * 1000));
-
+ 
                             let xmlConsulta = '';
                             try {
                                 xmlConsulta = await gnreService.consultarLote(recibo, agent, uf, tenant.environment, logsDir);
@@ -1090,13 +1224,13 @@ function runBatchProcessInBackground(batchId, tenant, filesData, paymentDate) {
                                 tentativas++;
                                 continue;
                             }
-
+ 
                             const sitProcess = parserService.extrairTag(xmlConsulta, 'situacaoProcess');
                             const codSit = sitProcess ? parserService.extrairTag(sitProcess, 'codigo') : null;
                             const descSit = sitProcess ? parserService.extrairTag(sitProcess, 'descricao') : '';
-
+ 
                             const processando = !codSit || ['401', '103', '105'].includes(codSit) || (descSit.toLowerCase().includes('processamento') && !['402', '403', '404'].includes(codSit));
-
+ 
                             if (processando) {
                                 log(`[${uf}] Lote ainda na fila de processamento governamental...`);
                                 tentativas++;
@@ -1106,11 +1240,11 @@ function runBatchProcessInBackground(batchId, tenant, filesData, paymentDate) {
                                 break;
                             }
                         }
-
+ 
                         if (!dadosGuias) {
                             throw new Error("Limite de tempo esgotado aguardando retorno da SEFAZ.");
                         }
-
+ 
                         resultadoUf = { guias: dadosGuias, recibo };
                     }
 

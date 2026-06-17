@@ -1,0 +1,11 @@
+node_modules/
+.env
+remessa.txt
+guias_emitidas/
+xml_gerados/
+xml_logs/
+xml_nfe/
+xml_nfe_backup/
+CERTIFICADOS/
+*.log
+*.pdf

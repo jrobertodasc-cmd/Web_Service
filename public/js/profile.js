@@ -86,20 +86,21 @@ async function carregarDados() {
         }
 
         const data = await res.json();
+        const tenant = Array.isArray(data.tenant) ? data.tenant[0] : data.tenant;
         
         // Preenche campos cadastrais/bancários
-        document.getElementById('cnpj').value = data.tenant.cnpj || '';
-        document.getElementById('razao_social').value = data.tenant.razao_social || '';
-        document.getElementById('bank_agency').value = data.tenant.bank_agency || '';
-        document.getElementById('bank_account').value = data.tenant.bank_account || '';
-        document.getElementById('bank_dac').value = data.tenant.bank_dac || '';
-        document.getElementById('environment').value = data.tenant.environment || 'simulado';
+        document.getElementById('cnpj').value = (tenant && tenant.cnpj) || '';
+        document.getElementById('razao_social').value = (tenant && tenant.razao_social) || '';
+        document.getElementById('bank_agency').value = (tenant && tenant.bank_agency) || '';
+        document.getElementById('bank_account').value = (tenant && tenant.bank_account) || '';
+        document.getElementById('bank_dac').value = (tenant && tenant.bank_dac) || '';
+        document.getElementById('environment').value = (tenant && tenant.environment) || 'simulado';
 
         // Preenche status do certificado digital PFX
         const pfxStatus = document.getElementById('pfx-status');
         if (pfxStatus) {
-            if (data.tenant.pfx_filename) {
-                pfxStatus.innerHTML = `<span style="color: var(--success);">✔ Certificado Ativo:</span> <strong>${data.tenant.pfx_filename}</strong>`;
+            if (tenant && tenant.pfx_filename) {
+                pfxStatus.innerHTML = `<span style="color: var(--success);">✔ Certificado Ativo:</span> <strong>${tenant.pfx_filename}</strong>`;
             } else {
                 pfxStatus.innerHTML = `<span style="color: var(--danger);">⚠ Nenhum certificado digital PFX cadastrado.</span>`;
             }

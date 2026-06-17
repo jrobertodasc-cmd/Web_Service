@@ -74,9 +74,9 @@ const limparTexto = (txt) => String(txt || '')
     .toUpperCase();
 
 /**
- * Monta o lote XML de envio de guias GNRE
+ * Constrói a string XML interna com a lista de guias <TDadosGNRE>
  */
-function montarXmlLote(listaGuias, dadosEmpresa) {
+function construirXmlGuias(listaGuias, dadosEmpresa) {
     let xmlGuias = '';
     const hoje = new Date().toISOString().split('T')[0];
 
@@ -198,7 +198,14 @@ function montarXmlLote(listaGuias, dadosEmpresa) {
             <dataPagamento>${guia.dataPagamento || hoje}</dataPagamento>
           </TDadosGNRE>`;
     }
+    return xmlGuias;
+}
 
+/**
+ * Monta o lote XML de envio de guias GNRE (com envelope SOAP para webservice)
+ */
+function montarXmlLote(listaGuias, dadosEmpresa) {
+    const xmlGuias = construirXmlGuias(listaGuias, dadosEmpresa);
     return `<?xml version="1.0" encoding="utf-8"?>
 <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
   <soap12:Header>
@@ -215,6 +222,18 @@ function montarXmlLote(listaGuias, dadosEmpresa) {
     </gnreDadosMsg>
   </soap12:Body>
 </soap12:Envelope>`.trim();
+}
+
+/**
+ * Gera o XML de lote GNRE puro (sem envelope SOAP, para importação em portais como SEFAZ-SP)
+ */
+function gerarXmlLoteRaw(listaGuias, dadosEmpresa) {
+    const xmlGuias = construirXmlGuias(listaGuias, dadosEmpresa);
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<TLote_GNRE xmlns="http://www.gnre.pe.gov.br" versao="2.00">
+  <guias>${xmlGuias}
+  </guias>
+</TLote_GNRE>`.trim();
 }
 
 /**
@@ -529,5 +548,6 @@ module.exports = {
     gerarSvgI25,
     formatarLinhaDigitavelVisual,
     formatarDataVisual,
-    formatarMoedaVisual
+    formatarMoedaVisual,
+    gerarXmlLoteRaw
 };

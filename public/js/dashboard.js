@@ -156,6 +156,8 @@ function resetTerminal() {
     const prog = document.getElementById('processing-progress');
     if (prog) prog.classList.remove('d-none');
     setProgresso(0);
+    const spXmlBtn = document.getElementById('download-sp-xml-btn');
+    if (spXmlBtn) spXmlBtn.classList.add('d-none');
 }
 
 function setProgresso(perc) {
@@ -229,13 +231,14 @@ async function carregarDadosDashboard() {
         }
 
         const data = await res.json();
+        const tenant = Array.isArray(data.tenant) ? data.tenant[0] : data.tenant;
         
         document.getElementById('tenant-name').textContent = data.user.name;
-        document.getElementById('active-env').textContent = data.tenant.environment === 'producao' ? '🚀 Produção' : '🧪 Simulado';
-        document.getElementById('active-env').className = data.tenant.environment === 'producao' ? 'badge badge-success' : 'badge badge-warning';
+        document.getElementById('active-env').textContent = (tenant && tenant.environment === 'producao') ? '🚀 Produção' : '🧪 Simulado';
+        document.getElementById('active-env').className = (tenant && tenant.environment === 'producao') ? 'badge badge-success' : 'badge badge-warning';
         
         // CNPJ formatado
-        const cnpj = data.tenant.cnpj || '';
+        const cnpj = (tenant && tenant.cnpj) || '';
         document.getElementById('company-cnpj').textContent = cnpj.length === 14 
             ? cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, "$1.$2.$3/$4-$5")
             : cnpj;
@@ -308,6 +311,7 @@ async function carregarDetalhesLote(batchId) {
         const guidesBody = document.getElementById('guides-table-body');
         const remessaBtn = document.getElementById('download-remessa-btn');
         const guiasAllBtn = document.getElementById('download-guias-all-btn');
+        const spXmlBtn = document.getElementById('download-sp-xml-btn');
 
         if (!detailsSection || !guidesBody) return;
 
@@ -320,6 +324,14 @@ async function carregarDetalhesLote(batchId) {
         remessaBtn.href = `/api/remessa/download/${batch.id}`;
         if (guiasAllBtn) {
             guiasAllBtn.href = `/api/guide/download-all/${batch.id}`;
+        }
+        if (spXmlBtn) {
+            if (batch.has_sp_xml) {
+                spXmlBtn.href = `/api/batch/download-xml/${batch.id}`;
+                spXmlBtn.classList.remove('d-none');
+            } else {
+                spXmlBtn.classList.add('d-none');
+            }
         }
         const receiptsContainer = document.getElementById('batch-receipts-container');
         if (receiptsContainer) {

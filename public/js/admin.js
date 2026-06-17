@@ -5,7 +5,8 @@ let allTenants = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. Valida se o usuário é administrador
-    await validarAcessoAdmin();
+    const isAdmin = await validarAcessoAdmin();
+    if (!isAdmin) return;
 
     // 2. Carrega lista de empresas (Tenants)
     await carregarEmpresas();
@@ -82,12 +83,13 @@ async function validarAcessoAdmin() {
         if (!res.ok) {
             localStorage.removeItem('sb_access_token');
             window.location.href = '/login.html';
-            return;
+            return false;
         }
 
         const data = await res.json();
-        if (!data.user || !data.tenant || !data.user.id || !data.tenant.id) {
-             throw new Error();
+        const tenant = Array.isArray(data.tenant) ? data.tenant[0] : data.tenant;
+        if (!data.user || !tenant || !data.user.id || !tenant.id) {
+             throw new Error("Dados de autenticação inválidos.");
         }
         
         // Verifica se é administrador
@@ -96,9 +98,13 @@ async function validarAcessoAdmin() {
             setTimeout(() => {
                 window.location.href = '/index.html';
             }, 1500);
+            return false;
         }
+        return true;
     } catch (e) {
+        localStorage.removeItem('sb_access_token');
         window.location.href = '/login.html';
+        return false;
     }
 }
 
@@ -122,11 +128,26 @@ async function carregarEmpresas() {
         tbody.innerHTML = allTenants.map(t => {
             const dataFmt = new Date(t.created_at).toLocaleDateString('pt-BR');
             const cnpFmt = t.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, "$1.$2.$3/$4-$5");
-            const statusClass = t.subscription_status === 'ativo' ? 'badge-success' : 'badge-danger';
-            const statusLabel = t.subscription_status === 'ativo' ? 'Ativo' : 'Bloqueado';
             
-            const btnText = t.subscription_status === 'ativo' ? '🔒 Bloquear' : '🔓 Liberar';
-            const targetStatus = t.subscription_status === 'ativo' ? 'inativo' : 'ativo';
+            let statusClass = 'badge-danger';
+            let statusLabel = 'Bloqueado';
+            
+            if (t.subscription_status === 'trial') {
+                statusClass = 'badge-warning';
+                statusLabel = 'Trial';
+            } else if (t.subscription_status === 'starter') {
+                statusClass = 'badge-success';
+                statusLabel = 'Starter';
+            } else if (t.subscription_status === 'pro') {
+                statusClass = 'badge-success';
+                statusLabel = 'Pro';
+            } else if (t.subscription_status === 'advanced') {
+                statusClass = 'badge-success';
+                statusLabel = 'Advanced';
+            } else if (t.subscription_status === 'ativo') {
+                statusClass = 'badge-success';
+                statusLabel = 'Ativo';
+            }
 
             return `
                 <tr>
@@ -137,9 +158,14 @@ async function carregarEmpresas() {
                     <td><span class="badge ${t.environment === 'producao' ? 'badge-success' : 'badge-warning'}">${t.environment}</span></td>
                     <td><span class="badge ${statusClass}">${statusLabel}</span></td>
                     <td>
-                        <button onclick="alterarStatusEmpresa('${t.id}', '${targetStatus}')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;">
-                            ${btnText}
-                        </button>
+                        <select onchange="alterarStatusEmpresa('${t.id}', this.value)" style="background: rgba(15, 20, 32, 0.9); color: var(--text-main); border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 6px; font-size: 11px; cursor: pointer;">
+                            <option value="inativo" ${t.subscription_status === 'inativo' ? 'selected' : ''}>🔒 Bloqueado / Inativo</option>
+                            <option value="trial" ${t.subscription_status === 'trial' ? 'selected' : ''}>⏳ Trial (10 guias)</option>
+                            <option value="starter" ${t.subscription_status === 'starter' ? 'selected' : ''}>Starter (100 guias)</option>
+                            <option value="pro" ${t.subscription_status === 'pro' ? 'selected' : ''}>Pro (500 guias)</option>
+                            <option value="advanced" ${t.subscription_status === 'advanced' ? 'selected' : ''}>Advanced (1500 guias)</option>
+                            <option value="ativo" ${t.subscription_status === 'ativo' ? 'selected' : ''}>Ativo (Geral)</option>
+                        </select>
                     </td>
                 </tr>
             `;

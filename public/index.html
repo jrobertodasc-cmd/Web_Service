@@ -20,6 +20,7 @@
                 <span id="tenant-name" style="font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-right: 10px;"></span>
                 <a href="/index.html" class="nav-btn active">Faturamento</a>
                 <a href="/profile.html" class="nav-btn">Empresa</a>
+                <a href="/plans.html" class="nav-btn">Planos</a>
                 <a href="/admin.html" id="admin-nav-link" class="nav-btn d-none">Administração</a>
                 <button onclick="logout()" class="nav-btn" style="cursor: pointer; border: none; background: transparent;">Sair</button>
             </div>
@@ -134,6 +135,9 @@
                     <div class="flex-between mb-4 mt-4">
                         <strong style="font-size: 13px; color: var(--text-secondary);">AÇÕES DO LOTE:</strong>
                         <div style="display: flex; gap: 8px;">
+                            <a id="download-sp-xml-btn" href="#" class="btn btn-secondary d-none" style="padding: 6px 12px; font-size: 12px; border-color: var(--warning); color: var(--warning); font-weight: 500;">
+                                📥 Baixar XML de Lote para São Paulo (SP)
+                            </a>
                             <a id="download-guias-all-btn" href="#" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; font-weight: 500;">
                                 📦 Baixar Todas as Guias (ZIP)
                             </a>
