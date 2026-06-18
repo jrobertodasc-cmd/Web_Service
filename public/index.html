@@ -695,6 +695,86 @@
                 font-size: 40px;
             }
         }
+
+        @media (max-width: 768px) {
+            .landing-header {
+                padding: 16px;
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+                position: relative;
+            }
+            
+            .landing-logo h1 {
+                font-size: 22px;
+            }
+
+            .landing-logo p {
+                font-size: 10px;
+            }
+
+            .landing-nav {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            /* Hide anchor links in navigation on mobile to avoid squeezing */
+            .landing-nav a:not(.nav-btn):not(.btn) {
+                display: none;
+            }
+
+            .hero-section {
+                margin: 40px auto 20px auto;
+            }
+
+            .hero-title {
+                font-size: 32px;
+                line-height: 1.25;
+            }
+
+            .hero-subtitle {
+                font-size: 15px;
+                margin-bottom: 28px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+                gap: 12px;
+                margin-bottom: 40px;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
+                text-align: center;
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+
+            .flow-mockup {
+                padding: 20px 16px;
+                margin-bottom: 60px;
+            }
+
+            .features-grid, .cobertura-section, .pricing-section, .faq-section {
+                margin-bottom: 60px;
+            }
+
+            .feature-card, .cobertura-card, .pricing-card-landing {
+                padding: 24px 20px;
+            }
+
+            .section-title h2 {
+                font-size: 28px;
+            }
+
+            .section-title p {
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
