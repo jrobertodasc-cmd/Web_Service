@@ -1,0 +1,234 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex GNRE - Painel Principal</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <div class="logo-area">
+                <h1>Apex GNRE SaaS</h1>
+                <p>Painel de Controle de Faturamento e Emissões</p>
+            </div>
+            <div class="nav-links">
+                <span id="tenant-name" style="font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-right: 10px;"></span>
+                <a href="/dashboard.html" class="nav-btn active">Faturamento</a>
+                <a href="/profile.html" class="nav-btn">Empresa</a>
+                <a href="/plans.html" class="nav-btn">Planos</a>
+                <a href="/admin.html" id="admin-nav-link" class="nav-btn d-none">Administração</a>
+                <button onclick="logout()" class="nav-btn" style="cursor: pointer; border: none; background: transparent;">Sair</button>
+            </div>
+        </header>
+
+        <!-- GRID PRINCIPAL -->
+        <div class="grid-config" style="grid-template-columns: 1.1fr 0.9fr; gap: 28px;">
+            
+            <!-- COLUNA ESQUERDA: EMISSÃO / PROCESSAMENTO -->
+            <div class="card">
+                <div class="card-title">
+                    <span>⚡</span> Processar Guias e Remessas
+                </div>
+
+                <!-- INFORMAÇÕES DE CONTA -->
+                <div class="flex-between mb-4" style="background: rgba(255, 255, 255, 0.02); padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border-color);">
+                    <div>
+                        <span class="label">Ambiente Ativo</span>
+                        <strong id="active-env" style="text-transform: uppercase;">Carregando...</strong>
+                    </div>
+                    <div>
+                        <span class="label">Empresa</span>
+                        <strong id="company-cnpj">Carregando...</strong>
+                    </div>
+                </div>
+
+                <!-- DRAG AND DROP ZONE -->
+                <div id="xml-dropzone" class="dropzone mb-4">
+                    <span class="dropzone-icon">📥</span>
+                    <strong>Arraste os arquivos XML das Notas Fiscais aqui</strong>
+                    <span style="font-size: 12px; color: var(--text-secondary);">Ou clique para selecionar arquivos do seu computador</span>
+                    <input type="file" id="xml-input" multiple accept=".xml" class="d-none">
+                </div>
+
+                <!-- LISTA DE ARQUIVOS SELECIONADOS -->
+                <div id="selected-files" class="file-list mb-4 d-none">
+                    <!-- Arquivos inseridos via JS -->
+                </div>
+
+                <!-- DATA DE PAGAMENTO -->
+                <div class="form-group mb-4" style="max-width: 280px;">
+                    <label for="payment-date">Data de Pagamento (Remessa CNAB)</label>
+                    <input type="date" id="payment-date" required>
+                </div>
+
+                <!-- AÇÕES -->
+                <div style="display: flex; gap: 12px;" class="mb-4">
+                    <button id="btn-process-upload" class="btn btn-primary" style="flex: 1;">
+                        Processar XMLs Selecionados
+                    </button>
+                    <button id="btn-process-local" class="btn btn-secondary" title="Lê arquivos da pasta 'xml_nfe' no servidor">
+                        Processar Pasta Local (xml_nfe)
+                    </button>
+                </div>
+
+                <!-- PROGRESSO -->
+                <div id="processing-progress" class="mb-4 d-none">
+                    <div class="flex-between">
+                        <label>Progresso de Processamento</label>
+                        <span id="progress-val" style="font-weight: bold; font-size: 13px;">0%</span>
+                    </div>
+                    <div class="progress-container">
+                        <div id="progress-inner" class="progress-bar"></div>
+                    </div>
+                </div>
+
+                <!-- PAINEL DE LOGS EM TEMPO REAL -->
+                <div class="form-group">
+                    <label>Terminal de Operações (Histórico do Lote)</label>
+                    <div id="terminal-logs" class="log-container">
+                        <span class="log-line" style="color: var(--text-secondary);">Aguardando início de processamento...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLUNA DIREITA: HISTÓRICO DE LOTES -->
+            <div class="card" style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="flex-between" style="border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 4px;">
+                    <div style="font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 10px;">
+                        <span>🕒</span> Histórico de Lotes Enviados
+                    </div>
+                    <button onclick="abrirModalRecibo()" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; font-weight: 500;">
+                        🔍 Consultar Recibo Manual
+                    </button>
+                </div>
+
+                <div class="table-container" style="max-height: 250px; overflow-y: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data/Hora</th>
+                                <th>Ambiente</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table-body">
+                            <tr>
+                                <td colspan="4" class="text-center" style="color: var(--text-secondary);">Nenhum lote enviado ainda.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- DETALHES DO LOTE SELECIONADO / DOWNLOAD DAS GUIAS -->
+                <div id="batch-details-section" class="d-none" style="border-top: 1px solid var(--border-color); padding-top: 20px;">
+                    <div class="card-title" style="border-bottom: none; padding-bottom: 0; font-size: 16px;">
+                        <span>📋</span> Guias Geradas no Lote
+                    </div>
+                    <div id="batch-receipts-container" style="font-size: 12px; color: var(--text-secondary); margin-top: 4px; font-family: monospace;"></div>
+                    
+                    <div class="flex-between mb-4 mt-4">
+                        <strong style="font-size: 13px; color: var(--text-secondary);">AÇÕES DO LOTE:</strong>
+                        <div style="display: flex; gap: 8px;">
+                            <a id="download-sp-xml-btn" href="#" class="btn btn-secondary d-none" style="padding: 6px 12px; font-size: 12px; border-color: var(--warning); color: var(--warning); font-weight: 500;">
+                                📥 Baixar XML de Lote para São Paulo (SP)
+                            </a>
+                            <a id="download-guias-all-btn" href="#" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; font-weight: 500;">
+                                📦 Baixar Todas as Guias (ZIP)
+                            </a>
+                            <a id="download-remessa-btn" href="#" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">
+                                📥 Baixar remessa.txt
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="table-container" style="max-height: 220px; overflow-y: auto;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>NF</th>
+                                    <th>UF</th>
+                                    <th>Valor</th>
+                                    <th>Guia Visual</th>
+                                </tr>
+                            </thead>
+                            <tbody id="guides-table-body">
+                                <!-- Preenchido dinamicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <!-- MODAL DE CONSULTA DE RECIBO MANUAL -->
+    <div id="modal-recibo" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🔍 Consultar Recibo Manual</h3>
+                <button onclick="fecharModalRecibo()" class="modal-close">✖</button>
+            </div>
+            <form id="form-consulta-recibo" onsubmit="enviarConsultaRecibo(event)">
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <div class="form-group">
+                        <label for="recibo-uf">UF do Governo</label>
+                        <select id="recibo-uf" required>
+                            <option value="" disabled selected>Selecione a UF...</option>
+                            <option value="AC">Acre (AC)</option>
+                            <option value="AL">Alagoas (AL)</option>
+                            <option value="AP">Amapá (AP)</option>
+                            <option value="AM">Amazonas (AM)</option>
+                            <option value="BA">Bahia (BA)</option>
+                            <option value="CE">Ceará (CE)</option>
+                            <option value="DF">Distrito Federal (DF)</option>
+                            <option value="ES">Espírito Santo (ES)</option>
+                            <option value="GO">Goiás (GO)</option>
+                            <option value="MA">Maranhão (MA)</option>
+                            <option value="MT">Mato Grosso (MT)</option>
+                            <option value="MS">Mato Grosso do Sul (MS)</option>
+                            <option value="MG">Minas Gerais (MG)</option>
+                            <option value="PA">Pará (PA)</option>
+                            <option value="PB">Paraíba (PB)</option>
+                            <option value="PR">Paraná (PR)</option>
+                            <option value="PE">Pernambuco (PE)</option>
+                            <option value="PI">Piauí (PI)</option>
+                            <option value="RJ">Rio de Janeiro (RJ)</option>
+                            <option value="RN">Rio Grande do Norte (RN)</option>
+                            <option value="RS">Rio Grande do Sul (RS)</option>
+                            <option value="RO">Rondônia (RO)</option>
+                            <option value="RR">Roraima (RR)</option>
+                            <option value="SC">Santa Catarina (SC)</option>
+                            <option value="SP">São Paulo (SP)</option>
+                            <option value="SE">Sergipe (SE)</option>
+                            <option value="TO">Tocantins (TO)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="recibo-numero">Número do Recibo</label>
+                        <input type="text" id="recibo-numero" placeholder="Ex: 26000286148551" required pattern="[0-9]+" title="Digite apenas números">
+                    </div>
+                    <div class="form-group">
+                        <label for="recibo-payment-date">Data de Pagamento (Remessa CNAB)</label>
+                        <input type="date" id="recibo-payment-date" required>
+                    </div>
+                    <div style="display: flex; gap: 12px; margin-top: 10px;">
+                        <button type="button" onclick="fecharModalRecibo()" class="btn btn-secondary" style="flex: 1;">Cancelar</button>
+                        <button type="submit" id="btn-submit-recibo" class="btn btn-primary" style="flex: 1;">Consultar e Resgatar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/auth.js?v=3"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>

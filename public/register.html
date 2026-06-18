@@ -19,6 +19,16 @@
             <form id="register-form">
                 <div class="grid-form" style="grid-template-columns: 1fr;">
                     <div class="form-group">
+                        <label for="plan">Plano de Assinatura Selecionado</label>
+                        <select id="plan" required style="width: 100%; padding: 10px; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); color: var(--text-main); font-family: inherit;">
+                            <option value="trial">Trial Gratuito (10 guias/mês)</option>
+                            <option value="starter">Starter - R$ 199/mês (100 guias/mês)</option>
+                            <option value="pro">Pro - R$ 399/mês (500 guias/mês)</option>
+                            <option value="advanced">Advanced - R$ 699/mês (1500 guias/mês)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label for="name">Seu Nome Completo</label>
                         <input type="text" id="name" required placeholder="Ex: Roberto da Silva">
                     </div>
@@ -58,5 +68,17 @@
     <div id="toast" class="toast"></div>
 
     <script src="/js/auth.js?v=3"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const planParam = params.get('plan');
+            if (planParam) {
+                const planSelect = document.getElementById('plan');
+                if (planSelect) {
+                    planSelect.value = planParam;
+                }
+            }
+        });
+    </script>
 </body>
 </html>

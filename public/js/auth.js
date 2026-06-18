@@ -43,12 +43,13 @@ if (registerForm) {
         const password = document.getElementById('password').value;
         const cnpj = document.getElementById('cnpj').value;
         const razao_social = document.getElementById('razao_social').value;
+        const plan = document.getElementById('plan').value;
 
         try {
             const res = await fetch('/api/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, password, cnpj, razao_social })
+                body: JSON.stringify({ name, email, password, cnpj, razao_social, plan })
             });
 
             const data = await res.json();
@@ -92,7 +93,7 @@ if (loginForm) {
 
             showToast("Login bem-sucedido! Acessando painel...", 'success');
             setTimeout(() => {
-                window.location.href = '/index.html';
+                window.location.href = '/dashboard.html';
             }, 1000);
         } catch (err) {
             showToast(err.message, 'error');

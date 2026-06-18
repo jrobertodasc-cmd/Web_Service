@@ -127,10 +127,13 @@ const requireActiveSubscription = (req, res, next) => {
 // ROTAS DE AUTENTICAÇÃO
 // ==========================================
 app.post('/api/auth/register', async (req, res) => {
-    const { email, password, name, cnpj, razao_social } = req.body;
+    const { email, password, name, cnpj, razao_social, plan } = req.body;
     if (!email || !password || !cnpj || !razao_social) {
         return res.status(400).json({ error: "Campos obrigatórios ausentes." });
     }
+
+    const validPlans = ['trial', 'starter', 'pro', 'advanced'];
+    const finalPlan = validPlans.includes(plan) ? plan : 'trial';
 
     try {
         // 1. Cadastra no Supabase Auth usando a API admin (evita limite de envio de e-mails da conta gratuita)
@@ -156,7 +159,7 @@ app.post('/api/auth/register', async (req, res) => {
                 bank_account: '00000',
                 bank_dac: '0',
                 environment: 'simulado',
-                subscription_status: 'trial'
+                subscription_status: finalPlan
             })
             .select()
             .single();

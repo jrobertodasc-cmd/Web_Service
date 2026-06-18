@@ -4,231 +4,890 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apex GNRE - Painel Principal</title>
+    <title>Apex GNRE - Automação de Guias Fiscais (GNRE & DUA-ES)</title>
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Estilos adicionais para a Landing Page Comercial */
+        body {
+            padding: 0;
+            margin: 0;
+            background-color: #07090e;
+            overflow-y: auto;
+        }
+
+        .landing-header {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            background: rgba(7, 9, 14, 0.8);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+        }
+
+        .landing-logo h1 {
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 40%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .landing-logo p {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .landing-nav {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .landing-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .landing-nav a:hover {
+            color: var(--text-main);
+        }
+
+        .hero-section {
+            width: 100%;
+            max-width: 1200px;
+            margin: 80px auto 40px auto;
+            padding: 0 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-badge {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            padding: 6px 16px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 24px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-title {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.15;
+            max-width: 900px;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 40%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 750px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 60px;
+        }
+
+        .hero-actions .btn {
+            padding: 14px 28px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 12px;
+        }
+
+        /* Mockup Visual */
+        .flow-mockup {
+            width: 100%;
+            max-width: 950px;
+            background: linear-gradient(135deg, rgba(15, 20, 32, 0.5) 0%, rgba(7, 9, 14, 0.8) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin: 0 auto 100px auto;
+            position: relative;
+        }
+
+        .flow-mockup::after {
+            content: '';
+            position: absolute;
+            top: -10%;
+            left: 20%;
+            width: 60%;
+            height: 30%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            filter: blur(40px);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .mockup-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            padding-bottom: 16px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .dot-red { background-color: #ef4444; }
+        .dot-yellow { background-color: #f59e0b; }
+        .dot-green { background-color: #10b981; }
+
+        .mockup-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        .mockup-step {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: left;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            border: 2px solid #07090e;
+        }
+
+        .mockup-step h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-top: 4px;
+        }
+
+        .mockup-step p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .xml-box-mock {
+            border: 1px dashed rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            background: rgba(255,255,255,0.01);
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .conn-mock {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 10px;
+            background: rgba(16, 185, 129, 0.03);
+            border: 1px solid rgba(16, 185, 129, 0.1);
+            border-radius: 8px;
+            font-size: 11px;
+        }
+
+        .pdf-box-mock {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 11px;
+        }
+
+        /* Features */
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+
+        .section-title p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            max-width: 1200px;
+            margin: 0 auto 100px auto;
+            padding: 0 20px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: left;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 28px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Pricing Area */
+        .pricing-section {
+            max-width: 1200px;
+            margin: 0 auto 100px auto;
+            padding: 0 20px;
+        }
+
+        .pricing-grid-landing {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            margin-bottom: 40px;
+        }
+
+        .pricing-card-landing {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 35px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card-landing:hover {
+            transform: translateY(-4px);
+        }
+
+        .pricing-card-landing.recommended {
+            border-color: var(--secondary);
+            box-shadow: 0 0 35px rgba(168, 85, 247, 0.1);
+        }
+
+        .pricing-card-landing.recommended::before {
+            content: 'RECOMENDADO';
+            position: absolute;
+            top: 18px;
+            right: -33px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: #fff;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 4px 30px;
+            transform: rotate(45deg);
+        }
+
+        .price-head h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .price-head p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+
+        .price-amount-box {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            margin-bottom: 24px;
+        }
+
+        .price-amount {
+            font-size: 44px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .price-period {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .price-features {
+            list-style: none;
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .price-features li {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .price-features li::before {
+            content: '✔';
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        /* Setup Box */
+        .setup-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.04) 0%, rgba(168, 85, 247, 0.04) 100%), var(--bg-card);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            padding: 24px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            gap: 20px;
+        }
+
+        .setup-details h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .setup-details p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .setup-cost {
+            text-align: right;
+            min-width: 150px;
+        }
+
+        .setup-cost .value {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .setup-cost .period {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            max-width: 800px;
+            margin: 0 auto 100px auto;
+            padding: 0 20px;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color 0.2s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .faq-question {
+            padding: 20px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .faq-answer {
+            padding: 0 20px 20px 20px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            display: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            padding-top: 15px;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        .arrow {
+            transition: transform 0.2s ease;
+            font-size: 12px;
+        }
+
+        /* Footer */
+        footer {
+            width: 100%;
+            border-top: 1px solid var(--border-color);
+            padding: 40px 20px;
+            text-align: center;
+            background: #040508;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-copyright {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-main);
+        }
+
+        @media (max-width: 900px) {
+            .mockup-grid {
+                grid-template-columns: 1fr;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .pricing-grid-landing {
+                grid-template-columns: 1fr;
+            }
+            .setup-box {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .setup-cost {
+                text-align: left;
+            }
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .hero-title {
+                font-size: 40px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- HEADER -->
-        <header>
-            <div class="logo-area">
-                <h1>Apex GNRE SaaS</h1>
-                <p>Painel de Controle de Faturamento e Emissões</p>
-            </div>
-            <div class="nav-links">
-                <span id="tenant-name" style="font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-right: 10px;"></span>
-                <a href="/index.html" class="nav-btn active">Faturamento</a>
-                <a href="/profile.html" class="nav-btn">Empresa</a>
-                <a href="/plans.html" class="nav-btn">Planos</a>
-                <a href="/admin.html" id="admin-nav-link" class="nav-btn d-none">Administração</a>
-                <button onclick="logout()" class="nav-btn" style="cursor: pointer; border: none; background: transparent;">Sair</button>
-            </div>
-        </header>
+    <!-- HEADER / NAVIGATION -->
+    <header class="landing-header">
+        <div class="landing-logo">
+            <h1>Apex GNRE SaaS</h1>
+            <p>Automação de Arrecadação Fiscal</p>
+        </div>
+        <nav class="landing-nav">
+            <a href="#features">Funcionalidades</a>
+            <a href="#mockup">Como Funciona</a>
+            <a href="#pricing">Planos</a>
+            <a href="#faq">Perguntas Frequentes</a>
+            <a href="/login.html" class="nav-btn" style="border: 1px solid var(--border-color); padding: 6px 14px;">Entrar</a>
+            <a href="/register.html?plan=trial" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px; border-radius: 8px; font-weight: 600;">Testar Grátis</a>
+        </nav>
+    </header>
 
-        <!-- GRID PRINCIPAL -->
-        <div class="grid-config" style="grid-template-columns: 1.1fr 0.9fr; gap: 28px;">
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="hero-badge">
+            <span>⚡</span> Automação para Espírito Santo (DUA-e) & GNRE Nacional Ativa
+        </div>
+        <h2 class="hero-title">Chega de preencher guias fiscais uma a uma.</h2>
+        <p class="hero-subtitle">
+            Suba os arquivos XML das suas notas fiscais de venda interestadual. Nossa plataforma conecta-se diretamente à SEFAZ via mTLS, emite as guias, baixa os PDFs originais e gera a remessa de pagamento CNAB 240 (Itaú SISPAG) de forma totalmente automatizada.
+        </p>
+        <div class="hero-actions">
+            <a href="/register.html?plan=trial" class="btn btn-primary">Iniciar Teste Gratuito</a>
+            <a href="#pricing" class="btn btn-secondary" style="border: 1px solid var(--border-color);">Ver Planos de Assinatura</a>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE FLOW MOCKUP -->
+    <section id="mockup" style="padding: 0 20px; text-align: center;">
+        <div class="flow-mockup">
+            <div class="mockup-header">
+                <span class="dot dot-red"></span>
+                <span class="dot dot-yellow"></span>
+                <span class="dot dot-green"></span>
+                <span style="font-size: 12px; color: var(--text-secondary); margin-left: 8px; font-family: 'JetBrains Mono', monospace;">fluxo-de-automacao.sh</span>
+            </div>
             
-            <!-- COLUNA ESQUERDA: EMISSÃO / PROCESSAMENTO -->
-            <div class="card">
-                <div class="card-title">
-                    <span>⚡</span> Processar Guias e Remessas
-                </div>
-
-                <!-- INFORMAÇÕES DE CONTA -->
-                <div class="flex-between mb-4" style="background: rgba(255, 255, 255, 0.02); padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border-color);">
-                    <div>
-                        <span class="label">Ambiente Ativo</span>
-                        <strong id="active-env" style="text-transform: uppercase;">Carregando...</strong>
-                    </div>
-                    <div>
-                        <span class="label">Empresa</span>
-                        <strong id="company-cnpj">Carregando...</strong>
+            <div class="mockup-grid">
+                <!-- Passo 1 -->
+                <div class="mockup-step">
+                    <span class="step-number">1</span>
+                    <h4>Upload de Notas Fiscais</h4>
+                    <p>Você seleciona ou arrasta um lote de XMLs de NF-e das suas vendas destinadas a outros estados.</p>
+                    <div class="xml-box-mock">
+                        <span>📄</span> NF_50345_ES.xml<br>
+                        <span style="font-size: 9px; color: var(--success);">Pronta para Envio</span>
                     </div>
                 </div>
 
-                <!-- DRAG AND DROP ZONE -->
-                <div id="xml-dropzone" class="dropzone mb-4">
-                    <span class="dropzone-icon">📥</span>
-                    <strong>Arraste os arquivos XML das Notas Fiscais aqui</strong>
-                    <span style="font-size: 12px; color: var(--text-secondary);">Ou clique para selecionar arquivos do seu computador</span>
-                    <input type="file" id="xml-input" multiple accept=".xml" class="d-none">
-                </div>
-
-                <!-- LISTA DE ARQUIVOS SELECIONADOS -->
-                <div id="selected-files" class="file-list mb-4 d-none">
-                    <!-- Arquivos inseridos via JS -->
-                </div>
-
-                <!-- DATA DE PAGAMENTO -->
-                <div class="form-group mb-4" style="max-width: 280px;">
-                    <label for="payment-date">Data de Pagamento (Remessa CNAB)</label>
-                    <input type="date" id="payment-date" required>
-                </div>
-
-                <!-- AÇÕES -->
-                <div style="display: flex; gap: 12px;" class="mb-4">
-                    <button id="btn-process-upload" class="btn btn-primary" style="flex: 1;">
-                        Processar XMLs Selecionados
-                    </button>
-                    <button id="btn-process-local" class="btn btn-secondary" title="Lê arquivos da pasta 'xml_nfe' no servidor">
-                        Processar Pasta Local (xml_nfe)
-                    </button>
-                </div>
-
-                <!-- PROGRESSO -->
-                <div id="processing-progress" class="mb-4 d-none">
-                    <div class="flex-between">
-                        <label>Progresso de Processamento</label>
-                        <span id="progress-val" style="font-weight: bold; font-size: 13px;">0%</span>
-                    </div>
-                    <div class="progress-container">
-                        <div id="progress-inner" class="progress-bar"></div>
+                <!-- Passo 2 -->
+                <div class="mockup-step">
+                    <span class="step-number">2</span>
+                    <h4>Processamento mTLS</h4>
+                    <p>O robô decodifica as notas, acessa os Web Services do governo via mTLS com seu certificado e-CNPJ e emite as guias.</p>
+                    <div class="conn-mock">
+                        <span style="color: var(--primary); font-family: 'JetBrains Mono', monospace; font-size: 10px;">🔒 MTLS HANDSHAKE</span>
+                        <span style="color: var(--success); font-family: 'JetBrains Mono', monospace; font-size: 10px;">✔ DUA-ES EMITIDA: 402818</span>
                     </div>
                 </div>
 
-                <!-- PAINEL DE LOGS EM TEMPO REAL -->
-                <div class="form-group">
-                    <label>Terminal de Operações (Histórico do Lote)</label>
-                    <div id="terminal-logs" class="log-container">
-                        <span class="log-line" style="color: var(--text-secondary);">Aguardando início de processamento...</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- COLUNA DIREITA: HISTÓRICO DE LOTES -->
-            <div class="card" style="display: flex; flex-direction: column; gap: 20px;">
-                <div class="flex-between" style="border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 4px;">
-                    <div style="font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 10px;">
-                        <span>🕒</span> Histórico de Lotes Enviados
-                    </div>
-                    <button onclick="abrirModalRecibo()" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; font-weight: 500;">
-                        🔍 Consultar Recibo Manual
-                    </button>
-                </div>
-
-                <div class="table-container" style="max-height: 250px; overflow-y: auto;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Data/Hora</th>
-                                <th>Ambiente</th>
-                                <th>Status</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="history-table-body">
-                            <tr>
-                                <td colspan="4" class="text-center" style="color: var(--text-secondary);">Nenhum lote enviado ainda.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- DETALHES DO LOTE SELECIONADO / DOWNLOAD DAS GUIAS -->
-                <div id="batch-details-section" class="d-none" style="border-top: 1px solid var(--border-color); padding-top: 20px;">
-                    <div class="card-title" style="border-bottom: none; padding-bottom: 0; font-size: 16px;">
-                        <span>📋</span> Guias Geradas no Lote
-                    </div>
-                    <div id="batch-receipts-container" style="font-size: 12px; color: var(--text-secondary); margin-top: 4px; font-family: monospace;"></div>
-                    
-                    <div class="flex-between mb-4 mt-4">
-                        <strong style="font-size: 13px; color: var(--text-secondary);">AÇÕES DO LOTE:</strong>
-                        <div style="display: flex; gap: 8px;">
-                            <a id="download-sp-xml-btn" href="#" class="btn btn-secondary d-none" style="padding: 6px 12px; font-size: 12px; border-color: var(--warning); color: var(--warning); font-weight: 500;">
-                                📥 Baixar XML de Lote para São Paulo (SP)
-                            </a>
-                            <a id="download-guias-all-btn" href="#" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; font-weight: 500;">
-                                📦 Baixar Todas as Guias (ZIP)
-                            </a>
-                            <a id="download-remessa-btn" href="#" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">
-                                📥 Baixar remessa.txt
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="table-container" style="max-height: 220px; overflow-y: auto;">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>NF</th>
-                                    <th>UF</th>
-                                    <th>Valor</th>
-                                    <th>Guia Visual</th>
-                                </tr>
-                            </thead>
-                            <tbody id="guides-table-body">
-                                <!-- Preenchido dinamicamente -->
-                            </tbody>
-                        </table>
+                <!-- Passo 3 -->
+                <div class="mockup-step">
+                    <span class="step-number">3</span>
+                    <h4>Guia PDF e CNAB Itaú</h4>
+                    <p>Você visualiza e baixa o PDF oficial do estado diretamente no painel e baixa a remessa Itaú SISPAG para pagamento automático.</p>
+                    <div class="pdf-box-mock">
+                        <span>📄 Guia_ES_50345.pdf</span>
+                        <span style="color: var(--success); font-weight: bold;">198KB</span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div id="toast" class="toast"></div>
+    <!-- SECTION TITLE: FEATURES -->
+    <section id="features" class="section-title">
+        <h2>Funcionalidades Feitas para Escalar</h2>
+        <p>Tudo o que sua operação comercial precisa para eliminar o trabalho manual da escrituração fiscal.</p>
+    </section>
 
-    <!-- MODAL DE CONSULTA DE RECIBO MANUAL -->
-    <div id="modal-recibo" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>🔍 Consultar Recibo Manual</h3>
-                <button onclick="fecharModalRecibo()" class="modal-close">✖</button>
-            </div>
-            <form id="form-consulta-recibo" onsubmit="enviarConsultaRecibo(event)">
-                <div style="display: flex; flex-direction: column; gap: 16px;">
-                    <div class="form-group">
-                        <label for="recibo-uf">UF do Governo</label>
-                        <select id="recibo-uf" required>
-                            <option value="" disabled selected>Selecione a UF...</option>
-                            <option value="AC">Acre (AC)</option>
-                            <option value="AL">Alagoas (AL)</option>
-                            <option value="AP">Amapá (AP)</option>
-                            <option value="AM">Amazonas (AM)</option>
-                            <option value="BA">Bahia (BA)</option>
-                            <option value="CE">Ceará (CE)</option>
-                            <option value="DF">Distrito Federal (DF)</option>
-                            <option value="ES">Espírito Santo (ES)</option>
-                            <option value="GO">Goiás (GO)</option>
-                            <option value="MA">Maranhão (MA)</option>
-                            <option value="MT">Mato Grosso (MT)</option>
-                            <option value="MS">Mato Grosso do Sul (MS)</option>
-                            <option value="MG">Minas Gerais (MG)</option>
-                            <option value="PA">Pará (PA)</option>
-                            <option value="PB">Paraíba (PB)</option>
-                            <option value="PR">Paraná (PR)</option>
-                            <option value="PE">Pernambuco (PE)</option>
-                            <option value="PI">Piauí (PI)</option>
-                            <option value="RJ">Rio de Janeiro (RJ)</option>
-                            <option value="RN">Rio Grande do Norte (RN)</option>
-                            <option value="RS">Rio Grande do Sul (RS)</option>
-                            <option value="RO">Rondônia (RO)</option>
-                            <option value="RR">Roraima (RR)</option>
-                            <option value="SC">Santa Catarina (SC)</option>
-                            <option value="SP">São Paulo (SP)</option>
-                            <option value="SE">Sergipe (SE)</option>
-                            <option value="TO">Tocantins (TO)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="recibo-numero">Número do Recibo</label>
-                        <input type="text" id="recibo-numero" placeholder="Ex: 26000286148551" required pattern="[0-9]+" title="Digite apenas números">
-                    </div>
-                    <div class="form-group">
-                        <label for="recibo-payment-date">Data de Pagamento (Remessa CNAB)</label>
-                        <input type="date" id="recibo-payment-date" required>
-                    </div>
-                    <div style="display: flex; gap: 12px; margin-top: 10px;">
-                        <button type="button" onclick="fecharModalRecibo()" class="btn btn-secondary" style="flex: 1;">Cancelar</button>
-                        <button type="submit" id="btn-submit-recibo" class="btn btn-primary" style="flex: 1;">Consultar e Resgatar</button>
-                    </div>
-                </div>
-            </form>
+    <!-- FEATURES GRID -->
+    <section class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">🏢</div>
+            <h3>Emissão Direta via Web Services</h3>
+            <p>Conexão direta com a SEFAZ do Espírito Santo (DUA-e) e com o Portal Nacional da GNRE (para PE, RJ, PR, MG e mais UFs) utilizando seu certificado digital A1.</p>
         </div>
-    </div>
+        <div class="feature-card">
+            <div class="feature-icon">📄</div>
+            <h3>Download do PDF Oficial</h3>
+            <p>Esqueça guias em HTML cruas ou rascunhos. Nosso sistema busca o arquivo de documento eletrônico em PDF original da SEFAZ e disponibiliza para visualização rápida.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🏦</div>
+            <h3>Remessa CNAB 240 SISPAG</h3>
+            <p>Consolidação automática dos códigos de barras e valores das guias em um arquivo de remessa CNAB no formato padrão Itaú SISPAG. Pague centenas de tributos de uma só vez.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🛡</div>
+            <h3>Auto-Regenerativo (Self-Healing)</h3>
+            <p>Caso a SEFAZ rejeite uma nota emitida há mais de 30 dias, o sistema altera a referência de apuração para o mês de pagamento e retransmite de forma automática.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">⚙</div>
+            <h3>Suporte a São Paulo (SP)</h3>
+            <p>Gerador automatizado de lote XML raw formatado no padrão paulista para importação rápida e manual diretamente no Portal da SEFAZ-SP.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🧪</div>
+            <h3>Ambiente Simulado</h3>
+            <p>Área de homologação flexível onde você pode validar todas as integrações, layout do painel e geração de remessas sem custos ou certificado digital.</p>
+        </div>
+    </section>
 
-    <script src="/js/auth.js?v=3"></script>
-    <script src="/js/dashboard.js"></script>
+    <!-- SECTION TITLE: PRICING -->
+    <section id="pricing" class="section-title">
+        <h2>Planos de Assinatura Simples e Transparentes</h2>
+        <p>Escolha o plano ideal para o volume de vendas da sua empresa. Inicie gratuitamente no período de testes.</p>
+    </section>
+
+    <!-- PRICING SECTION -->
+    <section class="pricing-section">
+        <div class="pricing-grid-landing">
+            <!-- STARTER -->
+            <div class="pricing-card-landing">
+                <div class="price-head">
+                    <h3>Starter</h3>
+                    <p>Perfeito para novos e-commerces que estão iniciando vendas para outros estados e querem se livrar da burocracia inicial.</p>
+                    <div class="price-amount-box">
+                        <span class="price-amount">R$ 199</span>
+                        <span class="price-period">/mês</span>
+                    </div>
+                    <ul class="price-features">
+                        <li>Até <strong>100 guias</strong> por mês</li>
+                        <li>Transmissão em lote mTLS ativa</li>
+                        <li>Geração de Remessa CNAB 240</li>
+                        <li>Download dos PDFs oficiais</li>
+                        <li>Suporte por e-mail comercial</li>
+                    </ul>
+                </div>
+                <a href="/register.html?plan=starter" class="btn btn-secondary text-center" style="width: 100%; text-decoration: none; border: 1px solid var(--border-color);">Assinar Starter</a>
+            </div>
+
+            <!-- PRO -->
+            <div class="pricing-card-landing recommended">
+                <div class="price-head">
+                    <h3>Pro</h3>
+                    <p>Ideal para confecções, marcas de vestuário e lojas virtuais em aceleração. O equilíbrio ideal de recursos.</p>
+                    <div class="price-amount-box">
+                        <span class="price-amount">R$ 399</span>
+                        <span class="price-period">/mês</span>
+                    </div>
+                    <ul class="price-features">
+                        <li>Até <strong>500 guias</strong> por mês</li>
+                        <li>Todos os recursos do Starter</li>
+                        <li>Suporte a múltiplos CNPJs</li>
+                        <li>Tempo de resposta de suporte < 4h</li>
+                        <li>Acompanhamento Itaú SISPAG</li>
+                    </ul>
+                </div>
+                <a href="/register.html?plan=pro" class="btn btn-primary text-center" style="width: 100%; text-decoration: none; font-weight: 600;">Assinar Pro</a>
+            </div>
+
+            <!-- ADVANCED -->
+            <div class="pricing-card-landing">
+                <div class="price-head">
+                    <h3>Advanced</h3>
+                    <p>Para indústrias e operações consolidadas com alto volume diário de faturamento interestadual.</p>
+                    <div class="price-amount-box">
+                        <span class="price-amount">R$ 699</span>
+                        <span class="price-period">/mês</span>
+                    </div>
+                    <ul class="price-features">
+                        <li>Até <strong>1.500 guias</strong> por mês</li>
+                        <li>Todos os recursos do plano Pro</li>
+                        <li>Acesso às APIs de Integração</li>
+                        <li>Mapeamento customizado de taxas</li>
+                        <li>Suporte Premium e canal exclusivo</li>
+                    </ul>
+                </div>
+                <a href="/register.html?plan=advanced" class="btn btn-secondary text-center" style="width: 100%; text-decoration: none; border: 1px solid var(--border-color);">Assinar Advanced</a>
+            </div>
+        </div>
+
+        <!-- SETUP BOX -->
+        <div class="setup-box">
+            <div class="setup-details">
+                <h4><span>🛠</span> Taxa Única de Setup e Homologação Bancária</h4>
+                <p>Taxa cobrada para a implantação inicial. Configuração segura do certificado digital A1 (.pfx) no servidor e o suporte técnico prioritário na homologação do primeiro arquivo de remessa tributária de teste no banco Itaú (SISPAG).</p>
+            </div>
+            <div class="setup-cost">
+                <div class="value">R$ 600,00</div>
+                <div class="period">Taxa Única de Implantação</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION TITLE: FAQ -->
+    <section id="faq" class="section-title">
+        <h2>Perguntas Frequentes</h2>
+        <p>Ficou com alguma dúvida? Confira as respostas para as perguntas mais comuns.</p>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="faq-section">
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-question">
+                    Como funciona o período de testes gratuito?
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    Ao criar sua conta, você é cadastrado automaticamente no plano Trial Gratuito. Ele permite a emissão de até 10 guias por mês no ambiente Simulado. Você não precisa cadastrar nenhum cartão de crédito ou efetuar pagamentos para começar a testar.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    O armazenamento do meu certificado digital A1 é seguro?
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    Sim! O seu certificado digital (.pfx) é armazenado sob rigoroso controle de segurança criptografado em repouso no Supabase Storage. A senha de abertura do certificado é encriptada no banco de dados com chave de algoritmo AES-256-CBC, sendo aberta apenas em memória RAM no momento da conexão TLS com a SEFAZ.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Como faço o pagamento das guias geradas no banco?
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    O nosso sistema gera um arquivo de remessa CNAB 240 (Itaú SISPAG). Você faz o download desse arquivo no painel principal e o envia diretamente na plataforma de Internet Banking do Itaú Empresas. O banco processa o arquivo e faz o débito em conta de todas as guias de uma só vez, eliminando o pagamento manual de código por código.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Como funciona a reativação de guias antigas (Auto-Regenerativa)?
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    Muitas vezes, a data de emissão da nota fiscal difere da data em que a guia está sendo recolhida (por atraso ou controle financeiro). A SEFAZ costuma rejeitar guias com data de referência antiga se a data de pagamento for atual. O nosso robô detecta essa rejeição (cStat 801), corrige automaticamente a referência de apuração para o mês da data de pagamento e emite o documento com sucesso.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Quais estados o sistema suporta?
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    Damos suporte nativo e direto à SEFAZ-ES (DUA-e) e a todos os estados integrados ao Portal Nacional da GNRE (como RJ, PE, PR, MG, RS, SC, etc.). Para São Paulo (SP), fornecemos um gerador de XML bruto para você importar diretamente no site do Posto Fiscal paulista.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-copyright">
+                &copy; 2026 Apex GNRE SaaS. Todos os direitos reservados.
+            </div>
+            <div class="footer-links">
+                <a href="#features">Funcionalidades</a>
+                <a href="#pricing">Planos</a>
+                <a href="/login.html">Entrar</a>
+                <a href="/register.html?plan=trial">Registrar</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTION SCRIPT FOR FAQ -->
+    <script>
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', () => {
+                const parent = item.parentElement;
+                const wasActive = parent.classList.contains('active');
+                
+                // Close all FAQ items
+                document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+                
+                // Toggle active if it wasn't active
+                if (!wasActive) {
+                    parent.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

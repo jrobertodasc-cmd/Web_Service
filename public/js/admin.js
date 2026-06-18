@@ -96,7 +96,7 @@ async function validarAcessoAdmin() {
         if (!data.profile.is_admin) {
             showToast("Acesso negado. Apenas administradores podem acessar esta área.", 'error');
             setTimeout(() => {
-                window.location.href = '/index.html';
+                window.location.href = '/dashboard.html';
             }, 1500);
             return false;
         }
