@@ -34,8 +34,18 @@ function gerarRemessaSispag(dadosEmpresa, guiasExtraidas, dataPagamentoPersonali
     if (!dadosEmpresa || !dadosEmpresa.cnpj) {
         throw new Error("Dados da empresa inválidos ou ausentes para geração de remessa.");
     }
-    if (!guiasExtraidas || guiasExtraidas.length === 0) {
-        throw new Error("Nenhuma guia fornecida para geração do CNAB.");
+
+    // Filtra para remover guias que não possuem um código de barras numérico válido
+    // (por exemplo, guias pendentes do Estado de São Paulo que ficam com "IMPORTAR_NO_SEFAZ_SP")
+    const guiasValidas = (guiasExtraidas || []).filter(g => {
+        if (!g.codigoBarras) return false;
+        const limpo = g.codigoBarras.replace(/[^0-9]/g, '');
+        // O código de barras de tributos/GNRE deve ter entre 44 e 48 dígitos numéricos
+        return limpo.length >= 40 && limpo === g.codigoBarras;
+    });
+
+    if (guiasValidas.length === 0) {
+        return "SEM_GUIAS_VALIDAS_PARA_CNAB\r\nEste lote não possui nenhuma guia com código de barras numérico válido emitido (ex: contém apenas guias de São Paulo que exigem importação manual no portal do Posto Fiscal/SEFAZ-SP).\r\nImporte o lote XML gerado no portal da SEFAZ-SP para obter os códigos de barras reais.";
     }
 
     const linhas = [];
@@ -120,7 +130,7 @@ function gerarRemessaSispag(dadosEmpresa, guiasExtraidas, dataPagamentoPersonali
     let contadorRegistrosLote = 1; // O lote começa no Header de Lote (1)
 
     // 3. REGISTRO 3: DETALHE - SEGMENTO O (Tributos com Código de Barras)
-    guiasExtraidas.forEach((guia, idx) => {
+    guiasValidas.forEach((guia, idx) => {
         let segO = '';
         const seq = idx + 1;
         contadorRegistrosLote++; 

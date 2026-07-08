@@ -345,16 +345,29 @@ async function carregarDetalhesLote(batchId) {
 
         guidesBody.innerHTML = batch.guides.map(g => {
             const isPdf = g.storage_path && g.storage_path.toLowerCase().endsWith('.pdf');
-            const btnText = isPdf ? '📄 Abrir Guia PDF' : '📄 Abrir Guia HTML';
+            const isSpPending = g.barcode === 'IMPORTAR_NO_SEFAZ_SP';
+            
+            let actionBtn = '';
+            if (isSpPending) {
+                actionBtn = `<button class="btn btn-secondary" disabled style="padding: 4px 8px; font-size: 11px; opacity: 0.65; cursor: not-allowed; border-color: var(--warning); color: var(--warning);" title="As guias de São Paulo não são geradas via Web Service de transmissão direta. Baixe o lote XML de SP e envie-o no portal da SEFAZ-SP.">
+                                ⏳ Pendente SEFAZ-SP
+                             </button>`;
+            } else {
+                const btnText = isPdf ? '📄 Abrir Guia PDF' : '📄 Abrir Guia HTML';
+                actionBtn = `<a href="/api/guide/download/${g.id}" target="_blank" class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;">
+                                ${btnText}
+                             </a>`;
+            }
+
+            const badgeStyle = isSpPending ? 'background: #e6a23c; color: #fff;' : '';
+
             return `
                 <tr>
                     <td>NF ${g.nf_number}</td>
-                    <td><span class="badge badge-success">${g.uf}</span></td>
+                    <td><span class="badge ${isSpPending ? '' : 'badge-success'}" style="${badgeStyle}">${g.uf}</span></td>
                     <td>R$ ${parseFloat(g.value).toFixed(2).replace('.', ',')}</td>
                     <td>
-                        <a href="/api/guide/download/${g.id}" target="_blank" class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;">
-                            ${btnText}
-                        </a>
+                        ${actionBtn}
                     </td>
                 </tr>
             `;
