@@ -25,6 +25,32 @@ function createHttpsAgent({ pfxBuffer, passphrase }) {
     if (!pfxBuffer) {
         throw new Error("Certificado PFX ausente para inicialização do agente mTLS.");
     }
+
+    if (process.env.PROXY_HOST) {
+        const proxyPort = process.env.PROXY_PORT || '8080';
+        const proxyUser = process.env.PROXY_USER || '';
+        const proxyPass = process.env.PROXY_PASSWORD || '';
+        
+        let proxyUrl = '';
+        if (proxyUser && proxyPass) {
+            proxyUrl = `http://${proxyUser}:${proxyPass}@${process.env.PROXY_HOST}:${proxyPort}`;
+        } else {
+            proxyUrl = `http://${process.env.PROXY_HOST}:${proxyPort}`;
+        }
+
+        try {
+            const { HttpsProxyAgent } = require('https-proxy-agent');
+            return new HttpsProxyAgent(proxyUrl, {
+                pfx: pfxBuffer,
+                passphrase: passphrase,
+                keepAlive: true,
+                rejectUnauthorized: false
+            });
+        } catch (err) {
+            console.error("⚠️ Falha ao inicializar HttpsProxyAgent (certifique-se de rodar npm install):", err.message);
+        }
+    }
+
     return new https.Agent({
         pfx: pfxBuffer,
         passphrase: passphrase,
