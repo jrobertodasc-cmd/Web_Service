@@ -89,13 +89,15 @@ function normalizarDocumentoOrigem(doc) {
 
 function extrairDadosGuiaXML(xml) {
     try {
-        // Tratamento de Rejeições (SEFAZ-PE ou Portal GNRE)
-        const motivoRejeicao = extrairTag(xml, 'motivoRejeicao') || extrairTag(xml, 'motivosRejeicao');
-        const codigoRejeicao = extrairTag(xml, 'codigo') || extrairTag(xml, 'codigoRejeicao');
-        
-        if (motivoRejeicao || (codigoRejeicao && codigoRejeicao === '102')) {
-            const descRejeicao = extrairTag(xml, 'descricao') || "Rejeição geral do lote";
-            throw new Error(`O Lote foi rejeitado pelo governo: ${descRejeicao}`);
+        // Tratamento de Rejeições do lote como um todo (só se não houver guias individuais na resposta)
+        if (!xml.includes('<guia') && !xml.includes(':guia')) {
+            const motivoRejeicao = extrairTag(xml, 'motivoRejeicao') || extrairTag(xml, 'motivosRejeicao');
+            const codigoRejeicao = extrairTag(xml, 'codigo') || extrairTag(xml, 'codigoRejeicao');
+            
+            if (motivoRejeicao || (codigoRejeicao && codigoRejeicao === '102')) {
+                const descRejeicao = extrairTag(xml, 'descricao') || "Rejeição geral do lote";
+                throw new Error(`O Lote foi rejeitado pelo governo: ${descRejeicao}`);
+            }
         }
 
         const guias = [];
