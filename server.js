@@ -1068,6 +1068,18 @@ function runBatchProcessInBackground(batchId, tenant, filesData, paymentDate) {
             const hoje = new Date().toISOString().split('T')[0];
             const dataAlvo = paymentDate || hoje;
             for (const nota of notasFiscais) {
+                if (nota.ufFavorecida === 'ES') {
+                    // Especial ES: A SEFAZ-ES não permite gerar DUA com data personalizada no futuro se a nota for do mês corrente.
+                    // Ela exige que o vencimento seja no mesmo dia da solicitação (hoje). Só permite personalizada se for do mês anterior.
+                    const dateObj = new Date();
+                    const currentYear = String(dateObj.getFullYear());
+                    const currentMonth = String(dateObj.getMonth() + 1).padStart(2, '0');
+                    if (nota.anoApuracao === currentYear && nota.mesApuracao === currentMonth) {
+                        nota.dataVencimento = hoje;
+                        nota.dataPagamento = hoje;
+                        continue;
+                    }
+                }
                 nota.dataVencimento = dataAlvo;
                 nota.dataPagamento = dataAlvo;
             }
