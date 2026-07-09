@@ -827,6 +827,9 @@ app.get('/api/guide/download-all/:batchId', requireAuth, async (req, res) => {
 
         // Faz o download de cada guia em paralelo
         await Promise.all(guides.map(async (guide) => {
+            if (!guide.storage_path || guide.barcode === 'IMPORTAR_NO_SEFAZ_SP') {
+                return; // Pula guias de SP pendentes de importação manual na SEFAZ
+            }
             try {
                 const { data, error: downloadError } = await supabase.storage
                     .from('tenant-storage')
@@ -1390,6 +1393,9 @@ function runBatchProcessInBackground(batchId, tenant, filesData, paymentDate) {
 
             for (const guia of todasGuias) {
                 if (guia.isPdf) {
+                    continue;
+                }
+                if (guia.codigoBarras === 'IMPORTAR_NO_SEFAZ_SP') {
                     continue;
                 }
                 const nota = notasFiscais.find(n => n.documentoOrigem === guia.documentoOrigem);
