@@ -89,7 +89,30 @@ function normalizarDocumentoOrigem(doc) {
 
 function extrairDadosGuiaXML(xml) {
     try {
-        // Tratamento de Rejeições do lote como um todo (só se não houver guias individuais na resposta)
+        // Tratamento de Rejeições do lote como um todo
+        const sitProcess = extrairTag(xml, 'situacaoProcess');
+        if (sitProcess) {
+            const codSit = extrairTag(sitProcess, 'codigo');
+            const descSit = extrairTag(sitProcess, 'descricao');
+            
+            // 402 = Processado com sucesso, 403 = Processado com pendências
+            if (codSit && codSit !== '402' && codSit !== '403') {
+                let descSitLimpa = (descSit || "Rejeição geral do lote")
+                    .replace(/&#xE3;/g, 'ã')
+                    .replace(/&#xE7;/g, 'ç')
+                    .replace(/&#xED;/g, 'í')
+                    .replace(/&#xE1;/g, 'á')
+                    .replace(/&#xE9;/g, 'é')
+                    .replace(/&#xF3;/g, 'ó')
+                    .replace(/&#xFA;/g, 'ú')
+                    .replace(/&#xE2;/g, 'â')
+                    .replace(/&#xEA;/g, 'ê')
+                    .replace(/&#xF4;/g, 'ô')
+                    .replace(/&#xFB;/g, 'û');
+                throw new Error(`O Lote foi rejeitado pelo governo: ${descSitLimpa} (Código ${codSit})`);
+            }
+        }
+
         if (!xml.includes('<guia') && !xml.includes(':guia')) {
             const motivoRejeicao = extrairTag(xml, 'motivoRejeicao') || extrairTag(xml, 'motivosRejeicao');
             const codigoRejeicao = extrairTag(xml, 'codigo') || extrairTag(xml, 'codigoRejeicao');
@@ -103,6 +126,7 @@ function extrairDadosGuiaXML(xml) {
         const guias = [];
         const regexGuia = /<(?:[a-zA-Z0-9]+:)?guia[^>]*>([\s\S]*?)<\/(?:[a-zA-Z0-9]+:)?guia>/g;
         let matchGuia;
+        const rejeicoesLote = [];
 
         while ((matchGuia = regexGuia.exec(xml)) !== null) {
             const xmlGuia = matchGuia[1];
@@ -117,7 +141,23 @@ function extrairDadosGuiaXML(xml) {
                     motivos.push(matchMotivo[1]);
                 }
                 const erroMsg = motivos.length > 0 ? motivos.join(' | ') : "Guia invalidada pela SEFAZ";
-                console.warn(`⚠ Guia individual ignorada devido a falhas: ${erroMsg}`);
+                
+                let erroMsgLimpo = erroMsg
+                    .replace(/&#xE3;/g, 'ã')
+                    .replace(/&#xE7;/g, 'ç')
+                    .replace(/&#xED;/g, 'í')
+                    .replace(/&#xE1;/g, 'á')
+                    .replace(/&#xE9;/g, 'é')
+                    .replace(/&#xF3;/g, 'ó')
+                    .replace(/&#xFA;/g, 'ú')
+                    .replace(/&#xE2;/g, 'â')
+                    .replace(/&#xEA;/g, 'ê')
+                    .replace(/&#xF4;/g, 'ô')
+                    .replace(/&#xFB;/g, 'û');
+
+                const nfNum = extrairTag(xmlGuia, 'documentoOrigem') || 'NFe';
+                rejeicoesLote.push(`NF ${nfNum}: ${erroMsgLimpo}`);
+                console.warn(`⚠ Guia individual ignorada devido a falhas: NF ${nfNum} - ${erroMsgLimpo}`);
                 continue;
             }
 
@@ -129,7 +169,7 @@ function extrairDadosGuiaXML(xml) {
                              extrairTag(xmlGuia, 'valor');
             
             const vencimentoStr = extrairTag(xmlGuia, 'dataVencimento') || 
-                                  extrairTag(xmlGuia, 'c14_dataVencimento');
+                                   extrairTag(xmlGuia, 'c14_dataVencimento');
 
             const docOrigemStr = extrairTag(xmlGuia, 'documentoOrigem') ||
                                  extrairTag(xmlGuia, 'c05_referencia');
@@ -167,7 +207,7 @@ function extrairDadosGuiaXML(xml) {
                              extrairTag(xml, 'valor');
             
             const vencimentoStr = extrairTag(xml, 'dataVencimento') || 
-                                  extrairTag(xml, 'c14_dataVencimento');
+                                   extrairTag(xml, 'c14_dataVencimento');
 
             const docOrigemStr = extrairTag(xml, 'documentoOrigem');
 
@@ -193,6 +233,9 @@ function extrairDadosGuiaXML(xml) {
         }
 
         if (guias.length === 0) {
+            if (rejeicoesLote.length > 0) {
+                throw new Error(`Todas as guias do lote foram rejeitadas pelo governo: ${rejeicoesLote.join('; ')}`);
+            }
             throw new Error("Nenhuma guia processada com sucesso foi localizada no XML de resposta.");
         }
 
