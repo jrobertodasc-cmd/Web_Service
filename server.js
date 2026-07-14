@@ -1453,6 +1453,41 @@ function runBatchProcessInBackground(batchId, tenant, filesData, paymentDate) {
                         }
                     }
                 }
+
+                // Especial Desktop: Se existir a pasta C:\Users\Roberto\Desktop\XML,
+                // movemos automaticamente os XMLs cujas guias foram geradas com sucesso.
+                const desktopXmlDir = 'C:\\Users\\Roberto\\Desktop\\XML';
+                try {
+                    const stat = await fs.stat(desktopXmlDir).catch(() => null);
+                    if (stat && stat.isDirectory()) {
+                        const dateObj = new Date();
+                        const dia = String(dateObj.getDate()).padStart(2, '0');
+                        const mes = String(dateObj.getMonth() + 1).padStart(2, '0');
+                        const ano = dateObj.getFullYear();
+                        const targetDir = path.join(desktopXmlDir, 'EMITIDOS', `Lote_${dia}_${mes}_${ano}`);
+                        
+                        await fs.mkdir(targetDir, { recursive: true });
+                        
+                        const files = await fs.readdir(desktopXmlDir);
+                        for (const file of files) {
+                            if (file.toLowerCase().endsWith('.xml')) {
+                                const filePath = path.join(desktopXmlDir, file);
+                                const content = await fs.readFile(filePath, 'utf8').catch(() => '');
+                                const nNFMatch = content.match(/<(?:[a-zA-Z0-9]+:)?nNF>([^<]+)<\/(?:[a-zA-Z0-9]+:)?nNF>/);
+                                if (nNFMatch) {
+                                    const nfNum = nNFMatch[1].trim();
+                                    const foiEmitida = todasGuias.some(g => g.documentoOrigem === nfNum);
+                                    if (foiEmitida) {
+                                        await fs.rename(filePath, path.join(targetDir, file));
+                                        log(`   ✔ XML da Nota Fiscal ${nfNum} arquivado automaticamente em EMITIDOS.`);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (desktopErr) {
+                    console.error("Erro no arquivamento automático do Desktop:", desktopErr.message);
+                }
             }
 
             // 6. Atualiza registro do lote e salva guias no BD
